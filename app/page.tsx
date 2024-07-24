@@ -10,6 +10,12 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import HeaderCarousel from "@/components/HeaderCarousel";
+import { Globe } from "@/components/ui/globe";
+import GlobeContainer from "@/components/globeContainer";
+import { Button } from "@/components/ui/button";
+import Stacked from "@/components/ui/stacked";
+import StackedCard from "@/components/ui/stacked";
+import { ExpertiseTabs } from "@/components/expertiseTabs";
 
 export default function Home() {
   return (
@@ -106,6 +112,27 @@ export default function Home() {
           </CarouselContent>
         </Carousel>
       </header>
+      <StackedCard />
+      <ExpertiseTabs />
+      <section className="flex flex-col  items-center justify-center h-screen w-full">
+        <h2 className="text-center text-xl md:text-5xl font-bold text-black dark:text-white pt-10">
+          LE MONDE EST DANS NOS CARTES SD
+        </h2>
+        <div className="flex pl-32 flex-row items-center justify-center w-full">
+          <div className="flex flex-col items-center justify-center gap-[2rem] h-full w-1/3">
+            <p className="text-base md:text-2xl font-normal text-neutral-700 dark:text-neutral-200 mt-2 ">
+              On ne sait pas si l’herbe est plus verte ailleurs mais nos caméras
+              la filmeront !<br />
+              <br /> nous intervenons dans toute l’Europe et et là ou vos
+              projets nous emmènent
+            </p>
+            <Button className="rounded-full uppercase">
+              J’ai un projet À L’ÉTRANGER
+            </Button>
+          </div>
+          <GlobeContainer />
+        </div>
+      </section>
     </main>
   );
 }
