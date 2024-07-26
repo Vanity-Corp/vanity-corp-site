@@ -3,6 +3,7 @@ import { Montserrat } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Sidebar from "@/components/Sidebar";
+import { HeroHighlight } from "@/components/ui/hero-highlight";
 
 const montserrat = Montserrat({ subsets: ["latin"], weight: ["600"] });
 

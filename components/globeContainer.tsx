@@ -405,13 +405,14 @@ export default function GlobeContainer() {
             opacity: 0,
             y: 20,
           }}
-          animate={{
+          whileInView={{
             opacity: 1,
             y: 0,
           }}
           transition={{
             duration: 1,
           }}
+          viewport={{ once: true }}
           className="div"
         ></motion.div>
         <div className="absolute w-full bottom-0 inset-x-0 h-40 bg-gradient-to-b pointer-events-none select-none from-transparent dark:to-black to-white z-40" />
