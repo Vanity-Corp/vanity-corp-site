@@ -4,7 +4,7 @@ import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Sidebar from "@/components/Sidebar";
 import { HeroHighlight } from "@/components/ui/hero-highlight";
-
+import { SpeedInsights } from "@vercel/speed-insights/next";
 const montserrat = Montserrat({ subsets: ["latin"], weight: ["600"] });
 
 export const metadata: Metadata = {
@@ -25,6 +25,7 @@ export default function RootLayout({
         <div className="flex flex-row">
           <Sidebar />
           {children}
+          <SpeedInsights />
         </div>
       </body>
     </html>
