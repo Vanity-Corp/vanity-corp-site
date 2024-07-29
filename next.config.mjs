@@ -5,7 +5,12 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: '"images.unsplash.com"',
+        hostname: "images.unsplash.com",
+        pathname: "**",
+      },
+      {
+        protocol: "https",
+        hostname: "vanitycorp.fr",
         pathname: "**",
       },
     ], // Remplacez par vos domaines externes

@@ -17,6 +17,7 @@ import { HoverBorderGradient } from "@/components/ui/hover-border-gradient";
 import VaniTeam from "@/components/VaniTeam";
 import { BrandSlider } from "@/components/BrandSlider";
 import { News } from "@/components/News";
+import { Footer } from "@/components/Footer";
 
 export default function Home() {
   return (
@@ -277,9 +278,14 @@ sur vos besoins et sur vos enjeux !"
             align: "start",
             loop: true,
           }}
-          className="w-[125%]"
+          className="w-full"
         >
           <CarouselContent>
+            <VaniTeam
+              name="Kenza"
+              picture="/img/KENZA.webp"
+              presentation="L'âme stratégique de Vanity Corp, il est expert en gestion de projets et d'équipes. Ses compétences couvrent le montage, l'écriture de scripts, la création de contenu, le marketing d'influence, la négociation client et la gestion budgétaire. Il veille à la bonne conduite de chaque projet, de la conception à la réalisation."
+            />
             <VaniTeam
               name="Antoine"
               picture="/img/ANTOINE.webp"
@@ -303,11 +309,6 @@ sur vos besoins et sur vos enjeux !"
             <VaniTeam
               name="Zak"
               picture="/img/Zak.webp"
-              presentation="L'âme stratégique de Vanity Corp, il est expert en gestion de projets et d'équipes. Ses compétences couvrent le montage, l'écriture de scripts, la création de contenu, le marketing d'influence, la négociation client et la gestion budgétaire. Il veille à la bonne conduite de chaque projet, de la conception à la réalisation."
-            />
-            <VaniTeam
-              name="Kenza"
-              picture="/img/KENZA.webp"
               presentation="L'âme stratégique de Vanity Corp, il est expert en gestion de projets et d'équipes. Ses compétences couvrent le montage, l'écriture de scripts, la création de contenu, le marketing d'influence, la négociation client et la gestion budgétaire. Il veille à la bonne conduite de chaque projet, de la conception à la réalisation."
             />
           </CarouselContent>
@@ -336,6 +337,9 @@ sur vos besoins et sur vos enjeux !"
       </section>
       <section className="w-full flex flex-col gap-10 justify-center items-center h-screen">
         <News />
+      </section>
+      <section className="w-full flex flex-col gap-10 justify-center items-center">
+        <Footer />
       </section>
     </main>
   );
