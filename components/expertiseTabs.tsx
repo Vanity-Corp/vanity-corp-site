@@ -1,23 +1,23 @@
 "use client";
 
 import Image from "next/image";
-import { Tabs } from "./ui/animatedTabs";
 import { Button } from "./ui/button";
-
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 export function ExpertiseTabs() {
   const tabsContent: any = [
     {
       title: "Combo 360",
       value: "combo",
       content: (
-        <div className="flex flex-row gap-10 w-full overflow-hidden relative h-auto rounded-2xl p-10 text-xl md:text-4xl  text-white bg-gradient-to-br from-[#884980] to-[#A5619C]">
-          <Image
-            src="/img/Combo 360.png"
-            alt="dummy image"
-            width="700"
-            height="700"
-            className="object-cover w-1/2 rounded-2xl"
-          />
+        <div className="flex flex-row gap-10 w-full overflow-hidden relative  rounded-2xl p-10 text-xl md:text-4xl  text-white">
+          <div className="relative h-1/2 w-1/2">
+            <Image
+              src="/img/Combo 360.png"
+              alt="dummy image"
+              layout="fill"
+              objectFit="cover" // or "contain" depending on your needs
+            />
+          </div>
           <div className=" flex gap-10 flex-col w-1/2 h-full">
             <h3 className="font-bold text-2xl">
               Imaginez que vous êtes une poule
@@ -44,14 +44,15 @@ export function ExpertiseTabs() {
       title: "Creation",
       value: "creation",
       content: (
-        <div className="flex flex-row gap-10 w-full overflow-hidden relative h-auto rounded-2xl p-10 text-xl md:text-4xl  text-white bg-gradient-to-br from-[#B1B7E1] to-[#C1C7EE]">
+        <div className="flex flex-row gap-10 w-full overflow-hidden relative  rounded-2xl p-10 text-xl md:text-4xl  text-white">
           <Image
-            src="/img/CREATION.png"
+            src="/img/Combo 360.png"
             alt="dummy image"
-            width="700"
-            height="700"
-            className="object-cover w-1/2 rounded-2xl"
+            layout="fill"
+            objectFit="cover"
+            className="w-[80%] h-[80%] absolute top-0 left-0" // or "contain" depending on your needs
           />
+
           <div className=" flex gap-10 flex-col w-1/2 h-full">
             <h3 className="font-bold text-2xl">
               C’est en créant n’importe quoi...{" "}
@@ -76,14 +77,15 @@ export function ExpertiseTabs() {
       title: "Production",
       value: "production",
       content: (
-        <div className="flex flex-row gap-10 w-full overflow-hidden relative h-auto rounded-2xl p-10 text-xl md:text-4xl  text-white bg-gradient-to-br from-[#DB8342] to-[#E18947]">
-          <Image
-            src="/img/Combo 360.png"
-            alt="dummy image"
-            width="700"
-            height="700"
-            className="object-cover w-1/2 rounded-2xl"
-          />
+        <div className="flex flex-row gap-10 w-full overflow-hidden relative  rounded-2xl p-10 text-xl md:text-4xl  text-white">
+          <div className="relative h-1/2 w-1/2">
+            <Image
+              src="/img/Combo 360.png"
+              alt="dummy image"
+              layout="fill"
+              objectFit="cover" // or "contain" depending on your needs
+            />
+          </div>
           <div className=" flex gap-10 flex-col w-1/2 h-full">
             <h3 className="font-bold text-2xl">Qui fait quoi ?! </h3>
             <p className="text-base">
@@ -106,14 +108,15 @@ export function ExpertiseTabs() {
       title: "Stratégie",
       value: "strategie",
       content: (
-        <div className="flex flex-row gap-10 w-full overflow-hidden relative h-auto rounded-2xl p-10 text-xl md:text-4xl  text-white bg-gradient-to-br from-[#1B445E] to-[#275775]">
-          <Image
-            src="/img/Combo 360.png"
-            alt="dummy image"
-            width="700"
-            height="700"
-            className="object-cover w-1/2 rounded-2xl"
-          />
+        <div className="flex flex-row gap-10 w-full overflow-hidden relative  rounded-2xl p-10 text-xl md:text-4xl  text-white">
+          <div className="relative h-1/2 w-1/2">
+            <Image
+              src="/img/Combo 360.png"
+              alt="dummy image"
+              layout="fill"
+              objectFit="cover" // or "contain" depending on your needs
+            />
+          </div>
           <div className=" flex gap-10 flex-col w-1/2 h-full">
             <h3 className="font-bold text-2xl">Un spécialiste dédié !</h3>
             <p className="text-base">
@@ -136,14 +139,15 @@ export function ExpertiseTabs() {
       title: "Site web",
       value: "siteweb",
       content: (
-        <div className="flex flex-row gap-10 w-full overflow-hidden relative h-auto rounded-2xl p-10 text-xl md:text-4xl  text-white bg-gradient-to-br from-[#7E6F8D] to-[#7E6F8D]">
-          <Image
-            src="/img/Combo 360.png"
-            alt="dummy image"
-            width="700"
-            height="700"
-            className="object-cover w-1/2 rounded-2xl"
-          />
+        <div className="flex flex-row gap-10 w-full overflow-hidden relative  rounded-2xl p-10 text-xl md:text-4xl  text-white">
+          <div className="relative h-1/2 w-1/2">
+            <Image
+              src="/img/Combo 360.png"
+              alt="dummy image"
+              layout="fill"
+              objectFit="cover" // or "contain" depending on your needs
+            />
+          </div>
           <div className=" flex gap-10 flex-col w-1/2 h-full">
             <h3 className="font-bold text-2xl">On a le code secret ! </h3>
             <p className="text-base">
@@ -167,14 +171,15 @@ export function ExpertiseTabs() {
       title: "Social Media",
       value: "socialmedia",
       content: (
-        <div className="flex flex-row gap-10 w-full overflow-hidden relative h-auto rounded-2xl p-10 text-xl md:text-4xl  text-white bg-gradient-to-br from-[#D7A985] to-[#E6B691]">
-          <Image
-            src="/img/Combo 360.png"
-            alt="dummy image"
-            width="700"
-            height="700"
-            className="object-cover w-1/2 rounded-2xl"
-          />
+        <div className="flex flex-row gap-10 w-full overflow-hidden relative  rounded-2xl p-10 text-xl md:text-4xl  text-white">
+          <div className="relative h-1/2 w-1/2">
+            <Image
+              src="/img/Combo 360.png"
+              alt="dummy image"
+              layout="fill"
+              objectFit="cover" // or "contain" depending on your needs
+            />
+          </div>
           <div className=" flex gap-10 flex-col w-1/2 h-full">
             <h3 className="font-bold text-2xl">
               Vous allez devenir influenceur B2B
@@ -200,21 +205,25 @@ export function ExpertiseTabs() {
   ];
 
   return (
-    <div className="h-screen  [perspective:1000px]   relative flex flex-col max-w-5xl mx-auto w-full gap-10  items-start justify-center">
-      <h2 className="font-bold text-5xl">Expertise</h2>
-      <Tabs tabs={tabsContent} />
+    <div className="h-full [perspective:1000px]   relative flex flex-col max-w-5xl mx-auto w-full gap-10  items-start justify-center">
+      <h2 className="text-center text-xl md:text-5xl font-bold text-black dark:text-white pt-10">
+        Expertise
+      </h2>
+      <Tabs defaultValue="combo">
+        <TabsList>
+          {tabsContent.map((tab: any) => (
+            <TabsTrigger key={tab.value} value={tab.value}>
+              {tab.title}
+            </TabsTrigger>
+          ))}
+        </TabsList>
+
+        {tabsContent.map((tab: any) => (
+          <TabsContent key={tab.value} value={tab.value}>
+            {tab.content}
+          </TabsContent>
+        ))}
+      </Tabs>
     </div>
   );
 }
-
-const DummyContent = () => {
-  return (
-    <Image
-      src="/linear.webp"
-      alt="dummy image"
-      width="1000"
-      height="1000"
-      className="object-cover object-left-top h-[60%]  md:h-[90%] absolute -bottom-10 inset-x-0 w-[90%] rounded-xl mx-auto"
-    />
-  );
-};

@@ -1,4 +1,5 @@
 "use client";
+import { useEffect, useRef, useState } from "react";
 import Autoplay from "embla-carousel-autoplay";
 import { Carousel, CarouselContent } from "@/components/ui/carousel";
 import HeaderCarousel from "@/components/HeaderCarousel";
@@ -18,10 +19,42 @@ import VaniTeam from "@/components/VaniTeam";
 import { BrandSlider } from "@/components/BrandSlider";
 import { News } from "@/components/News";
 import { Footer } from "@/components/Footer";
-
 export default function Home() {
+  const [bgColor, setBgColor] = useState("#000000"); // Default background color
+  const targetRef = useRef(null); // Reference for the target div
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setBgColor("#A5619C"); // Change to red when in view
+        } else {
+          setBgColor("#000000"); // Change back to white when out of view
+        }
+      },
+      {
+        threshold: 0.5, // Adjust this threshold as needed
+      }
+    );
+
+    if (targetRef.current) {
+      observer.observe(targetRef.current);
+    }
+
+    return () => {
+      if (targetRef.current) {
+        observer.unobserve(targetRef.current);
+      }
+    };
+  }, []);
   return (
-    <main className="w-[97%] ">
+    <main
+      className="w-[97%]"
+      style={{
+        backgroundColor: bgColor,
+        transition: "background-color 0.5s ease",
+      }}
+    >
       <header className="h-dvh flex  flex-col justify-end w-full">
         <Carousel
           opts={{
@@ -116,8 +149,12 @@ export default function Home() {
       </header>
 
       <StackedCard />
-
-      <ExpertiseTabs />
+      <section
+        ref={targetRef}
+        className="flex flex-col items-center  h-screen w-full"
+      >
+        <ExpertiseTabs />
+      </section>
 
       <section className="flex flex-col items-center justify-center h-screen w-full">
         <motion.h2

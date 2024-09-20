@@ -13,15 +13,15 @@ const World = dynamic(
 export default function GlobeContainer() {
   const globeConfig = {
     pointSize: 4,
-    globeColor: "#5a47cd",
+    globeColor: "black",
     showAtmosphere: true,
-    atmosphereColor: "#FFFFFF",
+    atmosphereColor: "white",
     atmosphereAltitude: 0.1,
     emissive: "#062056",
     emissiveIntensity: 0.1,
     shininess: 0.9,
-    polygonColor: "#fe814d",
-    ambientLight: "#fe814d",
+    polygonColor: "white",
+    ambientLight: "white",
     directionalLeftLight: "#ffffff",
     directionalTopLight: "#ffffff",
     pointLight: "#ffffff",
@@ -398,7 +398,7 @@ export default function GlobeContainer() {
   ];
 
   return (
-    <div className="flex flex-row items-center justify-center h-screen md:h-auto dark:bg-black bg-white relative w-2/3">
+    <div className="flex flex-row items-center justify-center h-screen md:h-auto dark:bg-transparent bg-transparent relative w-2/3">
       <div className="mx-auto w-full relative overflow-hidden h-full md:h-[40rem] px-4">
         <motion.div
           initial={{
