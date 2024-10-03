@@ -3,12 +3,16 @@ import { Montserrat } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Sidebar from "@/components/Sidebar";
-
+import { HeroHighlight } from "@/components/ui/hero-highlight";
+import { SpeedInsights } from "@vercel/speed-insights/next";
+import { Footer } from "@/components/Footer";
+import BannerSlider from "@/components/BannerSlider";
 const montserrat = Montserrat({ subsets: ["latin"], weight: ["600"] });
 
 export const metadata: Metadata = {
   title: "Vanitiy corp | Agence de communication créative 360",
-  description: "Agence de communication créative 360",
+  description:
+    "Tout buzzer pour donner de la visibilité à votre projet est un savoir faire. Vanity Corp est une agence de communication créative 360.",
 };
 
 export default function RootLayout({
@@ -23,6 +27,7 @@ export default function RootLayout({
         <div className="flex flex-row">
           <Sidebar />
           {children}
+          <SpeedInsights />
         </div>
       </body>
     </html>
