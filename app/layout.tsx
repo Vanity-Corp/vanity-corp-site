@@ -5,6 +5,8 @@ import Navbar from "@/components/Navbar";
 import Sidebar from "@/components/Sidebar";
 import { HeroHighlight } from "@/components/ui/hero-highlight";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import { Footer } from "@/components/Footer";
+import BannerSlider from "@/components/BannerSlider";
 const montserrat = Montserrat({ subsets: ["latin"], weight: ["600"] });
 
 export const metadata: Metadata = {

@@ -1,4 +1,5 @@
 "use client";
+
 import { useEffect, useRef, useState } from "react";
 import Autoplay from "embla-carousel-autoplay";
 import { Carousel, CarouselContent } from "@/components/ui/carousel";
@@ -6,7 +7,7 @@ import HeaderCarousel from "@/components/HeaderCarousel";
 import GlobeContainer from "@/components/globeContainer";
 import { Button } from "@/components/ui/button";
 import StackedCard from "@/components/ui/stacked";
-import { ExpertiseTabs } from "@/components/expertiseTabs";
+import { ExpertiseTabs } from "@/components/ExpertiseTabs";
 import { HighlightedText } from "@/components/higlightedText";
 import { GeneratedText } from "@/components/GenerateTextSection";
 import { motion } from "framer-motion";
@@ -19,21 +20,34 @@ import VaniTeam from "@/components/VaniTeam";
 import { BrandSlider } from "@/components/BrandSlider";
 import { News } from "@/components/News";
 import { Footer } from "@/components/Footer";
+import BannerSlider from "@/components/BannerSlider";
+import Link from "next/link";
+
+const tabColors = {
+  combo: "#A5619C",
+  creation: "#4A90E2",
+  production: "#50E3C2",
+  strategie: "#F5A623",
+  siteweb: "#D0021B",
+  socialmedia: "#7ED321",
+};
+
 export default function Home() {
-  const [bgColor, setBgColor] = useState("#000000"); // Default background color
-  const targetRef = useRef(null); // Reference for the target div
+  const [bgColor, setBgColor] = useState("#000000");
+  const [activeTab, setActiveTab] = useState("combo");
+  const targetRef = useRef(null);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          setBgColor("#A5619C"); // Change to red when in view
+          setBgColor(tabColors[activeTab as keyof typeof tabColors]);
         } else {
-          setBgColor("#000000"); // Change back to white when out of view
+          setBgColor("#000000");
         }
       },
       {
-        threshold: 0.5, // Adjust this threshold as needed
+        threshold: 0.5,
       }
     );
 
@@ -46,114 +60,27 @@ export default function Home() {
         observer.unobserve(targetRef.current);
       }
     };
-  }, []);
+  }, [activeTab]);
+
+  const handleTabChange = (value: string) => {
+    setActiveTab(value);
+  };
+
   return (
-    <main
+    <div
       className="w-[97%]"
       style={{
         backgroundColor: bgColor,
         transition: "background-color 0.5s ease",
       }}
     >
-      <header className="h-dvh flex  flex-col justify-end w-full">
-        <Carousel
-          opts={{
-            align: "start",
-            loop: true,
-          }}
-          plugins={[
-            Autoplay({
-              delay: 4000,
-            }),
-          ]}
-          className="w-full h-full flex flex-col justify-center"
-        >
-          <CarouselContent>
-            <HeaderCarousel
-              background="bg-[url('/img/banner-1.png')]"
-              title={
-                <span>
-                  PRODUCTION <br /> AUDIOVISUELLE
-                </span>
-              }
-              description="De l’idéation à la publication"
-              list={[
-                "Production éxecutive",
-                "Cadrage",
-                "Montage",
-                "Étalonnage",
-                "Sound FX",
-                "Voix off",
-              ]}
-            />
-            <HeaderCarousel
-              background="bg-[url('/img/banner-2.png')]"
-              title={
-                <span>
-                  COMMUNITY <br /> MANAGEMENT
-                </span>
-              }
-              description="De l’idéation à la publication"
-              list={[
-                "Animation de réseaux sociaux",
-                "Création de contenu",
-                "Conception / rédaction",
-                "Modération",
-                "Reporting",
-              ]}
-            />
-            <HeaderCarousel
-              background="bg-[url('/img/banner-1.png')]"
-              title={<span>SHOOTING PHOTO</span>}
-              description="De l’idéation à la publication"
-              list={[
-                "Shooting produits",
-                "Shooting studio",
-                "Photos portraits",
-                "Photos de mariage",
-                "Photos d’événement",
-              ]}
-            />
-            <HeaderCarousel
-              background="bg-[url('/img/banner-2.png')]"
-              title="GRAPHISME"
-              description="De l’idéation à la publication"
-              list={[
-                "Charge graphique",
-                "Papeterie",
-                "Affichages",
-                "Maquettes web",
-                "infographies",
-              ]}
-            />
-
-            <HeaderCarousel
-              background="bg-[url('/img/banner-1.png')]"
-              title={
-                <span>
-                  DÉVELOPPEMENT <br />
-                  WEB
-                </span>
-              }
-              description="De l’idéation à la publication"
-              list={[
-                "Création de site web",
-                "Landing page",
-                "Maintenance",
-                "Conception UX UI Design",
-                "SEO : Référencement naturel",
-              ]}
-            />
-          </CarouselContent>
-        </Carousel>
-      </header>
-
+      <BannerSlider />
       <StackedCard />
       <section
         ref={targetRef}
-        className="flex flex-col items-center  h-screen w-full"
+        className="flex flex-col justify-center items-center w-full"
       >
-        <ExpertiseTabs />
+        <ExpertiseTabs onTabChange={handleTabChange} />
       </section>
 
       <section className="flex flex-col items-center justify-center h-screen w-full">
@@ -194,9 +121,11 @@ export default function Home() {
               transition={{ duration: 1.3, ease: "easeInOut" }}
               viewport={{ once: true }}
             >
-              <Button className="rounded-full uppercase">
-                J’ai un projet À L’ÉTRANGER
-              </Button>
+              <Link href={"/estimation"}>
+                <Button className="rounded-full uppercase">
+                  J’ai un projet À L’ÉTRANGER
+                </Button>
+              </Link>
             </motion.div>
           </div>
           <GlobeContainer />
@@ -245,7 +174,9 @@ sur vos besoins et sur vos enjeux !"
               }}
               className="z-50"
             >
-              <AnimatedButton />
+              <Link href="tel:0634368418">
+                <AnimatedButton />
+              </Link>
             </motion.div>
 
             {/* Meaty part - Meteor effect */}
@@ -255,7 +186,7 @@ sur vos besoins et sur vos enjeux !"
       </section>
       <HighlightedText />
       <WorksGrid />
-      <section className="w-full flex flex-col gap-10 justify-center items-center h-screen">
+      <section className="w-full flex flex-col gap-10 justify-center items-center ">
         <motion.h2
           initial={{
             opacity: 0,
@@ -372,12 +303,8 @@ sur vos besoins et sur vos enjeux !"
 
         <BrandSlider />
       </section>
-      <section className="w-full flex flex-col gap-10 justify-center items-center h-screen">
-        <News />
-      </section>
-      <section className="w-full flex flex-col gap-10 justify-center items-center">
-        <Footer />
-      </section>
-    </main>
+
+      <Footer />
+    </div>
   );
 }

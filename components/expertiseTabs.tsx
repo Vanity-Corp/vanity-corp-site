@@ -3,7 +3,18 @@
 import Image from "next/image";
 import { Button } from "./ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-export function ExpertiseTabs() {
+import { useState, useEffect } from "react";
+
+export function ExpertiseTabs({
+  onTabChange,
+}: {
+  onTabChange: (value: string) => void;
+}) {
+  const [activeTab, setActiveTab] = useState("combo");
+
+  useEffect(() => {
+    onTabChange(activeTab);
+  }, [activeTab, onTabChange]);
   const tabsContent: any = [
     {
       title: "Combo 360",
@@ -205,11 +216,11 @@ export function ExpertiseTabs() {
   ];
 
   return (
-    <div className="h-full [perspective:1000px]   relative flex flex-col max-w-5xl mx-auto w-full gap-10  items-start justify-center">
+    <div className="h-full [perspective:1000px] relative flex flex-col max-w-5xl mx-auto w-full gap-10 items-start justify-center">
       <h2 className="text-center text-xl md:text-5xl font-bold text-black dark:text-white pt-10">
         Expertise
       </h2>
-      <Tabs defaultValue="combo">
+      <Tabs defaultValue="combo" onValueChange={setActiveTab}>
         <TabsList>
           {tabsContent.map((tab: any) => (
             <TabsTrigger key={tab.value} value={tab.value}>
