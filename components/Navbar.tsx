@@ -12,24 +12,11 @@ function Navbar() {
         </Link>
       </div>
       <div>
-        <Button className="rounded-full uppercase">Estimation gratuite</Button>
+        <Button className="rounded-full uppercase">
+          <Link href={"/estimation"}>Estimation gratuite</Link>
+        </Button>
       </div>
-      <div>
-        <ul className="flex gap-6 text-white">
-          <li className="hover:text-[color:hsl(var(--primary))] text-base">
-            <Link href="/">SERVICES</Link>
-          </li>
-          <li className="hover:text-[color:hsl(var(--primary))] text-base">
-            <Link href="/about">RÉALISATIONS</Link>
-          </li>
-          <li className="hover:text-[color:hsl(var(--primary))] text-base">
-            <Link href="/about">LE STUDIO</Link>
-          </li>
-          <li className="hover:text-[color:hsl(var(--primary))] text-base">
-            <Link href="/about">NOS TIPS</Link>
-          </li>
-        </ul>
-      </div>
+      <div></div>
     </div>
   );
 }

@@ -1,10 +1,15 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { InfiniteMovingCards } from "./ui/infinite-moving-cards";
+import { InfiniteMovingCards } from "@/components/ui/infinite-moving-cards";
 
 export function BrandSlider() {
-  return <InfiniteMovingCards items={testimonials} />;
+  return (
+    <>
+      <InfiniteMovingCards direction="right" items={testimonials} />
+      <InfiniteMovingCards direction="left" items={testimonials2} />
+    </>
+  );
 }
 
 const testimonials = [
@@ -17,6 +22,22 @@ const testimonials = [
     name: "Winston Smith",
   },
   {
+    image: "/img/arca.webp",
+    name: "Arca Group Energy",
+  },
+  {
+    image: "/img/ouverture.webp",
+    name: "ouverture serrurrie",
+  },
+  {
+    image: "/img/piatto.webp",
+    name: "piatto pizza",
+  },
+  {
+    image: "/img/legal.webp",
+    name: "legal euro corp",
+  },
+  {
     image: "/img/logo-ecole-ducasse.webp",
     name: "Winston Smith",
   },
@@ -24,6 +45,8 @@ const testimonials = [
     image: "/img/logo-elektra-records.webp",
     name: "Winston Smith",
   },
+];
+const testimonials2 = [
   {
     image: "/img/logo-fally-ipupa.webp",
     name: "Winston Smith",

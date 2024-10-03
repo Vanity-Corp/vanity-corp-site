@@ -19,12 +19,14 @@ export function HighlightedText() {
           duration: 0.5,
           ease: [0.4, 0.0, 0.2, 1],
         }}
-        className="text-2xl px-4 md:text-4xl lg:text-5xl font-bold text-neutral-700 dark:text-white max-w-4xl leading-relaxed lg:leading-snug text-center mx-auto w-1/2"
+        className="text-2xl px-4 md:text-4xl lg:text-5xl font-bold text-neutral-700 dark:text-white max-w-4xl leading-relaxed lg:leading-snug text-center mx-auto w-full"
       >
-        « On fait un sérieux{" "}
-        <Highlight className="text-black dark:text-white">travail,</Highlight>{" "}
-        sans se prendre au{" "}
-        <Highlight className="text-black dark:text-white">serieux.</Highlight> »
+        « La clé c&apos;est le{" "}
+        <Highlight className="text-black dark:text-white"> bonheur,</Highlight>{" "}
+        <br />
+        vendez du{" "}
+        <Highlight className="text-black dark:text-white"> bonheur !</Highlight>
+        »
       </motion.h1>
       <HoverBorderGradient className="flex gap-2 items-center">
         En savoir plus{" "}

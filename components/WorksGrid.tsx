@@ -15,11 +15,11 @@ const SkeletonOne = () => {
   return (
     <div>
       <p className="font-bold md:text-4xl text-xl text-white">
-        Revlon Professional
+        Little Big Friends
       </p>
       <p className="font-normal text-base text-white"></p>
       <p className="font-normal text-base my-4 max-w-lg text-neutral-200">
-        Création de contenu
+        Photo Produit
       </p>
     </div>
   );
@@ -33,7 +33,7 @@ const SkeletonTwo = () => {
       </p>
       <p className="font-normal text-base text-white"></p>
       <p className="font-normal text-base my-4 max-w-lg text-neutral-200">
-        Campagne 360°
+        Photo Produit
       </p>
     </div>
   );
@@ -41,12 +41,10 @@ const SkeletonTwo = () => {
 const SkeletonThree = () => {
   return (
     <div>
-      <p className="font-bold md:text-4xl text-xl text-white">
-        Noreva Campagne globale
-      </p>
+      <p className="font-bold md:text-4xl text-xl text-white">Nassi</p>
       <p className="font-normal text-base text-white"></p>
       <p className="font-normal text-base my-4 max-w-lg text-neutral-200">
-        Campagne globale
+        Shooting Studio
       </p>
     </div>
   );
@@ -55,111 +53,190 @@ const SkeletonFour = () => {
   return (
     <div>
       <p className="font-bold md:text-4xl text-xl text-white">
-        Revlon Professional Equave
+        Tournée Mondiale Fally Ipupa
       </p>
       <p className="font-normal text-base text-white"></p>
       <p className="font-normal text-base my-4 max-w-lg text-neutral-200">
-        Campagne 360°
+        Photo de concert
       </p>
     </div>
   );
 };
-
+const SkeletonFive = () => {
+  return (
+    <div>
+      <p className="font-bold md:text-4xl text-xl text-white">DORIA</p>
+      <p className="font-normal text-base text-white"></p>
+      <p className="font-normal text-base my-4 max-w-lg text-neutral-200">
+        Reportage Photo
+      </p>
+    </div>
+  );
+};
+const SkeletonSix = () => {
+  return (
+    <div>
+      <p className="font-bold md:text-4xl text-xl text-white">Leckden</p>
+      <p className="font-normal text-base text-white"></p>
+      <p className="font-normal text-base my-4 max-w-lg text-neutral-200">
+        Photo Portrait
+      </p>
+    </div>
+  );
+};
+const SkeletonSeven = () => {
+  return (
+    <div>
+      <p className="font-bold md:text-4xl text-xl text-white">Lily&apos;na</p>
+      <p className="font-normal text-base text-white"></p>
+      <p className="font-normal text-base my-4 max-w-lg text-neutral-200">
+        Photo Portrait
+      </p>
+    </div>
+  );
+};
+const SkeletonEight = () => {
+  return (
+    <div>
+      <p className="font-bold md:text-4xl text-xl text-white">Baoli Lounge</p>
+      <p className="font-normal text-base text-white"></p>
+      <p className="font-normal text-base my-4 max-w-lg text-neutral-200">
+        Photo Produit
+      </p>
+    </div>
+  );
+};
+const SkeletonNine = () => {
+  return (
+    <div>
+      <p className="font-bold md:text-4xl text-xl text-white">
+        Restaurant Healthiny
+      </p>
+      <p className="font-normal text-base text-white"></p>
+      <p className="font-normal text-base my-4 max-w-lg text-neutral-200">
+        Photo Corporate
+      </p>
+    </div>
+  );
+};
+const SkeletonTen = () => {
+  return (
+    <div>
+      <p className="font-bold md:text-4xl text-xl text-white">Baoli Lounge</p>
+      <p className="font-normal text-base text-white"></p>
+      <p className="font-normal text-base my-4 max-w-lg text-neutral-200">
+        Photo Produit
+      </p>
+    </div>
+  );
+};
+const SkeletonEleven = () => {
+  return (
+    <div>
+      <p className="font-bold md:text-4xl text-xl text-white">
+        Little Big Friends
+      </p>
+      <p className="font-normal text-base text-white"></p>
+      <p className="font-normal text-base my-4 max-w-lg text-neutral-200">
+        Photo Produit
+      </p>
+    </div>
+  );
+};
+const SkeletonTwelve = () => {
+  return (
+    <div>
+      <p className="font-bold md:text-4xl text-xl text-white">WIlly Denzey</p>
+      <p className="font-normal text-base text-white"></p>
+      <p className="font-normal text-base my-4 max-w-lg text-neutral-200">
+        Photo Reportage
+      </p>
+    </div>
+  );
+};
 const cards = [
   {
     id: 1,
     content: <SkeletonOne />,
     className: "",
-    thumbnail:
-      "https://images.unsplash.com/photo-1476231682828-37e571bc172f?q=80&w=3474&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    thumbnail: "/img/gallery-1.webp",
     title: "hello",
   },
   {
     id: 2,
     content: <SkeletonTwo />,
     className: "",
-    thumbnail:
-      "https://images.unsplash.com/photo-1464457312035-3d7d0e0c058e?q=80&w=3540&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    thumbnail: "img/Shooting_Les_Frangines.webp",
     title: "hello",
   },
   {
     id: 3,
     content: <SkeletonThree />,
     className: "",
-    thumbnail:
-      "https://images.unsplash.com/photo-1588880331179-bc9b93a8cb5e?q=80&w=3540&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    thumbnail: "/img/gallery (3).webp",
     title: "hello",
   },
   {
     id: 4,
     content: <SkeletonFour />,
     className: "",
-    thumbnail:
-      "https://images.unsplash.com/photo-1475070929565-c985b496cb9f?q=80&w=3540&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    thumbnail: "/img/gallery (4).webp",
     title: "hello",
   },
   {
     id: 5,
-    content: <SkeletonOne />,
+    content: <SkeletonFive />,
     className: "",
-    thumbnail:
-      "https://images.unsplash.com/photo-1476231682828-37e571bc172f?q=80&w=3474&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    thumbnail: "/img/DORIA.webp",
     title: "hello",
   },
   {
     id: 6,
-    content: <SkeletonTwo />,
+    content: <SkeletonSix />,
     className: "",
-    thumbnail:
-      "https://images.unsplash.com/photo-1464457312035-3d7d0e0c058e?q=80&w=3540&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    thumbnail: "/img/gallery (6).webp",
     title: "hello",
   },
   {
     id: 7,
-    content: <SkeletonOne />,
+    content: <SkeletonSeven />,
     className: "",
-    thumbnail:
-      "https://images.unsplash.com/photo-1476231682828-37e571bc172f?q=80&w=3474&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    thumbnail: "/img/gallery (7).webp",
     title: "hello",
   },
   {
     id: 8,
-    content: <SkeletonTwo />,
+    content: <SkeletonEight />,
     className: "",
-    thumbnail:
-      "https://images.unsplash.com/photo-1464457312035-3d7d0e0c058e?q=80&w=3540&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    thumbnail: "/img/gallery (8).webp",
     title: "hello",
   },
   {
     id: 9,
-    content: <SkeletonThree />,
+    content: <SkeletonNine />,
     className: "",
-    thumbnail:
-      "https://images.unsplash.com/photo-1588880331179-bc9b93a8cb5e?q=80&w=3540&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    thumbnail: "/img/gallery (9).webp",
     title: "hello",
   },
   {
     id: 10,
-    content: <SkeletonFour />,
+    content: <SkeletonTen />,
     className: "",
-    thumbnail:
-      "https://images.unsplash.com/photo-1475070929565-c985b496cb9f?q=80&w=3540&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    thumbnail: "/img/gallery (10).webp",
     title: "hello",
   },
   {
     id: 11,
-    content: <SkeletonOne />,
+    content: <SkeletonEleven />,
     className: "",
-    thumbnail:
-      "https://images.unsplash.com/photo-1476231682828-37e571bc172f?q=80&w=3474&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    thumbnail: "/img/PHOTO_JOUET_ENFANT.webp",
     title: "hello",
   },
   {
     id: 12,
-    content: <SkeletonTwo />,
+    content: <SkeletonTwelve />,
     className: "",
-    thumbnail:
-      "https://images.unsplash.com/photo-1464457312035-3d7d0e0c058e?q=80&w=3540&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    thumbnail: "/img/image.webp",
     title: "hello",
   },
 ];
