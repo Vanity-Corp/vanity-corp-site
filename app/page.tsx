@@ -7,7 +7,7 @@ import HeaderCarousel from "@/components/HeaderCarousel";
 import GlobeContainer from "@/components/globeContainer";
 import { Button } from "@/components/ui/button";
 import StackedCard from "@/components/ui/stacked";
-import { ExpertiseTabs } from "@/components/ExpertiseTabs";
+import { ExpertiseTabs } from "@/components/expertiseTabs";
 import { HighlightedText } from "@/components/higlightedText";
 import { GeneratedText } from "@/components/GenerateTextSection";
 import { motion } from "framer-motion";
