@@ -20,13 +20,14 @@ export function ExpertiseTabs({
       title: "Combo 360",
       value: "combo",
       content: (
-        <div className="flex flex-row gap-10 w-full overflow-hidden relative  rounded-2xl p-10 text-xl md:text-4xl  text-white">
+        <div className="flex flex-row gap-10 w-full overflow-hidden relative  rounded-2xl py-10 text-xl md:text-4xl  text-white">
           <div className="relative h-1/2 w-1/2">
             <Image
-              src="/img/Combo 360.png"
-              alt="dummy image"
-              layout="fill"
-              objectFit="cover" // or "contain" depending on your needs
+              src="/img/Combo 360.webp"
+              width={500}
+              height={500}
+              style={{ objectFit: "cover" }}
+              alt="Combo 360" // or "contain" depending on your needs
             />
           </div>
           <div className=" flex gap-10 flex-col w-1/2 h-full">
@@ -55,13 +56,13 @@ export function ExpertiseTabs({
       title: "Creation",
       value: "creation",
       content: (
-        <div className="flex flex-row gap-10 w-full overflow-hidden relative  rounded-2xl p-10 text-xl md:text-4xl  text-white">
+        <div className="flex flex-row gap-10 w-full overflow-hidden relative  rounded-2xl py-10 text-xl md:text-4xl  text-white">
           <Image
-            src="/img/Combo 360.png"
-            alt="dummy image"
-            layout="fill"
-            objectFit="cover"
-            className="w-[80%] h-[80%] absolute top-0 left-0" // or "contain" depending on your needs
+            src="/img/Création.webp"
+            width={500}
+            height={500}
+            style={{ objectFit: "cover" }}
+            alt="Combo 360" // or "contain" depending on your needs // or "contain" depending on your needs
           />
 
           <div className=" flex gap-10 flex-col w-1/2 h-full">
@@ -88,13 +89,14 @@ export function ExpertiseTabs({
       title: "Production",
       value: "production",
       content: (
-        <div className="flex flex-row gap-10 w-full overflow-hidden relative  rounded-2xl p-10 text-xl md:text-4xl  text-white">
+        <div className="flex flex-row gap-10 w-full overflow-hidden relative  rounded-2xl py-10 text-xl md:text-4xl  text-white">
           <div className="relative h-1/2 w-1/2">
             <Image
-              src="/img/Combo 360.png"
-              alt="dummy image"
-              layout="fill"
-              objectFit="cover" // or "contain" depending on your needs
+              src="/img/Production.webp"
+              width={500}
+              height={500}
+              style={{ objectFit: "cover" }}
+              alt="Combo 360" // or "contain" depending on your needs
             />
           </div>
           <div className=" flex gap-10 flex-col w-1/2 h-full">
@@ -119,13 +121,14 @@ export function ExpertiseTabs({
       title: "Stratégie",
       value: "strategie",
       content: (
-        <div className="flex flex-row gap-10 w-full overflow-hidden relative  rounded-2xl p-10 text-xl md:text-4xl  text-white">
+        <div className="flex flex-row gap-10 w-full overflow-hidden relative  rounded-2xl py-10 text-xl md:text-4xl  text-white">
           <div className="relative h-1/2 w-1/2">
             <Image
-              src="/img/Combo 360.png"
-              alt="dummy image"
-              layout="fill"
-              objectFit="cover" // or "contain" depending on your needs
+              src="/img/Stratégie.webp"
+              width={500}
+              height={500}
+              style={{ objectFit: "cover" }}
+              alt="Combo 360" // or "contain" depending on your needs
             />
           </div>
           <div className=" flex gap-10 flex-col w-1/2 h-full">
@@ -150,13 +153,14 @@ export function ExpertiseTabs({
       title: "Site web",
       value: "siteweb",
       content: (
-        <div className="flex flex-row gap-10 w-full overflow-hidden relative  rounded-2xl p-10 text-xl md:text-4xl  text-white">
+        <div className="flex flex-row gap-10 w-full overflow-hidden relative  rounded-2xl py-10 text-xl md:text-4xl  text-white">
           <div className="relative h-1/2 w-1/2">
             <Image
-              src="/img/Combo 360.png"
-              alt="dummy image"
-              layout="fill"
-              objectFit="cover" // or "contain" depending on your needs
+              src="/img/Site Internet.webp"
+              width={500}
+              height={500}
+              style={{ objectFit: "cover" }}
+              alt="Combo 360" // or "contain" depending on your needs
             />
           </div>
           <div className=" flex gap-10 flex-col w-1/2 h-full">
@@ -182,13 +186,14 @@ export function ExpertiseTabs({
       title: "Social Media",
       value: "socialmedia",
       content: (
-        <div className="flex flex-row gap-10 w-full overflow-hidden relative  rounded-2xl p-10 text-xl md:text-4xl  text-white">
+        <div className="flex flex-row gap-10 w-full overflow-hidden relative  rounded-2xl py-10 text-xl md:text-4xl  text-white">
           <div className="relative h-1/2 w-1/2">
             <Image
-              src="/img/Combo 360.png"
-              alt="dummy image"
-              layout="fill"
-              objectFit="cover" // or "contain" depending on your needs
+              src="/img/Social Media.webp"
+              width={500}
+              height={500}
+              style={{ objectFit: "cover" }}
+              alt="Combo 360" // or "contain" depending on your needs
             />
           </div>
           <div className=" flex gap-10 flex-col w-1/2 h-full">
