@@ -18,6 +18,18 @@ const testimonials = [
     name: "BABY TO LOVE",
   },
   {
+    image: "/img/Logo_Marionnaud.png",
+    name: "Marionnaud",
+  },
+  {
+    image: "/img/LOGO_BUSINESS_CLUB_BYCMDA_WHITE.png",
+    name: "business club by cmda",
+  },
+  {
+    image: "/img/Logo Fraikin.png",
+    name: "fraikin",
+  },
+  {
     image: "/img/logo-cmi-france.webp",
     name: "Winston Smith",
   },
@@ -52,8 +64,24 @@ const testimonials2 = [
     name: "Winston Smith",
   },
   {
-    image: "/img/logo-hawaya.webp",
-    name: "Winston Smith",
+    image: "/img/Logo douceur elegance.png",
+    name: "Douceur elegance",
+  },
+  {
+    image: "/img/Logo dat schaub.png",
+    name: "Dat Schaub",
+  },
+  {
+    image: "/img/logo-fally-ipupa.webp",
+    name: "Fally ipupa",
+  },
+  {
+    image: "/img/Logo Avekapeti.png",
+    name: "Avekapeti",
+  },
+  {
+    image: "/img/cropped-logo-CMDA-blanc-final.png",
+    name: "Logo cmda ",
   },
   {
     image: "/img/logo-Interfimo.webp",
