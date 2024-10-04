@@ -206,7 +206,6 @@ const CloseIcon = () => {
         stroke="currentColor"
         strokeWidth="2"
         strokeLinecap="round"
-        strokeLinecap="round"
         className="text-black dark:text-white h-4 w-4 group-hover:scale-125 group-hover:rotate-3 transition duration-200"
       >
         <path stroke="none" d="M0 0h24v24H0z" fill="none" />
