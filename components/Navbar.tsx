@@ -13,9 +13,7 @@ function Navbar() {
       </div>
       <div>
         <Button className="rounded-full uppercase">
-          <Link className="text-[8px]" href={"/estimation"}>
-            Estimation gratuite
-          </Link>
+          <Link href={"/estimation"}>Estimation gratuite</Link>
         </Button>
       </div>
     </div>
