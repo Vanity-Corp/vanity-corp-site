@@ -54,10 +54,10 @@ export default function Home() {
     if (targetRef.current) {
       observer.observe(targetRef.current);
     }
-
+    const currentTarget = targetRef.current;
     return () => {
-      if (targetRef.current) {
-        observer.unobserve(targetRef.current);
+      if (currentTarget) {
+        observer.unobserve(currentTarget);
       }
     };
   }, [activeTab]);
@@ -217,7 +217,6 @@ sur vos besoins et sur vos enjeux !"
           >
             <path
               strokeLinecap="round"
-              strokeLinecap="round"
               d="m15.75 10.5 4.72-4.72a.75.75 0 0 1 1.28.53v11.38a.75.75 0 0 1-1.28.53l-4.72-4.72M4.5 18.75h9a2.25 2.25 0 0 0 2.25-2.25v-9a2.25 2.25 0 0 0-2.25-2.25h-9A2.25 2.25 0 0 0 2.25 7.5v9a2.25 2.25 0 0 0 2.25 2.25Z"
             />
           </svg>
@@ -250,19 +249,14 @@ sur vos besoins et sur vos enjeux !"
         >
           <CarouselContent>
             <VaniTeam
-              name="Kenza"
-              picture="/img/KENZA.webp"
-              presentation="L'âme stratégique de Vanity Corp, il est expert en gestion de projets et d'équipes. Ses compétences couvrent le montage, l'écriture de scripts, la création de contenu, le marketing d'influence, la négociation client et la gestion budgétaire. Il veille à la bonne conduite de chaque projet, de la conception à la réalisation."
-            />
-            <VaniTeam
               name="Antoine"
               picture="/img/ANTOINE.webp"
-              presentation="L'âme stratégique de Vanity Corp, il est expert en gestion de projets et d'équipes. Ses compétences couvrent le montage, l'écriture de scripts, la création de contenu, le marketing d'influence, la négociation client et la gestion budgétaire. Il veille à la bonne conduite de chaque projet, de la conception à la réalisation."
+              presentation="Antoine est notre graphiste, titulaire d'un BTS design graphique. Il a effectué un apprentissage chez Publicis de 2012 à 2014. Il s'est spécialisé sur Illustrator et a toujours eu un penchant pour la création de logos. Aujourd'hui, il est spécialisé dans le branding et l'image de marque."
             />
             <VaniTeam
               name="Yahia"
               picture="/img/yahia.webp"
-              presentation="L'âme stratégique de Vanity Corp, il est expert en gestion de projets et d'équipes. Ses compétences couvrent le montage, l'écriture de scripts, la création de contenu, le marketing d'influence, la négociation client et la gestion budgétaire. Il veille à la bonne conduite de chaque projet, de la conception à la réalisation."
+              presentation="Yahia est notre expert en stratégie digitale. Community manager expérimenté, il déploie avec créativité notre présence sur les réseaux sociaux clés. Grâce à sa connaissance fine des communautés, il crée un contenu engageant qui amplifie notre image. Véritable maître des mots, Yahia est notre atout pour connecter nos marques et identifier les tendances. Qu'il s'agisse de lancer des buzz ou gérer les crises, il mène avec flair notre stratégie social media."
             />
             <VaniTeam
               name="Yanis"
@@ -272,12 +266,12 @@ sur vos besoins et sur vos enjeux !"
             <VaniTeam
               name="Remy"
               picture="/img/rEMY.webp"
-              presentation="L'âme stratégique de Vanity Corp, il est expert en gestion de projets et d'équipes. Ses compétences couvrent le montage, l'écriture de scripts, la création de contenu, le marketing d'influence, la négociation client et la gestion budgétaire. Il veille à la bonne conduite de chaque projet, de la conception à la réalisation."
+              presentation="Notre couteau suisse de la production audiovisuelle, il possède une expertise variée allant des vidéos institutionnelles aux clips musicaux. Capable de gérer tous les aspects de la production et de diriger une équipe sur des projets majeurs, il garantit une qualité visuelle élevée."
             />
             <VaniTeam
               name="Zak"
               picture="/img/Zak.webp"
-              presentation="L'âme stratégique de Vanity Corp, il est expert en gestion de projets et d'équipes. Ses compétences couvrent le montage, l'écriture de scripts, la création de contenu, le marketing d'influence, la négociation client et la gestion budgétaire. Il veille à la bonne conduite de chaque projet, de la conception à la réalisation."
+              presentation="Notre spécialiste en stratégie de marque, diplômé de Sup de Pub à Paris. Il a de l'expérience en vente et communication de marque, prospection, audits d'entreprise et planification budgétaire. Il travaille en collaboration avec nos clients pour comprendre leurs besoins et développer des stratégies de communication efficaces."
             />
           </CarouselContent>
         </Carousel>

@@ -8,15 +8,16 @@ function Navbar() {
     <div className="flex justify-between items-center font-medium px-32 py-3 bg-black absolute z-10 w-full top-0 ">
       <div>
         <Link href="/">
-          <Image src="/vanity_corp_logo.svg" width={200} height={35} alt="" />
+          <Image src="/vanity_corp_logo.svg" width={35} height={35} alt="" />
         </Link>
       </div>
       <div>
         <Button className="rounded-full uppercase">
-          <Link href={"/estimation"}>Estimation gratuite</Link>
+          <Link className="text-[8px]" href={"/estimation"}>
+            Estimation gratuite
+          </Link>
         </Button>
       </div>
-      <div></div>
     </div>
   );
 }

@@ -1,4 +1,3 @@
-import { withNextVideo } from "next-video/process";
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
@@ -13,8 +12,8 @@ const nextConfig = {
         hostname: "vanitycorp.fr",
         pathname: "**",
       },
-    ], // Remplacez par vos domaines externes
+    ],
   },
 };
 
-export default withNextVideo(nextConfig);
+export default nextConfig;
