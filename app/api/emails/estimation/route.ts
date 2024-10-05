@@ -14,8 +14,8 @@ export async function POST(request: Request) {
       : [body.features].filter(Boolean);
 
     const data = await resend.emails.send({
-      from: "onboarding@resend.dev",
-      to: "teemohmost2020@gmail.com",
+      from: "contact@vanitycorp.fr",
+      to: "Corp.vanity@gmail.com",
       subject: "Nouvelle demande de devis",
       react: QuoteRequestEmail({ ...body, features }),
     });

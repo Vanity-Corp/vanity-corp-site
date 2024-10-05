@@ -9,8 +9,8 @@ export async function POST(request: Request) {
 
   // Send the email using Resend
   await resend.emails.send({
-    from: "onboarding@resend.dev",
-    to: "teemohmost2020@gmail.com",
+    from: "contact@vanitycorp.fr",
+    to: "Corp.vanity@gmail.com",
     subject: "Contact",
     react: ContactEmail({ name, email, message, phone }),
   });
