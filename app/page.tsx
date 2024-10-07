@@ -99,7 +99,7 @@ export default function Home() {
         <ExpertiseTabs onTabChange={handleTabChange} />
       </section>
 
-      <section className="flex flex-col items-center justify-center  w-full">
+      <section className="flex flex-col items-center justify-center w-full">
         <motion.h2
           initial={{
             opacity: 0,
@@ -266,7 +266,7 @@ sur vos besoins et sur vos enjeux !"
             align: "start",
             loop: true,
           }}
-          className="w-full md:hidden "
+          className="w-full hidden "
         >
           <CarouselContent>
             <VaniTeam
