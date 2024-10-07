@@ -4,7 +4,7 @@ import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Sidebar from "@/components/Sidebar";
 import { HeroHighlight } from "@/components/ui/hero-highlight";
-import { SpeedInsights } from "@vercel/speed-insights/next";
+
 import { Footer } from "@/components/Footer";
 import BannerSlider from "@/components/BannerSlider";
 import Head from "next/head";
@@ -24,25 +24,23 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="dark">
-      <Head>
-        <Script
-          strategy="lazyOnload"
-          src={`https://www.googletagmanager.com/gtag/js?id=${process.env.GOOGLE_ANALYTICS}`}
-        />
-        <Script strategy="lazyOnload" id="google-analytics">
-          {`window.dataLayer = window.dataLayer || [];
+      <Script
+        strategy="lazyOnload"
+        src={`https://www.googletagmanager.com/gtag/js?id=${process.env.GOOGLE_ANALYTICS}`}
+      />
+      <Script strategy="lazyOnload" id="google-analytics">
+        {`window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
 
   gtag('config', '${process.env.GOOGLE_ANALYTICS}')`}
-        </Script>
-      </Head>
+      </Script>
+
       <body className={montserrat.className}>
         <Navbar />
         <div className="flex flex-row">
           <Sidebar />
           {children}
-          <SpeedInsights />
         </div>
       </body>
     </html>
