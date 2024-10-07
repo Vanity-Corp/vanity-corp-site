@@ -7,6 +7,8 @@ import StackAnimation from "@/lib/animation";
 import { HoverBorderGradient } from "./hover-border-gradient";
 import { WrapperEffect } from "./Wrapper";
 import { motion } from "framer-motion";
+import { ContactModal } from "../ContactModal";
+import Link from "next/link";
 const StackedCard = () => {
   useEffect(() => {
     StackAnimation();
@@ -39,29 +41,32 @@ const StackedCard = () => {
               milliers de followers, et d'un réalisateur qui transforme vos
               idées en chef-d'oeuvre.
             </motion.p>
+
             <motion.div
               initial={{ x: "-100%" }}
               whileInView={{ x: "0%" }}
               transition={{ duration: 1.7, ease: "easeInOut" }}
               viewport={{ once: true }}
             >
-              <HoverBorderGradient className="flex gap-2 items-center">
-                Travaillons ensemble{" "}
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={1.5}
-                  stroke="currentColor"
-                  className="size-5"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="m4.5 19.5 15-15m0 0H8.25m11.25 0v11.25"
-                  />
-                </svg>
-              </HoverBorderGradient>
+              <Link href="/estimation">
+                <HoverBorderGradient className="flex gap-2 items-center">
+                  Travaillons ensemble{" "}
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth={1.5}
+                    stroke="currentColor"
+                    className="size-5"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="m4.5 19.5 15-15m0 0H8.25m11.25 0v11.25"
+                    />
+                  </svg>
+                </HoverBorderGradient>
+              </Link>
             </motion.div>
           </div>
         </div>

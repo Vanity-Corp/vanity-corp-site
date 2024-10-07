@@ -172,20 +172,20 @@ const steps = [
   const currentStepFields = steps[currentStep].fields;
 
   return (
-    <div className="flex justify-center items-center w-full h-screen ">
-      <div className="bg-white shadow-md rounded-lg p-6 w-1/2">
+    <div className="flex justify-center items-center w-full h-screen mt-10">
+      <div className="bg-white shadow-md rounded-lg p-6 w-full md:w-1/2">
         <div className="mb-8">
           <div className="flex items-center justify-between">
             {steps.slice(0, -1).map((step, index) => (
               <div key={step.id} className="flex items-center justify-space">
                 <div
-                  className={`p-2 w-full rounded-full flex items-center justify-center ${
+                  className={`p-2 w-full  rounded-full flex items-center  justify-center text-[20px] md:text-base ${
                     index <= currentStep
                       ? "bg-white text-[#D33E6B] border-[#D33E6B] border-2"
                       : "bg-[#D33E6B]  text-white"
                   }`}
                 >
-                  Étape {index + 1}
+                  <span className="hidden md:block">Étape</span> {index + 1}
                 </div>
               </div>
             ))}
@@ -200,13 +200,13 @@ const steps = [
             transition={{ duration: 0.3 }}
           >
             {currentStep < steps.length - 1 ? (
-              <>
-                <h3 className="text-2xl font-[600] text-gray-900 mb-4">
+              <div className="flex flex-col items-center gap-4 md:block">
+                <h3 className="text-xl font-[600] text-gray-900 mb-4">
                   <span className="text-[#D33E6B]">{currentStep + 1}.</span>{" "}
                   {steps[currentStep].name}
                 </h3>
                 {currentStepFields.includes("clientType") && (
-                  <div className="mb-4">
+                  <div className="mb-4 w-[90%] md:w-full">
                     <Select
                       onValueChange={(value) =>
                         setValue("clientType", value as FormData["clientType"])
@@ -236,7 +236,7 @@ const steps = [
                   </div>
                 )}
                 {currentStepFields.includes("services") && (
-                  <div className="mb-4">
+                  <div className="mb-4 w-[90%] md:w-full">
                     <Select
                       onValueChange={(value) =>
                         setValue("services", value as FormData["services"])
@@ -268,7 +268,7 @@ const steps = [
                   </div>
                 )}
                 {currentStepFields.includes("features") && (
-                  <div className="mb-4">
+                  <div className="mb-4 w-[90%] md:w-full">
                     <Label className="text-black">
                       Donnez-nous le maximum de détails ( sur vous, la
                       prestation attendu, les delais, le nombre de photos, la
@@ -281,6 +281,7 @@ const steps = [
                           e.target.value as unknown as FormData["features"]
                         )
                       }
+                      placeholder="Votre message..."
                     />
                     {errors.features && (
                       <p className="text-sm text-red-500 mt-1">
@@ -291,7 +292,7 @@ const steps = [
                 )}
 
                 {currentStepFields.includes("budget") && (
-                  <div className="mb-4">
+                  <div className="mb-4 w-[90%] md:w-full">
                     <Select
                       onValueChange={(value) =>
                         setValue("budget", value as FormData["budget"])
@@ -322,7 +323,7 @@ const steps = [
                 )}
 
                 {currentStepFields.includes("name") && (
-                  <div className="mb-4">
+                  <div className="mb-4 w-[90%] md:w-full">
                     <Input
                       placeholder="Votre nom*"
                       id="name"
@@ -336,7 +337,7 @@ const steps = [
                   </div>
                 )}
                 {currentStepFields.includes("email") && (
-                  <div className="mb-4">
+                  <div className="mb-4 w-[90%] md:w-full">
                     <Input
                       placeholder="Votre adresse email*"
                       id="email"
@@ -351,7 +352,7 @@ const steps = [
                   </div>
                 )}
                 {currentStepFields.includes("phone") && (
-                  <div className="mb-4">
+                  <div className="mb-4 w-[90%] md:w-full">
                     <Input
                       id="phone"
                       placeholder="Votre numéro de téléphone*"
@@ -365,7 +366,7 @@ const steps = [
                     )}
                   </div>
                 )}
-              </>
+              </div>
             ) : (
               <div className="text-center">
                 <h3 className="text-2xl font-bold text-gray-900 mb-4">
@@ -383,7 +384,7 @@ const steps = [
               <>
                 <Button
                   type="button"
-                  className="text-black bg-white border-2 hover:bg-black hover:text-white rounded-full"
+                  className="text-black bg-white border-2 hover:bg-black hover:text-white rounded-full text-[10px] md:text-base"
                   onClick={handlePrev}
                   disabled={currentStep === 0}
                   variant="outline"
@@ -393,7 +394,7 @@ const steps = [
                 </Button>
                 {currentStep < steps.length - 2 ? (
                   <Button
-                    className="text-[#D33E6B] bg-white border-[#D33E6B] border-2 hover:bg-[#D33E6B] hover:text-white rounded-full"
+                    className="text-[#D33E6B] bg-white border-[#D33E6B] border-2 hover:bg-[#D33E6B] hover:text-white rounded-full text-[10px] md:text-base"
                     type="button"
                     onClick={handleNext}
                   >
@@ -401,7 +402,7 @@ const steps = [
                   </Button>
                 ) : (
                   <Button
-                    className="text-[#D33E6B] bg-white border-[#D33E6B] border-2 hover:bg-[#D33E6B] hover:text-white rounded-full"
+                    className="text-[#D33E6B] bg-white border-[#D33E6B] border-2 hover:bg-[#D33E6B] hover:text-white rounded-full text-[10px] md:text-base"
                     type="submit"
                   >
                     Soumettre
