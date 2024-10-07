@@ -398,25 +398,9 @@ export default function GlobeContainer() {
   ];
 
   return (
-    <div className="flex flex-row items-center justify-center h-screen md:h-auto dark:bg-transparent bg-transparent relative w-2/3">
-      <div className="mx-auto w-full relative overflow-hidden h-full md:h-[40rem] px-4">
-        <motion.div
-          initial={{
-            opacity: 0,
-            y: 20,
-          }}
-          whileInView={{
-            opacity: 1,
-            y: 0,
-          }}
-          transition={{
-            duration: 1,
-          }}
-          viewport={{ once: true }}
-          className="div"
-        ></motion.div>
-        <div className="absolute w-full bottom-0 inset-x-0 h-40 bg-gradient-to-b pointer-events-none select-none from-transparent dark:to-black to-white z-40" />
-        <div className="absolute w-full bottom-0 h-auto md:h-full z-10">
+    <div className="flex flex-row items-center  justify-center h-[300px] md:w-2/3 md:h-auto dark:bg-transparent bg-transparent relative">
+      <div className="flex  items-center justify-center mx-auto w-full relative overflow-hidden   ">
+        <div className="flex  items-center justify-center w-[200px] h-[200px] md:w-[500px] md:h-[500px] bottom-0   ">
           <World data={sampleArcs} globeConfig={globeConfig} />
         </div>
       </div>

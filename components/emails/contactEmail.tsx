@@ -42,7 +42,7 @@ export const ContactEmail = ({
             />
           </Section>
           <Heading className="text-black text-[24px] font-normal text-center p-0 my-[30px] mx-0">
-            Nouveau Contaxt
+            Nouveau Contact
           </Heading>
           <Section className="p-4 border border-gray-300 rounded mb-4">
             <Text className="text-base">

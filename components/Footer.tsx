@@ -47,11 +47,11 @@ export function Footer() {
   return (
     <footer className="w-full flex flex-col  justify-center items-center ">
       <div className="w-3/4  flex flex-col mb-10 items-center justify-center">
-        <div className="flex w-full items-start justify-between flex-row gap-10">
+        <div className="flex w-full md:items-start items-center justify-between md:flex-row flex-col gap-10">
           <Form {...form}>
             <form
               onSubmit={form.handleSubmit(onSubmit)}
-              className="w-[40%] flex items-end justify-between gap-2"
+              className="md:w-[40%] w-full flex md:flex-row flex-col :md:items-end items-center justify-between gap-2"
             >
               <FormField
                 control={form.control}
@@ -76,22 +76,19 @@ export function Footer() {
               </HoverBorderGradient>
             </form>
           </Form>
-          <ul className="font-extralight	">
+          <ul className="font-extralight w-full	flex flex-col gap-2 items-start flex-wrap">
             <li>À propos de nous</li>
             <li>Services</li>
             <li>Réalisations</li>
             <li>Vaniteam</li>
             <li>Actualités</li>
           </ul>
-          <div className="">
-            122 Rue Amelot, <br />
-            75011 Paris
-            <br />
-            France
+          <div className="w-full flex flex-col gap-2">
+            122 Rue Amelot, 75011 Paris France
           </div>
           <div className=" flex flex-col justify-between gap-10">
             <a href="mailto:contact@vanitycorp.fr">contact@vanitycorp.fr</a>
-            <div className="flex flex-row gap-2">
+            <div className="flex items-center flex-row gap-2">
               <a href="https://www.instagram.com/vanity.corp/">
                 <motion.svg
                   whileHover={{ scale: 1.2 }}
@@ -155,7 +152,7 @@ export function Footer() {
             </div>
           </div>
         </div>
-        <div className="flex justify-between py-4">
+        <div className="flex flex-col md:flex-row justify-between gap-10 py-4">
           <div>
             <Link href="/mentions-legales">Mentions légales</Link>
           </div>

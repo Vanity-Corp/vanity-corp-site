@@ -22,6 +22,8 @@ import { News } from "@/components/News";
 import { Footer } from "@/components/Footer";
 import BannerSlider from "@/components/BannerSlider";
 import Link from "next/link";
+import { VaniteamGrid } from "@/components/VaniyTeamGrid";
+import { CarouselCard } from "@/components/CarouselCards";
 
 const tabColors = {
   combo: "#A5619C",
@@ -68,22 +70,36 @@ export default function Home() {
 
   return (
     <div
-      className="w-[97%]"
+      className="md:w-[97%] w-full "
       style={{
         backgroundColor: bgColor,
         transition: "background-color 0.5s ease",
       }}
     >
       <BannerSlider />
-      <StackedCard />
+      <div className="hidden md:block">
+        <StackedCard />
+      </div>
+      <div className="flex flex-col justify-center items-center  md:hidden">
+        <h2 className="text-center text-xl md:text-5xl font-bold text-black dark:text-white pt-10">
+          À PROPOS DE NOUS
+        </h2>
+        <p className="text-center text-[15px] my-4 px-5 max-w-lg text-black dark:text-white">
+          Vanity Corp est le combo parfait d&apos;un génie du marketing,
+          d&apos;un créateur de contenu qui fait le buzz auprès de centaines de
+          milliers de followers, et d&apos;un réalisateur qui transforme vos
+          idées en chef-d&apos;oeuvre.
+        </p>
+        <CarouselCard />
+      </div>
       <section
         ref={targetRef}
-        className="flex flex-col justify-center items-center w-full"
+        className="flex flex-col justify-center items-center w-full "
       >
         <ExpertiseTabs onTabChange={handleTabChange} />
       </section>
 
-      <section className="flex flex-col items-center justify-center h-screen w-full">
+      <section className="flex flex-col items-center justify-center  w-full">
         <motion.h2
           initial={{
             opacity: 0,
@@ -101,19 +117,19 @@ export default function Home() {
         >
           LE MONDE EST DANS NOS CARTES SD
         </motion.h2>
-        <div className="flex pl-32 flex-row items-center justify-center w-full">
-          <div className="flex flex-col items-center justify-center gap-[2rem] h-full w-1/3">
+        <div className="flex flex-col md:pl-32 md:flex-row items-center justify-center w-full">
+          <div className="flex flex-col items-center justify-center">
             <motion.p
               initial={{ x: "-100%" }}
               animate={{ x: "0%" }}
               transition={{ duration: 0.9, ease: "easeInOut" }}
               viewport={{ once: true }}
-              className="text-base md:text-2xl font-normal text-neutral-700 dark:text-neutral-200 mt-2 "
+              className="text-base md:text-2xl font-normal text-neutral-700 dark:text-neutral-200 mt-2 p-5"
             >
               On ne sait pas si l’herbe est plus verte ailleurs mais nos caméras
               la filmeront !<br />
-              <br /> nous intervenons dans toute l’Europe et et là ou vos
-              projets nous emmènent
+              <br /> nous intervenons dans toute l’Europe et là ou vos projets
+              nous emmènent
             </motion.p>
             <motion.div
               initial={{ x: "-100%" }}
@@ -122,16 +138,21 @@ export default function Home() {
               viewport={{ once: true }}
             >
               <Link href={"/estimation"}>
-                <Button className="rounded-full uppercase">
+                <Button className="rounded-full hidden md:block uppercase">
                   J’ai un projet À L’ÉTRANGER
                 </Button>
               </Link>
             </motion.div>
           </div>
           <GlobeContainer />
+          <Link href={"/estimation"}>
+            <Button className="rounded-full md:hidden uppercase">
+              J’ai un projet À L’ÉTRANGER
+            </Button>
+          </Link>
         </div>
       </section>
-      <section className="flex flex-col gap-6 justify-center items-center h-screen w-full">
+      <section className="flex flex-col px-6 gap-6 justify-center items-center h-screen w-full">
         <div className=" w-auto relative ">
           <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-teal-500 transform scale-[0.80] bg-red-500 rounded-full blur-3xl" />
           <div className="relative shadow-xl bg-gray-900 border border-gray-800  py-8 h-full overflow-hidden rounded-2xl flex flex-col gap-6">
@@ -155,7 +176,7 @@ export default function Home() {
             </motion.h1>
 
             <GeneratedText
-              className="text-base text-gray-400 text-center z-50"
+              className="text-[14px] text-gray-400 text-center z-50"
               text="Notre équipe est à votre disposition, pour faire le point
 sur vos besoins et sur vos enjeux !"
             />
@@ -222,7 +243,7 @@ sur vos besoins et sur vos enjeux !"
           </svg>
         </HoverBorderGradient>
       </section>
-      <section className="w-full flex flex-col gap-10 justify-center items-center h-screen">
+      <section className="w-full flex flex-col gap-10 justify-center items-center ">
         <motion.h2
           initial={{
             opacity: 0,
@@ -245,7 +266,7 @@ sur vos besoins et sur vos enjeux !"
             align: "start",
             loop: true,
           }}
-          className="w-full"
+          className="w-full md:hidden "
         >
           <CarouselContent>
             <VaniTeam
@@ -275,6 +296,9 @@ sur vos besoins et sur vos enjeux !"
             />
           </CarouselContent>
         </Carousel>
+        <div>
+          <VaniteamGrid />
+        </div>
       </section>
       <section className="w-full flex flex-col gap-10 justify-center items-center h-screen">
         <motion.h2
@@ -290,15 +314,16 @@ sur vos besoins et sur vos enjeux !"
             duration: 1,
           }}
           viewport={{ once: true }}
-          className="text-left text-xl uppercase   md:text-5xl font-bold text-black dark:text-white pt-10"
+          className="md:text-left text-center text-xl uppercase md:px-4  md:text-5xl font-bold text-black dark:text-white pt-10"
         >
           IlS nous ont fait confiance
         </motion.h2>
 
         <BrandSlider />
       </section>
-
-      <Footer />
+      <section className="w-full flex flex-col gap-10 justify-center items-center">
+        <Footer />
+      </section>
     </div>
   );
 }

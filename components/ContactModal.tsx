@@ -88,10 +88,10 @@ export function ContactModal() {
         </ModalTrigger>
         <ModalBody>
           <ModalContent>
-            <h4 className="text-lg md:text-xl text-neutral-600 dark:text-neutral-100 font-bold text-center mb-8">
+            <h4 className="text-base md:text-lg md:text-xl text-neutral-600 dark:text-neutral-100 font-bold text-center mb-8">
               ON EN PARLE AUTOUR D&apos;UN CAFÉ ?
             </h4>
-            <div className="flex flex-wrap px-10 items-start justify-start ">
+            <div className="flex flex-wrap md:px-10 items-start justify-start ">
               <Form {...form}>
                 <form className="w-full flex flex-col gap-4">
                   <FormField

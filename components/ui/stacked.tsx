@@ -13,7 +13,7 @@ const StackedCard = () => {
   }, []);
 
   return (
-    <div className={`${styles.center} h-screen`}>
+    <div className={`${styles.center} h-screen `}>
       <div className={`${styles.stackArea} stack-area`}>
         <div className={`${styles.left} pl-32`}>
           <motion.div
@@ -57,6 +57,7 @@ const StackedCard = () => {
                 >
                   <path
                     strokeLinecap="round"
+                    strokeLinejoin="round"
                     d="m4.5 19.5 15-15m0 0H8.25m11.25 0v11.25"
                   />
                 </svg>

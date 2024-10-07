@@ -10,7 +10,7 @@ import BannerSlider from "@/components/BannerSlider";
 const montserrat = Montserrat({ subsets: ["latin"], weight: ["600"] });
 
 export const metadata: Metadata = {
-  title: "Vanitiy corp | Agence de communication créative 360",
+  title: "Vanity corp | Agence de communication créative 360",
   description:
     "Tout buzzer pour donner de la visibilité à votre projet est un savoir faire. Vanity Corp est une agence de communication créative 360.",
 };
