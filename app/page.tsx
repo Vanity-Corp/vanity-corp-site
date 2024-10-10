@@ -169,7 +169,7 @@ export default function Home() {
                 duration: 0.5,
               }}
               viewport={{ once: true }}
-              className="text-center text-xl md:text-5xl font-bold text-black dark:text-white z-50"
+              className="text-center text-xl md:text-5xl font-bold text-black dark:text-white z-10"
             >
               Prêt à nous parler de
               <br /> votre projet ?

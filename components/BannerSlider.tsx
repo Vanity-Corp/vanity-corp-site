@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import { Carousel, CarouselContent } from "./ui/carousel";
+import { Carousel, CarouselContent, type CarouselApi } from "./ui/carousel";
 import Autoplay from "embla-carousel-autoplay";
 import HeaderCarousel from "./HeaderCarousel";
 
@@ -82,9 +82,28 @@ const headerCarouselData = [
 ];
 
 function BannerSlider() {
+  const [api, setApi] = React.useState<CarouselApi>();
+  const [currentIndex, setCurrentIndex] = React.useState(0);
+
+  React.useEffect(() => {
+    if (!api) {
+      return;
+    }
+    setCurrentIndex(api.selectedScrollSnap() + 1);
+    api.on("select", () => {
+      setCurrentIndex(api.selectedScrollSnap() + 1);
+    });
+  }, [api]);
+
+  const handleDotClick = (index: number) => {
+    if (api) {
+      api.scrollTo(index);
+    }
+  };
   return (
     <header className="h-dvh flex flex-col justify-end w-full">
       <Carousel
+        setApi={setApi}
         opts={{
           align: "start",
           loop: true,
@@ -107,6 +126,19 @@ function BannerSlider() {
             />
           ))}
         </CarouselContent>
+        <div className="flex absolute justify-center items-center inset-1/2 transform -translate-x-1/2 translate-y-[40dvh] w-52 bg-black/70 rounded-lg p-4 text-whit">
+          {headerCarouselData.map((item, index) => (
+            <div
+              key={index}
+              className={`w-5 h-5 rounded-full cursor-pointer ${
+                currentIndex === index + 1
+                  ? "bg-white"
+                  : "bg-transparent border border-white"
+              } mx-2`}
+              onClick={() => handleDotClick(index)}
+            />
+          ))}
+        </div>
       </Carousel>
     </header>
   );
