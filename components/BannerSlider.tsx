@@ -110,7 +110,7 @@ function BannerSlider() {
         }}
         plugins={[
           Autoplay({
-            delay: 4000,
+            delay: 6000,
           }),
         ]}
         className="w-full h-full flex flex-col justify-center"

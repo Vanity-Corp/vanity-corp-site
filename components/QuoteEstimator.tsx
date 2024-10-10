@@ -20,8 +20,8 @@ import {
 import { Checkbox } from "@/components/ui/checkbox";
 import { useToast } from "@/components/ui/use-toast";
 import { Textarea } from "@/components/ui/textarea";
-
 import Link from "next/link";
+
 const schema = z.object({
   clientType: z.enum(
     [
@@ -31,22 +31,18 @@ const schema = z.object({
       "Une association / ONG",
     ],
     {
-      errorMap: (issue) => {
-        return { message: "ce champ est obligatoire" }; // Default message for other errors
-      },
+      errorMap: () => ({ message: "ce champ est obligatoire" }),
     }
   ),
   budget: z.enum(
     [
       "1 000 € à 2 000 €",
       "2 000 € à 5 000 €",
-      "5 000 € à 10 000 € ",
+      "5 000 € à 10 000 € ",
       "+ 10 000 €",
     ],
     {
-      errorMap: (issue) => {
-        return { message: "ce champ est obligatoire" }; // Default message for other errors
-      },
+      errorMap: () => ({ message: "ce champ est obligatoire" }),
     }
   ),
   services: z.enum(
@@ -59,9 +55,7 @@ const schema = z.object({
       "Autre",
     ],
     {
-      errorMap: (issue) => {
-        return { message: "ce champ est obligatoire" }; // Default message for other errors
-      },
+      errorMap: () => ({ message: "ce champ est obligatoire" }),
     }
   ),
   features: z.string().min(1, "Ce champ est obligatoire"),
@@ -80,7 +74,7 @@ const steps = [
   },
   {
     id: "step2",
-    name: "Qu’est ce qu’on peut faire pour vous ? ",
+    name: "Qu'est ce qu'on peut faire pour vous ? ",
     fields: ["services"],
   },
   {
@@ -100,36 +94,25 @@ const steps = [
   },
   {
     id: "step6",
-    name: "C’est parti ! On s'en occupe 💼",
+    name: "C'est parti ! On s'en occupe 💼",
     fields: [],
   },
 ];
 
-/*************  ✨ Codeium Command ⭐  *************/
-/**
- * This component renders a multi-step form to request a quote for a project.
- *
- * The form has 6 steps, each with its own fields and validation rules.
- * The component uses the `useForm` hook from `react-hook-form` to manage the
- * form state and validation.
- *
- * The component also uses the `motion` library to animate the transition between
- * steps.
- *
- * @returns {JSX.Element} The rendered form component.
- */
-/******  36b877e7-372c-4b4c-83fc-1843a6e5e148  *******/ export default function QuoteEstimator() {
+export default function Component() {
   const [currentStep, setCurrentStep] = useState(0);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const { toast } = useToast();
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isValid },
     watch,
     setValue,
+    trigger,
   } = useForm<FormData>({
     resolver: zodResolver(schema),
+    mode: "onChange",
   });
 
   const onSubmit: SubmitHandler<FormData> = async (data) => {
@@ -142,7 +125,7 @@ const steps = [
 
       if (response.ok) {
         setIsSubmitted(true);
-        handleNext(); // Move to the thank you step
+        handleNext();
         toast({
           title: "Quote Request Sent",
           description:
@@ -161,8 +144,13 @@ const steps = [
     }
   };
 
-  const handleNext = () => {
-    setCurrentStep((prev) => Math.min(prev + 1, steps.length - 1));
+  const handleNext = async () => {
+    const currentFields = steps[currentStep].fields;
+    const isStepValid = await trigger(currentFields as any);
+
+    if (isStepValid) {
+      setCurrentStep((prev) => Math.min(prev + 1, steps.length - 1));
+    }
   };
 
   const handlePrev = () => {
@@ -170,6 +158,11 @@ const steps = [
   };
 
   const currentStepFields = steps[currentStep].fields;
+
+  const isNextDisabled = () => {
+    const currentFields = steps[currentStep].fields;
+    return currentFields.some((field) => !!errors[field as keyof FormData]);
+  };
 
   return (
     <div className="flex justify-center items-center w-full h-screen mt-10">
@@ -179,10 +172,10 @@ const steps = [
             {steps.slice(0, -1).map((step, index) => (
               <div key={step.id} className="flex items-center justify-space">
                 <div
-                  className={`p-2 w-full  rounded-full flex items-center  justify-center text-[20px] md:text-base ${
+                  className={`p-2 w-full rounded-full flex items-center justify-center text-[20px] md:text-base ${
                     index <= currentStep
                       ? "bg-white text-[#D33E6B] border-[#D33E6B] border-2"
-                      : "bg-[#D33E6B]  text-white"
+                      : "bg-[#D33E6B] text-white"
                   }`}
                 >
                   <span className="hidden md:block">Étape {index + 1}</span>
@@ -209,7 +202,11 @@ const steps = [
                   <div className="mb-4 w-[90%] md:w-full">
                     <Select
                       onValueChange={(value) =>
-                        setValue("clientType", value as FormData["clientType"])
+                        setValue(
+                          "clientType",
+                          value as FormData["clientType"],
+                          { shouldValidate: true }
+                        )
                       }
                     >
                       <SelectTrigger>
@@ -239,7 +236,9 @@ const steps = [
                   <div className="mb-4 w-[90%] md:w-full">
                     <Select
                       onValueChange={(value) =>
-                        setValue("services", value as FormData["services"])
+                        setValue("services", value as FormData["services"], {
+                          shouldValidate: true,
+                        })
                       }
                     >
                       <SelectTrigger>
@@ -275,12 +274,7 @@ const steps = [
                       longueur de la vidéo, Etc...)
                     </Label>
                     <Textarea
-                      onChange={(e) =>
-                        setValue(
-                          "features",
-                          e.target.value as unknown as FormData["features"]
-                        )
-                      }
+                      {...register("features")}
                       placeholder="Votre message..."
                     />
                     {errors.features && (
@@ -290,12 +284,13 @@ const steps = [
                     )}
                   </div>
                 )}
-
                 {currentStepFields.includes("budget") && (
                   <div className="mb-4 w-[90%] md:w-full">
                     <Select
                       onValueChange={(value) =>
-                        setValue("budget", value as FormData["budget"])
+                        setValue("budget", value as FormData["budget"], {
+                          shouldValidate: true,
+                        })
                       }
                     >
                       <SelectTrigger>
@@ -305,7 +300,7 @@ const steps = [
                         {[
                           "1 000 € à 2 000 €",
                           "2 000 € à 5 000 €",
-                          "5 000 € à 10 000 € ",
+                          "5 000 € à 10 000 € ",
                           "+ 10 000 €",
                         ].map((size) => (
                           <SelectItem key={size} value={size}>
@@ -321,7 +316,6 @@ const steps = [
                     )}
                   </div>
                 )}
-
                 {currentStepFields.includes("name") && (
                   <div className="mb-4 w-[90%] md:w-full">
                     <Input
@@ -370,7 +364,7 @@ const steps = [
             ) : (
               <div className="text-center">
                 <h3 className="text-2xl font-bold text-gray-900 mb-4">
-                  C’est parti !<br /> On s’en occupe 💼{" "}
+                  C&apos;est parti !<br /> On s&apos;en occupe 💼{" "}
                 </h3>
                 <p className="text-lg text-gray-600 mb-6">
                   Vous recevrez un devis dans moins de 24h. Vous voulez une
@@ -397,6 +391,7 @@ const steps = [
                     className="text-[#D33E6B] bg-white border-[#D33E6B] border-2 hover:bg-[#D33E6B] hover:text-white rounded-full text-[10px] md:text-base"
                     type="button"
                     onClick={handleNext}
+                    disabled={isNextDisabled()}
                   >
                     Hop ! la suite
                   </Button>
@@ -404,6 +399,7 @@ const steps = [
                   <Button
                     className="text-[#D33E6B] bg-white border-[#D33E6B] border-2 hover:bg-[#D33E6B] hover:text-white rounded-full text-[10px] md:text-base"
                     type="submit"
+                    disabled={isNextDisabled()}
                   >
                     Soumettre
                   </Button>
