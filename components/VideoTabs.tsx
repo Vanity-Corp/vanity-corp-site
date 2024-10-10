@@ -83,7 +83,7 @@ export default function VideoTabs() {
                     className="block"
                     animationStyle="from-center"
                     videoSrc={url}
-                    thumbnailSrc={`https://i.ytimg.com/vi/${id}/maxresdefault.jpg`}
+                    thumbnailSrc={`https://i.ytimg.com/vi/${id}/sddefault.jpg`}
                     thumbnailAlt={`YouTube video thumbnail ${index + 1}`}
                   />
                 </div>

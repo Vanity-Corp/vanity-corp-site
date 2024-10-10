@@ -185,7 +185,7 @@ const steps = [
                       : "bg-[#D33E6B]  text-white"
                   }`}
                 >
-                  <span className="hidden md:block">Étape</span> {index + 1}
+                  <span className="hidden md:block">Étape {index + 1}</span>
                 </div>
               </div>
             ))}

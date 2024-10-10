@@ -9,6 +9,7 @@ import { Footer } from "@/components/Footer";
 import BannerSlider from "@/components/BannerSlider";
 import Head from "next/head";
 import Script from "next/script";
+import GoogleAnalytics from "@/components/GoogleAnalytics";
 const montserrat = Montserrat({ subsets: ["latin"], weight: ["600"] });
 
 export const metadata: Metadata = {
@@ -24,17 +25,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="dark">
-      <Script
-        strategy="lazyOnload"
-        src={`https://www.googletagmanager.com/gtag/js?id=${process.env.GOOGLE_ANALYTICS}`}
-      />
-      <Script strategy="lazyOnload" id="google-analytics">
-        {`window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', '${process.env.GOOGLE_ANALYTICS}')`}
-      </Script>
+      <GoogleAnalytics GA_MEASUREMENT_ID={`${process.env.GOOGLE_ANALYTICS}`} />
 
       <body className={montserrat.className}>
         <Navbar />

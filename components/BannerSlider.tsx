@@ -51,7 +51,7 @@ const headerCarouselData = [
     ],
   },
   {
-    background: "bg-[url('/img/banner-2.png')]",
+    background: "bg-[url('/img/design.webp')]",
     title: "GRAPHISME",
     description: "De l’idéation à la publication",
     list: [
@@ -63,7 +63,7 @@ const headerCarouselData = [
     ],
   },
   {
-    background: "bg-[url('/img/devweb.webp')]",
+    background: "bg-[url('/img/Computer_Four_Screens.webp')]",
     title: (
       <span>
         DÉVELOPPEMENT <br />
