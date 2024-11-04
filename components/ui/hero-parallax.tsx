@@ -140,17 +140,17 @@ export const ProductCard = ({
           alt={product.title}
         />
       </Link>
-      <div className="absolute inset-0 h-full w-full opacity-0 group-hover/product:opacity-80 bg-black pointer-events-none"></div>
+      <div className="absolute inset-0 h-full w-full opacity-0 group-hover/product:opacity-70 bg-black pointer-events-none"></div>
       <Link
         href={product.link}
         className="block group-hover/product:shadow-2xl "
       >
-        <div className="absolute flex flex-col justify-center items-center h-full w-full gap-2">
+        <div className="absolute flex flex-col justify-center items-center h-full w-full p-4 gap-2">
           {" "}
-          <h2 className=" opacity-0 group-hover/product:opacity-100 text-white">
+          <h2 className=" opacity-0 group-hover/product:opacity-100 text-white text-2xl">
             {product.title}
           </h2>
-          <p className="  opacity-0 group-hover/product:opacity-100 text-white">
+          <p className="  opacity-0 group-hover/product:opacity-100 text-white text-center">
             {product.description}
           </p>
         </div>
