@@ -8,6 +8,7 @@ import {
   useMotionValue,
   useSpring,
 } from "framer-motion";
+import Link from "next/link";
 
 export const AnimatedTooltip = ({
   items,
@@ -15,8 +16,9 @@ export const AnimatedTooltip = ({
   items: {
     id: number;
     name: string;
-    designation: string;
+
     image: string;
+    link: string;
   }[];
 }) => {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
@@ -73,18 +75,19 @@ export const AnimatedTooltip = ({
                 <div className="font-bold text-white relative z-30 text-base">
                   {item.name}
                 </div>
-                <div className="text-white text-xs">{item.designation}</div>
               </motion.div>
             )}
           </AnimatePresence>
-          <Image
-            onMouseMove={handleMouseMove}
-            height={200}
-            width={200}
-            src={item.image}
-            alt={item.name}
-            className="object-cover !m-0 !p-0 object-top rounded-full h-16 w-16 border-2 group-hover:scale-105 group-hover:z-30 border-white  relative transition duration-500"
-          />
+          <Link href={item.link}>
+            <Image
+              onMouseMove={handleMouseMove}
+              height={200}
+              width={200}
+              src={item.image}
+              alt={item.name}
+              className="object-cover !m-0 !p-0 object-top rounded-full h-16 w-16 border-2 group-hover:scale-105 group-hover:z-30 border-white  relative transition duration-500"
+            />
+          </Link>
         </div>
       ))}
     </>
