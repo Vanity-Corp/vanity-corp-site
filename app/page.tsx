@@ -136,7 +136,7 @@ export default function Home() {
           viewport={{ once: true }}
           className="md:text-left text-center text-xl uppercase md:px-4  md:text-5xl font-bold text-black dark:text-white pt-10  mb-20"
         >
-          on a filmé ta star préf !
+          on a filmé ta star préférée !
         </motion.h2>
         <ClientSection />
       </section>
@@ -343,7 +343,6 @@ sur vos besoins et sur vos enjeux !"
           <VaniteamGrid />
         </div>
       </section>
-
       <section className="w-full flex flex-col gap-10 justify-center items-center">
         <Footer />
       </section>
