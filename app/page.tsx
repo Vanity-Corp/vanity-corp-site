@@ -11,7 +11,7 @@ import { ExpertiseTabs } from "@/components/expertiseTabs";
 import { HighlightedText } from "@/components/higlightedText";
 import { GeneratedText } from "@/components/GenerateTextSection";
 import { motion } from "framer-motion";
-import { AnimatedButton } from "@/components/AnimatedButton";
+import { AnimatedButton } from "@/components/ui/AnimatedButton";
 import { Meteors } from "@/components/ui/meteors";
 import { WorksGrid } from "@/components/WorksGrid";
 import VideoTabs from "@/components/VideoTabs";

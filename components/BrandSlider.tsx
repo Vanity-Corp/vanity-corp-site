@@ -14,97 +14,94 @@ export function BrandSlider() {
 
 const testimonials = [
   {
-    image: "/img/BABY-TO-LOVE-NEW-logo-e1698713347997.webp",
+    image: "/brands/Baby To love.webp",
     name: "BABY TO LOVE",
   },
   {
-    image: "/img/Logo_Marionnaud.png",
+    image: "/brands/Marionnaud.webp",
     name: "Marionnaud",
   },
   {
-    image: "/img/LOGO_BUSINESS_CLUB_BYCMDA_WHITE.png",
+    image: "/brands/Business club.webp",
     name: "business club by cmda",
   },
   {
-    image: "/img/Logo Fraikin.png",
+    image: "/brands/Fraikin.webp",
     name: "fraikin",
   },
   {
-    image: "/img/logo-cmi-france.webp",
-    name: "Winston Smith",
+    image: "/brands/CMI FRANCE.webp",
+    name: "CMI France",
   },
   {
-    image: "/img/arca.webp",
+    image: "/brands/Arca-group-energy.webp",
     name: "Arca Group Energy",
   },
   {
-    image: "/img/ouverture.webp",
+    image: "/brands/OSS SERRURIE.webp",
     name: "ouverture serrurrie",
   },
   {
-    image: "/img/piatto.webp",
+    image: "/brands/piatto.webp",
     name: "piatto pizza",
   },
   {
-    image: "/img/legal.webp",
+    image: "/brands/Legal Euro Corp.webp",
     name: "legal euro corp",
   },
   {
-    image: "/img/logo-ecole-ducasse.webp",
-    name: "Winston Smith",
+    image: "/brands/Ecole Ducasse.webp",
+    name: "Ecole Ducasse",
   },
   {
-    image: "/img/logo-elektra-records.webp",
-    name: "Winston Smith",
+    image: "/brands/Elektra.webp",
+    name: "Elektra",
   },
 ];
 const testimonials2 = [
   {
-    image: "/img/logo-fally-ipupa.webp",
-    name: "Winston Smith",
+    image: "/brands/Fally Ipupa.webp",
+    name: "Fally Ipupa",
   },
   {
-    image: "/img/Logo douceur elegance.png",
-    name: "Douceur elegance",
+    image: "/brands/Douceur et Elegance.webp",
+    name: "Douceur et elegance",
   },
   {
-    image: "/img/Logo dat schaub.png",
+    image: "/brands/Logo dat schaub.png",
     name: "Dat Schaub",
   },
+
   {
-    image: "/img/logo-fally-ipupa.webp",
-    name: "Fally ipupa",
-  },
-  {
-    image: "/img/Logo Avekapeti.png",
+    image: "/brands/Avekapeti.webp",
     name: "Avekapeti",
   },
   {
-    image: "/img/cropped-logo-CMDA-blanc-final.png",
+    image: "/brands/CMDA.webp",
     name: "Logo cmda ",
   },
   {
-    image: "/img/logo-Interfimo.webp",
-    name: "Winston Smith",
+    image: "/brands/Interfimo.webp",
+    name: "Interfimo",
   },
   {
-    image: "/img/logo-wizbii.webp",
-    name: "Winston Smith",
+    image: "/brands/Wizbii.webp",
+    name: "Wizbii",
   },
   {
-    image: "/img/logo-life.webp",
-    name: "Winston Smith",
+    image: "/brands/Life.webp",
+    name: "Life",
   },
   {
-    image: "/img/Cloudb_White-logo-e1698713329665.webp",
-    name: "Winston Smith",
+    image: "/brands/Cloud B .webp",
+    name: "Cloud B",
   },
   {
-    image: "/img/BTL-DIFFUSION-LOGO-detoure-e1698713303907.webp",
-    name: "Winston Smith",
+    image: "/brands/BTL DIFFUSION.webp",
+    name: "BTL DIFFUSION",
   },
   {
-    image: "/img/Logo_little_big_friends_FINAL_white-e1698713157411.webp",
-    name: "Winston Smith",
+    image: "/brands/Little Big Friends.webp",
+    name: "Little big friends",
   },
 ];

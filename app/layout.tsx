@@ -3,13 +3,8 @@ import { Montserrat } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Sidebar from "@/components/Sidebar";
-import { HeroHighlight } from "@/components/ui/hero-highlight";
-
-import { Footer } from "@/components/Footer";
-import BannerSlider from "@/components/BannerSlider";
-import Head from "next/head";
-import Script from "next/script";
 import GoogleAnalytics from "@/components/GoogleAnalytics";
+import HideNavbar from "@/components/HideNavbar";
 const montserrat = Montserrat({ subsets: ["latin"], weight: ["600"] });
 
 export const metadata: Metadata = {
@@ -28,9 +23,14 @@ export default function RootLayout({
       <GoogleAnalytics GA_MEASUREMENT_ID={`${process.env.GOOGLE_ANALYTICS}`} />
 
       <body className={montserrat.className}>
-        <Navbar />
+        <HideNavbar>
+          <Navbar />
+        </HideNavbar>
+
         <div className="flex flex-row">
-          <Sidebar />
+          <HideNavbar>
+            <Sidebar />{" "}
+          </HideNavbar>
           {children}
         </div>
       </body>

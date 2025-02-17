@@ -15,31 +15,34 @@ export const Card = React.memo(
     hovered: number | null;
     setHovered: React.Dispatch<React.SetStateAction<number | null>>;
   }) => (
-    <div
-      onMouseEnter={() => setHovered(index)}
-      onMouseLeave={() => setHovered(null)}
-      className={cn(
-        "rounded-lg relative bg-black  overflow-hidden h-full w-full aspect-video transition-all duration-300 ease-out",
-        hovered !== null && hovered !== index && "blur-sm scale-[0.98]"
-      )}
-    >
-      <Image
-        src={card.src}
-        alt={card.title}
-        fill
-        className="object-cover  absolute inset-0"
-      />
+    <a href={card.link}>
       <div
+        onMouseEnter={() => setHovered(index)}
+        onMouseLeave={() => setHovered(null)}
         className={cn(
-          "absolute inset-0 bg-black/70 flex items-end py-8 px-4 transition-opacity duration-300",
-          hovered === index ? "opacity-100" : "opacity-0"
+          "rounded-lg relative bg-black  overflow-hidden h-full w-full aspect-video transition-all duration-300 ease-out",
+          hovered !== null && hovered !== index && "blur-sm scale-[0.98]"
         )}
       >
-        <div className="text-xl md:text-2xl font-medium bg-clip-text text-transparent bg-gradient-to-b from-neutral-50 to-neutral-200">
-          {card.title}
+        <Image
+          src={card.src}
+          alt={card.title}
+          fill
+          className="object-cover  absolute inset-0"
+        />
+        <div
+          className={cn(
+            "absolute inset-0 bg-black/70 flex items-end py-8 px-4 transition-opacity duration-300",
+            hovered === index ? "opacity-100" : "opacity-0"
+          )}
+        >
+          <div className="text-xl md:text-2xl font-medium bg-clip-text text-transparent bg-gradient-to-b from-neutral-50 to-neutral-200">
+            {card.title}
+            <p className="text-lg">{card.description}</p>
+          </div>
         </div>
       </div>
-    </div>
+    </a>
   )
 );
 
@@ -48,6 +51,8 @@ Card.displayName = "Card";
 type Card = {
   title: string;
   src: string;
+  description: string;
+  link: string;
 };
 
 export function FocusCards({ cards }: { cards: Card[] }) {
