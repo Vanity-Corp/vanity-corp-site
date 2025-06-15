@@ -24,6 +24,7 @@ import BannerSlider from "@/components/BannerSlider";
 import Link from "next/link";
 import { VaniteamGrid } from "@/components/VaniyTeamGrid";
 import { CarouselCard } from "@/components/CarouselCards";
+import { ClientSection } from "@/components/ClientSection";
 
 const tabColors = {
   combo: "#A5619C",
@@ -98,7 +99,47 @@ export default function Home() {
       >
         <ExpertiseTabs onTabChange={handleTabChange} />
       </section>
+      <section className="w-full flex flex-col gap-10 justify-center items-center h-screen">
+        <motion.h2
+          initial={{
+            opacity: 0,
+            y: 20,
+          }}
+          whileInView={{
+            opacity: 1,
+            y: 0,
+          }}
+          transition={{
+            duration: 1,
+          }}
+          viewport={{ once: true }}
+          className="md:text-left text-center text-xl uppercase md:px-4  md:text-5xl font-bold text-black dark:text-white pt-10"
+        >
+          IlS nous ont fait confiance
+        </motion.h2>
 
+        <BrandSlider />
+      </section>
+      <section className="flex flex-col items-center justify-center w-full pb-20">
+        <motion.h2
+          initial={{
+            opacity: 0,
+            y: 20,
+          }}
+          whileInView={{
+            opacity: 1,
+            y: 0,
+          }}
+          transition={{
+            duration: 1,
+          }}
+          viewport={{ once: true }}
+          className="md:text-left text-center text-xl uppercase md:px-4  md:text-5xl font-bold text-black dark:text-white pt-10  mb-20"
+        >
+          on a filmé ta star préférée !
+        </motion.h2>
+        <ClientSection />
+      </section>
       <section className="flex flex-col items-center justify-center w-full">
         <motion.h2
           initial={{
@@ -245,7 +286,7 @@ sur vos besoins et sur vos enjeux !"
           </HoverBorderGradient>
         </Link>
       </section>
-      <section className="w-full flex flex-col gap-10 justify-center items-center ">
+      <section className="w-full flex flex-col gap-10 justify-center items-center mb-20">
         <motion.h2
           initial={{
             opacity: 0,
@@ -301,27 +342,6 @@ sur vos besoins et sur vos enjeux !"
         <div>
           <VaniteamGrid />
         </div>
-      </section>
-      <section className="w-full flex flex-col gap-10 justify-center items-center h-screen">
-        <motion.h2
-          initial={{
-            opacity: 0,
-            y: 20,
-          }}
-          whileInView={{
-            opacity: 1,
-            y: 0,
-          }}
-          transition={{
-            duration: 1,
-          }}
-          viewport={{ once: true }}
-          className="md:text-left text-center text-xl uppercase md:px-4  md:text-5xl font-bold text-black dark:text-white pt-10"
-        >
-          IlS nous ont fait confiance
-        </motion.h2>
-
-        <BrandSlider />
       </section>
       <section className="w-full flex flex-col gap-10 justify-center items-center">
         <Footer />

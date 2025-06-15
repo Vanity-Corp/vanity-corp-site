@@ -1,46 +1,92 @@
+"use client";
+import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "./ui/button";
-import { ButtonMovingBorder } from "./ui/moving-border";
-import { HoverBorderGradient } from "./ui/hover-border-gradient";
 import { ContactModal } from "./ContactModal";
+import { Menu as MenuIcon, X as CloseIcon } from "lucide-react";
+
 function Navbar() {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const toggleMenu = () => {
+    setIsOpen(!isOpen);
+  };
+
   return (
-    <nav className="flex justify-between items-center font-medium px-3 md:px-32 py-3 bg-black absolute z-10 w-full top-0 ">
-      <div className="hidden md:block">
-        <Link href="/">
-          <Image src="/vanity_corp_logo.svg" width={200} height={35} alt="" />
-        </Link>
-      </div>
-      <div className="md:hidden">
+    <nav className="flex justify-between items-center font-medium px-3 md:px-32 py-3 bg-black absolute z-10 w-full top-0">
+      {/* Logo */}
+      <div>
         <Link href="/">
           <Image
-            src="/vanity_corp_Icon_color.svg"
-            width={35}
-            height={35}
-            alt=""
+            src={
+              isOpen ? "/vanity_corp_logo.svg" : "/vanity_corp_Icon_color.svg"
+            }
+            width={isOpen ? 200 : 35}
+            height={isOpen ? 35 : 35}
+            alt="Vanity Corp Logo"
           />
         </Link>
       </div>
 
-      <div>
-        <Button className="rounded-full uppercase text-[10px] md:text-base py-0 md:py-1 px-2 md:px-4">
-          <Link href={"/estimation"}>Estimation gratuite</Link>
-        </Button>
+      {/* Estimation Button (always shown) */}
+      <div className="hidden md:block">
+        <Link href="/estimation">
+          <Button className="rounded-full uppercase text-base py-1 px-4">
+            Estimation gratuite
+          </Button>
+        </Link>
       </div>
-      <div className=" md:hidden">
+      <div className="md:hidden">
+        <Link href="/estimation">
+          <Button className="rounded-full uppercase text-[10px] py-0 px-2">
+            Estimation gratuite
+          </Button>
+        </Link>
+      </div>
+
+      {/* Desktop Links */}
+      <div className="hidden md:flex space-x-8 items-center">
+        <Link href="/realisations">Réalisations</Link>
         <ContactModal>
-          {" "}
-          <svg
-            width={20}
-            fill="white"
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 512 512"
-          >
-            <path d="M215.4 96H144 107.8 96v8.8V144v40.4 89L.2 202.5c1.6-18.1 10.9-34.9 25.7-45.8L48 140.3V96c0-26.5 21.5-48 48-48h76.6l49.9-36.9C232.2 3.9 243.9 0 256 0s23.8 3.9 33.5 11L339.4 48H416c26.5 0 48 21.5 48 48v44.3l22.1 16.4c14.8 10.9 24.1 27.7 25.7 45.8L416 273.4v-89V144 104.8 96H404.2 368 296.6 215.4zM0 448V242.1L217.6 403.3c11.1 8.2 24.6 12.7 38.4 12.7s27.3-4.4 38.4-12.7L512 242.1V448v0c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64v0zM176 160H336c8.8 0 16 7.2 16 16s-7.2 16-16 16H176c-8.8 0-16-7.2-16-16s7.2-16 16-16zm0 64H336c8.8 0 16 7.2 16 16s-7.2 16-16 16H176c-8.8 0-16-7.2-16-16s7.2-16 16-16z" />
-          </svg>
+          <Button className="rounded-full uppercase text-base py-1 px-4">
+            Contact
+          </Button>
         </ContactModal>
       </div>
+
+      {/* Mobile Menu Icon */}
+      <button
+        className="md:hidden focus:outline-none"
+        onClick={toggleMenu}
+        aria-label={isOpen ? "Close menu" : "Open menu"}
+      >
+        {isOpen ? (
+          <CloseIcon size={24} color="white" />
+        ) : (
+          <MenuIcon size={24} color="white" />
+        )}
+      </button>
+
+      {/* Mobile Dropdown Menu */}
+      {isOpen && (
+        <div className="absolute top-full right-0 mt-2 w-48 bg-black border border-gray-700 rounded-lg shadow-lg md:hidden">
+          <Link
+            href="/realisations"
+            className="block px-4 py-2 hover:bg-gray-800"
+            onClick={() => setIsOpen(false)}
+          >
+            Réalisations
+          </Link>
+          <div className="px-4 py-2">
+            <ContactModal>
+              <Button className="w-full rounded-full uppercase text-[10px] py-1 px-2">
+                Contact
+              </Button>
+            </ContactModal>
+          </div>
+        </div>
+      )}
     </nav>
   );
 }

@@ -6,7 +6,7 @@ import React from "react";
 
 export default function Realisations() {
   return (
-    <div className="flex flex-col w-full justify-center items-center gap-10">
+    <div className="flex flex-col w-full justify-center items-center gap-10 ">
       <SparklesText
         text="On vous en met "
         text2="plein les yeux !"

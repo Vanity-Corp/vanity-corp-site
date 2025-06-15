@@ -40,34 +40,34 @@ export const realisations = [
     src: "/img/Portfolio Contenu Réseaux sociaux.webp",
     description:
       "On produit des vidéos rapides et engageantes, comme celles où un chef donne son avis sur différents plats, parfaites pour vos réseaux sociaux.",
-    link: "#",
+    link: "",
   },
   {
     title: "ACCOMPAGNEMENT STRATÉGIQUE",
     src: "/img/Portfolio Accompagnement Stratégique Vanity.webp",
     description:
       "On vous accompagne dans la définition et la mise en œuvre de votre stratégie de communication pour maximiser votre impact.",
-    link: "#",
+    link: "",
   },
   {
     title: "SITE INTERNET",
     src: "/img/Portfolio Site internet Vanity.webp",
     description:
       "On crée des sites web sur mesure, adaptés à vos besoins spécifiques et à votre secteur d’activité.",
-    link: "#",
+    link: "",
   },
   {
     title: "GRAPHISME",
     src: "/img/Portfolio Graphisme Vanity.webp",
     description:
       "On conçoit votre identité visuelle, de la charte graphique au logo, en fonction de votre image et de vos attentes.",
-    link: "#",
+    link: "",
   },
   {
     title: "SHOOTING PHOTO",
     src: "/img/Portfolio Shooting Photo Vanity.webp",
     description:
       "On sublime vos produits et vos événements avec des photos professionnelles qui capturent l’essence de votre marque, pour renforcer votre identité visuelle et maximiser votre impact. ",
-    link: "#",
+    link: "",
   },
 ];
