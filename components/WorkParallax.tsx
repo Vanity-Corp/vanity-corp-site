@@ -7,11 +7,11 @@ export function WorkParallax() {
 }
 export const products = [
   {
-    title: "Moonbeam",
-    description: "Moonbeam is a web3 social media platform",
+    title: "COMBO 360",
+    description:
+      "On gère tout, de la conception à la publication ! Pour le concept “1€ to be a chef”, on a imaginé, tourné, monté et promu la vidéo pour l’association, mettant en avant leur campagne “1€ = 1 repas”.",
     link: "https://gomoonbeam.com",
-    thumbnail:
-      "https://aceternity.com/images/products/thumbnails/new/moonbeam.png",
+    thumbnail: "/img/Combo360realisations.webp",
   },
   {
     title: "Cursor",
@@ -21,11 +21,11 @@ export const products = [
       "https://aceternity.com/images/products/thumbnails/new/cursor.png",
   },
   {
-    title: "Rogue",
-    description: "Rogue is a web3 social media platform",
+    title: "COMBO 360",
+    description:
+      "On gère tout, de la conception à la publication ! Pour le concept “1€ to be a chef”, on a imaginé, tourné, monté et promu la vidéo pour l’association, mettant en avant leur campagne “1€ = 1 repas”.",
     link: "https://userogue.com",
-    thumbnail:
-      "https://aceternity.com/images/products/thumbnails/new/rogue.png",
+    thumbnail: "/img/Combo360realisations.webp",
   },
 
   {
