@@ -19,11 +19,9 @@ function Navbar() {
       <div>
         <Link href="/">
           <Image
-            src={
-              isOpen ? "/vanity_corp_logo.svg" : "/vanity_corp_Icon_color.svg"
-            }
-            width={isOpen ? 200 : 35}
-            height={isOpen ? 35 : 35}
+            src="/vanity_corp_Icon_color.svg"
+            width={35}
+            height={35}
             alt="Vanity Corp Logo"
           />
         </Link>
@@ -35,22 +33,19 @@ function Navbar() {
           <Link href="/estimation">Estimation gratuite </Link>
         </Button>
       </div>
+      <Link
+        href="/realisations"
+        className="block px-4 py-2 hover:bg-gray-800 hidden md:block"
+        onClick={() => setIsOpen(false)}
+      >
+        Réalisations
+      </Link>
       <div className="md:hidden">
         <Link href="/estimation">
           <Button className="rounded-full uppercase text-[10px] py-0 px-2">
             Estimation gratuite
           </Button>
         </Link>
-      </div>
-
-      {/* Desktop Links */}
-      <div className="hidden md:flex space-x-8 items-center">
-        <Link href="/realisations">Réalisations</Link>
-        <ContactModal>
-          <Button className="rounded-full uppercase text-base py-1 px-4">
-            Contact
-          </Button>
-        </ContactModal>
       </div>
 
       {/* Mobile Menu Icon */}
@@ -78,7 +73,7 @@ function Navbar() {
           </Link>
           <div className="px-4 py-2">
             <ContactModal>
-              <Button className="w-full rounded-full uppercase text-[10px] py-1 px-2">
+              <Button className="w-full rounded-full uppercase  py-1 px-2">
                 Contact
               </Button>
             </ContactModal>
