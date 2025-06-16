@@ -31,11 +31,9 @@ function Navbar() {
 
       {/* Estimation Button (always shown) */}
       <div className="hidden md:block">
-        <Link href="/estimation">
-          <Button className="rounded-full uppercase text-base py-1 px-4">
-            Estimation gratuite
-          </Button>
-        </Link>
+        <Button className="rounded-full uppercase text-base py-1 px-4">
+          <Link href="/estimation">Estimation gratuite </Link>
+        </Button>
       </div>
       <div className="md:hidden">
         <Link href="/estimation">
