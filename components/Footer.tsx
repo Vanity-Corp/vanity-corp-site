@@ -45,8 +45,8 @@ export function Footer() {
   }
 
   return (
-    <footer className="w-full flex flex-col  justify-center items-center ">
-      <div className="w-3/4  flex flex-col mb-10 items-center justify-center">
+    <footer className="w-full flex flex-col  justify-center items-center bg-black text-white font-bold px-32 py-10">
+      <div className="w-full  flex flex-col  items-center justify-center">
         <div className="flex w-full md:items-start items-center justify-between md:flex-row flex-col gap-10">
           <Form {...form}>
             <form
@@ -76,14 +76,14 @@ export function Footer() {
               </HoverBorderGradient>
             </form>
           </Form>
-          {/*
+
           <ul className="font-extralight w-full	flex flex-col gap-2 items-start flex-wrap">
             <li>À propos de nous</li>
             <li>Services</li>
             <li>Réalisations</li>
             <li>Vaniteam</li>
             <li>Actualités</li>
-          </ul>*/}
+          </ul>
           <div className="w-full flex flex-col gap-2">
             122 Rue Amelot, 75011 Paris France
           </div>

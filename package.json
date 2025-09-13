@@ -12,6 +12,7 @@
   "dependencies": {
     "@hookform/resolvers": "^3.9.0",
     "@lucia-auth/adapter-prisma": "^4.0.1",
+    "@motionone/utils": "^10.18.0",
     "@next/bundle-analyzer": "^14.2.14",
     "@node-rs/argon2": "^2.0.0",
     "@prisma/client": "^5.0.0",
@@ -32,6 +33,7 @@
     "@react-email/tailwind": "^0.1.0",
     "@react-three/drei": "^9.109.1",
     "@react-three/fiber": "^8.16.8",
+    "@tabler/icons-react": "^3.34.1",
     "@tanstack/react-table": "^8.20.5",
     "@vercel/speed-insights": "^1.0.12",
     "class-variance-authority": "^0.7.0",

@@ -343,9 +343,8 @@ sur vos besoins et sur vos enjeux !"
           <VaniteamGrid />
         </div>
       </section>
-      <section className="w-full flex flex-col gap-10 justify-center items-center">
-        <Footer />
-      </section>
+
+      <Footer />
     </div>
   );
 }
