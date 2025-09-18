@@ -6,7 +6,9 @@ import { cn } from "@/lib/utils";
 
 const createGridMask = (start: number, end: number): string => {
   const mid = (start + end) / 2;
-  return `linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.05) ${start}%, rgba(0,0,0,0.2) ${mid}%, rgba(0,0,0,0.6) ${end - 20}%, rgba(0,0,0,1) ${end}%)`;
+  return `linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.05) ${start}%, rgba(0,0,0,0.2) ${mid}%, rgba(0,0,0,0.6) ${
+    end - 20
+  }%, rgba(0,0,0,1) ${end}%)`;
 };
 
 const generateRayConfig = (index: number, total: number) => {
@@ -88,7 +90,9 @@ const LightRay = React.memo<LightRayProps>(
           opacity: [0.3, 0.7, 0.3],
           transform: [
             `translateX(-50%) rotate(${rotation}deg)`,
-            `translateX(-50%) rotate(${rotation + (isStrongerSway ? 1 : 0.5)}deg)`,
+            `translateX(-50%) rotate(${
+              rotation + (isStrongerSway ? 1 : 0.5)
+            }deg)`,
             `translateX(-50%) rotate(${rotation}deg)`,
           ],
         }}
@@ -108,9 +112,9 @@ const LightRay = React.memo<LightRayProps>(
         }}
       />
     );
-  },
+  }
 );
-
+LightRay.displayName = "LightRay";
 export const GridBeams: React.FC<GridBeamsProps> = ({
   children,
   className,
@@ -127,20 +131,20 @@ export const GridBeams: React.FC<GridBeamsProps> = ({
 }) => {
   const rayConfigs = useMemo(() => {
     return Array.from({ length: rayCount }, (_, i) =>
-      generateRayConfig(i, rayCount),
+      generateRayConfig(i, rayCount)
     );
   }, [rayCount]);
 
   const gridMask = useMemo(
     () => createGridMask(gridFadeStart, gridFadeEnd),
-    [gridFadeStart, gridFadeEnd],
+    [gridFadeStart, gridFadeEnd]
   );
 
   return (
     <div
       className={cn(
         "relative overflow-hidden bg-[var(--bg-color)] bg-[radial-gradient(ellipse_at_50%_-20%,#1a2c5a,transparent_70%)]",
-        className,
+        className
       )}
       style={
         {
