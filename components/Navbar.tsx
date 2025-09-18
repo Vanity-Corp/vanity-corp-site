@@ -196,7 +196,7 @@ export default function Navbar(): JSX.Element {
       };
 
   return (
-    <nav ref={navRef} className="sticky font-medium  z-20 w-full top-0">
+    <nav ref={navRef} className="sticky font-medium  z-50 w-full top-0">
       <div className="flex items-center justify-between px-3 md:px-32 py-3 bg-black text-white">
         {/* Logo */}
         <div>
@@ -234,7 +234,7 @@ export default function Navbar(): JSX.Element {
               onMouseEnter={openMega}
               onMouseLeave={() => scheduleCloseMega(180)}
             >
-              <div className="flex flex-col lg:flex-row gap-6 items-start">
+              <div className="flex flex-col lg:flex-row gap-6 items-start z-50">
                 {/* Featured first service */}
                 <div className="hidden lg:flex w-1/3 items-center justify-center">
                   <Link

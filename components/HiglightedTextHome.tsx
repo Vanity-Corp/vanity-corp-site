@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import { HeroHighlight, Highlight } from "./ui/hero-highlight";
 import { HoverBorderGradient } from "./ui/hover-border-gradient";
 
-export function HighlightedText() {
+export function HighlightedTextHome() {
   return (
     <HeroHighlight className="flex flex-col items-center gap-10 snap-start">
       <motion.h1

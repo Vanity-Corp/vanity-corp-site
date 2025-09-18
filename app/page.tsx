@@ -8,7 +8,7 @@ import GlobeContainer from "@/components/globeContainer";
 import { Button } from "@/components/ui/button";
 import StackedCard from "@/components/ui/stacked";
 import { ExpertiseTabs } from "@/components/expertiseTabs";
-import { HighlightedText } from "@/components/higlightedText";
+import { HighlightedTextHome } from "@/components/HiglightedTextHome";
 import { GeneratedText } from "@/components/GenerateTextSection";
 import { motion } from "framer-motion";
 import { AnimatedButton } from "@/components/ui/AnimatedButton";
@@ -246,7 +246,7 @@ sur vos besoins et sur vos enjeux !"
           </div>
         </div>
       </section>
-      <HighlightedText />
+      <HighlightedTextHome />
       <WorksGrid />
       <section className="w-full flex flex-col gap-10 justify-center items-center ">
         <motion.h2

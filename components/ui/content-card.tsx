@@ -21,11 +21,11 @@ export default function ContentCard({
   return (
     <div
       className={cn(
-        "flex flex-col  rounded-xl shadow-md overflow-hidden",
+        "flex flex-col  rounded-xl shadow-md overflow-hidden bg-white",
         className
       )}
     >
-      <div className="relative h-[300px] bg-gradient-to-r from-blue-800 to-indigo-900 p-4 overflow-hidden">
+      <div className="relative  aspect-video bg-gradient-to-r from-blue-800 to-indigo-900 p-4 overflow-hidden">
         <div className="w-1/2">
           <Image
             src="/vanity_corp_Icon_color.webp"
