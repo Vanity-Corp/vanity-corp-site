@@ -196,7 +196,7 @@ export default function Navbar(): JSX.Element {
       };
 
   return (
-    <nav ref={navRef} className="sticky font-medium  z-50 w-full top-0">
+    <nav ref={navRef} className="fixed  font-medium  z-50 w-full top-0">
       <div className="flex items-center justify-between px-3 md:px-32 py-3 bg-black text-white">
         {/* Logo */}
         <div>

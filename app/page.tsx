@@ -1,10 +1,9 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import Autoplay from "embla-carousel-autoplay";
+
 import { Carousel, CarouselContent } from "@/components/ui/carousel";
-import HeaderCarousel from "@/components/HeaderCarousel";
-import GlobeContainer from "@/components/globeContainer";
+
 import { Button } from "@/components/ui/button";
 import StackedCard from "@/components/ui/stacked";
 import { ExpertiseTabs } from "@/components/expertiseTabs";
@@ -18,13 +17,15 @@ import VideoTabs from "@/components/VideoTabs";
 import { HoverBorderGradient } from "@/components/ui/hover-border-gradient";
 import VaniTeam from "@/components/VaniTeam";
 import { BrandSlider } from "@/components/BrandSlider";
-import { News } from "@/components/News";
+
+import BannerVideo from "@/components/ui/BannerVideo";
 import { Footer } from "@/components/Footer";
-import BannerSlider from "@/components/BannerSlider";
+
 import Link from "next/link";
 import { VaniteamGrid } from "@/components/VaniyTeamGrid";
 import { CarouselCard } from "@/components/CarouselCards";
 import { ClientSection } from "@/components/ClientSection";
+import { WorldMapSection } from "@/components/WordMap";
 
 const tabColors = {
   combo: "#A5619C",
@@ -77,7 +78,7 @@ export default function Home() {
         transition: "background-color 0.5s ease",
       }}
     >
-      <BannerSlider />
+      <BannerVideo src="/showreel.mp4" poster="/fallback.webp" />
       <div className="hidden md:block">
         <StackedCard />
       </div>
@@ -158,39 +159,36 @@ export default function Home() {
         >
           LE MONDE EST DANS NOS CARTES SD
         </motion.h2>
-        <div className="flex flex-col md:pl-32 md:flex-row items-center justify-center w-full">
+        <div className="flex flex-col  md:flex-row items-center justify-center w-full">
           <div className="flex flex-col items-center justify-center">
             <motion.p
               initial={{ x: "-100%" }}
               animate={{ x: "0%" }}
               transition={{ duration: 0.9, ease: "easeInOut" }}
               viewport={{ once: true }}
-              className="text-base md:text-2xl font-normal text-neutral-700 dark:text-neutral-200 mt-2 p-5"
+              className="text-base md:text-2xl text-center font-normal text-neutral-700 dark:text-neutral-200 mt-2 py-5"
             >
               On ne sait pas si l’herbe est plus verte ailleurs mais nos caméras
               la filmeront !<br />
               <br /> nous intervenons dans toute l’Europe et là ou vos projets
               nous emmènent
             </motion.p>
-            <motion.div
-              initial={{ x: "-100%" }}
-              animate={{ x: "0%" }}
-              transition={{ duration: 1.3, ease: "easeInOut" }}
-              viewport={{ once: true }}
-            >
-              <Link href={"/estimation"}>
-                <Button className="rounded-full hidden md:block uppercase">
-                  J’ai un projet À L’ÉTRANGER
-                </Button>
-              </Link>
-            </motion.div>
           </div>
-          <GlobeContainer />
-          <Link href={"/estimation"}>
-            <Button className="rounded-full md:hidden uppercase">
-              J’ai un projet À L’ÉTRANGER
-            </Button>
-          </Link>
+        </div>
+        <WorldMapSection />
+        <div className="flex flex-col  md:flex-row items-center justify-center w-full">
+          <motion.div
+            initial={{ x: "-100%" }}
+            animate={{ x: "0%" }}
+            transition={{ duration: 1.3, ease: "easeInOut" }}
+            viewport={{ once: true }}
+          >
+            <Link href={"/estimation"}>
+              <Button className="rounded-full hidden md:block uppercase">
+                J’ai un projet À L’ÉTRANGER
+              </Button>
+            </Link>
+          </motion.div>
         </div>
       </section>
       <section className="flex flex-col px-6 gap-6 justify-center items-center h-screen w-full">

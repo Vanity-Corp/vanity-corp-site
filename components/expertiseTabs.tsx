@@ -18,10 +18,10 @@ const TabContent = ({ content }: any) => (
       />
     </div>
     <div className="flex md:w-[50%] gap-10 flex-col px-10 h-full">
-      <h3 className="font-bold text-center md:text-left text-2xl">
+      <h3 className="font-bold text-center md:text-left text-3xl">
         {content.title}
       </h3>
-      <p className="text-[15px] md:text-base text-center md:text-left">
+      <p className="text-[15px] md:text-xl text-center font-normal md:text-left">
         {content.description}
       </p>
     </div>
@@ -160,7 +160,7 @@ export function ExpertiseTabs({ onTabChange }: any) {
   ];
 
   return (
-    <div className="h-full [perspective:1000px] relative flex flex-col md:max-w-5xl mx-auto w-full gap-10 items-start ">
+    <div className="h-full [perspective:1000px] relative flex flex-col md:max-w-full p-32 mx-32 w-full gap-10 items-start ">
       <h2 className="text-center text-xl w-full md:text-5xl font-bold text-black dark:text-white pt-10">
         Expertise
       </h2>
@@ -172,7 +172,7 @@ export function ExpertiseTabs({ onTabChange }: any) {
         <TabsList className="flex flex-wrap">
           {tabsContent.map((tab) => (
             <TabsTrigger
-              className="text-[10px] md:text-base"
+              className="text-[10px] md:text-xl"
               key={tab.value}
               value={tab.value}
             >
