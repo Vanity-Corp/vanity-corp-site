@@ -4,20 +4,19 @@ import Image from "next/image";
 import { Button } from "./ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useState, useEffect } from "react";
-
+import ImageMask from "@/components/ui/image-mask";
+import DefaultImageMask from "@/components/ui/image-mask";
 const TabContent = ({ content }: any) => (
-  <div className="flex justify-center items-center flex-col md:flex-row gap-10 w-full overflow-hidden relative rounded-2xl py-10 text-xl md:text-4xl text-white">
-    <div className="relative md:w-[50%]">
-      <Image
+  <div className="flex flex-row gap-10 w-full overflow-hidden relative  rounded-2xl py-10 text-xl md:text-4xl  text-white">
+    <div className="relative h-1/2 w-1/2">
+      <DefaultImageMask
         src={content.imageSrc}
-        width={500}
-        height={500}
-        style={{ objectFit: "cover" }}
+        variant="default"
+        shape="three"
         alt={content.title}
-        className="w-full"
       />
     </div>
-    <div className="flex md:w-[50%] gap-10 flex-col px-10 h-full">
+    <div className=" flex gap-10 flex-col w-1/2 h-full">
       <h3 className="font-bold text-center md:text-left text-3xl">
         {content.title}
       </h3>
@@ -160,7 +159,7 @@ export function ExpertiseTabs({ onTabChange }: any) {
   ];
 
   return (
-    <div className="h-full [perspective:1000px] relative flex flex-col md:max-w-full p-32 mx-32 w-full gap-10 items-start ">
+    <div className="h-full [perspective:1000px] relative flex flex-col md:max-w-full mx-32 w-5xl gap-10 items-start ">
       <h2 className="text-center text-xl w-full md:text-5xl font-bold text-black dark:text-white pt-10">
         Expertise
       </h2>
