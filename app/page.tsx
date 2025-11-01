@@ -25,13 +25,14 @@ import { CarouselCard } from "@/components/CarouselCards";
 import { ClientSection } from "@/components/ClientSection";
 import { WorldMapSection } from "@/components/WordMap";
 import BannerVideo from "@/components/ui/BannerVideo";
+
 const tabColors = {
-  combo: "#730164",
-  creation: "#003f8a",
-  production: "#018f6f",
-  strategie: "#ba7502",
-  siteweb: "#820111",
-  socialmedia: "#4b8f00",
+  combo: "#493399",
+  creation: "#5A2848",
+  production: "#4B689F",
+  strategie: "#431F4B",
+  siteweb: "#A38141",
+  socialmedia: "#992D47",
 };
 export default function Home() {
   const [bgColor, setBgColor] = useState("#000000");
@@ -70,7 +71,10 @@ export default function Home() {
       }}
     >
       {" "}
-      <BannerVideo src="/showreel.mp4" poster="/fallback.webp" />{" "}
+      <BannerVideo
+        src="/videos/SHOWREEL 2025_2026_V5.mp4"
+        poster="/fallback.webp"
+      />{" "}
       <div className="hidden md:block">
         {" "}
         <StackedCard />{" "}

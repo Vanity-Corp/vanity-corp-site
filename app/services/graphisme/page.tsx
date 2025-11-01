@@ -1,13 +1,13 @@
 "use client";
 import React, { useEffect, useRef, useState, useCallback } from "react";
 import type { NextPage } from "next";
-
-// pages/graphisme.tsx
-// Next.js (Pages Router) — Tailwind CSS
-// Type-safe component. Black background, each project is a full-screen
-// centered section (horizontally + vertically). Banner + description added.
-// Now: images are clickable and open a modal carousel with swipe + keyboard navigation.
-
+import Image from "next/image";
+import MagicBento from "@/components/MagicBento";
+// SEO & métadonnées (extrait du document Word)
+// Méta-titre : Agence de graphisme à Paris – Créations sur mesure | Vanity Corp
+// Méta-description : Identité visuelle, logo, webdesign, print, réseaux sociaux… Vanity Corp crée des visuels sur mesure pour entreprises et particuliers. Découvrez nos réalisations et contactez notre studio graphique à Paris.
+// Mots-clés : agence de graphisme Paris, studio graphique, identité visuelle, création de logo, design sur mesure, branding, direction artistique, webdesign, communication visuelle.
+import { GlowingEffect } from "@/components/ui/glowing-effect";
 interface Project {
   id: string;
   title: string;
@@ -25,9 +25,9 @@ const projects: ReadonlyArray<Project> = [
     id: "arca-group",
     title: "ARCA GROUP ENERGY",
     client: "ARCA Group",
-    type: "Identité visuelle & Branding",
+    type: "Identité visuelle · Branding · Webdesign · Print",
     objective:
-      "Moderniser l’image de marque pour renforcer la crédibilité auprès des partenaires B2B et transmettre une impression d’innovation et d’efficacité.",
+      "ARCA Group Energy nous a confié la refonte complète de son image. Objectif : moderniser la marque pour renforcer sa crédibilité auprès des partenaires B2B et refléter un positionnement tourné vers l'innovation et l'efficacité. Nous avons imaginé une charte graphique sur mesure, puis décliné l'univers sur l'ensemble des supports : site web, plaquettes, cartes de visite, documents internes.",
     palette: ["#d64536", "#7456a0", "#e8461d", "#7456a0"],
     fonts: ["Satoshi", "Inter"],
     images: [
@@ -39,10 +39,10 @@ const projects: ReadonlyArray<Project> = [
   },
   {
     id: "impulse-gallery",
-    title: "Impulse Gallery",
-    type: "Direction artistique & identité",
+    title: "IMPULSE GALLERY",
+    type: "Direction artistique · Identité visuelle · Design d'espace & print",
     objective:
-      "Donner une signature visuelle forte et modulable aux expositions, pensée pour les affiches, catalogues et réseaux.",
+      "Impulse Gallery souhaitait une identité underground et artistique, à l'image de son concept. Nous avons conçu une charte graphique complète — du logo à la signalétique — puis décliné la direction artistique sur plaquettes, cartes membres, signatures de mail et tous les supports de communication. Une image forte, modulable et reconnaissable.",
     palette: ["#0A0F1A", "#FF3D81", "#F5F7FA"],
     fonts: ["Playfair Display", "Inter"],
     images: [
@@ -54,57 +54,43 @@ const projects: ReadonlyArray<Project> = [
   },
   {
     id: "life-talk",
-    title: "Life Talk",
-    type: "Branding & UI Kit",
+    title: "LIFE TALK",
+    type: "Branding · UI Kit · Direction artistique",
     objective:
-      "Créer un univers humain et chaleureux pour une plateforme de ressources et échanges.",
+      "Un talk-show caritatif imaginé par l'ONG LIFE. L'objectif : créer une identité qui évoque l'univers du plateau télé tout en parlant à une génération connectée. Nous avons développé une charte graphique jeune et impactante, capable de réunir les natifs de YouTube comme les amateurs de télévision traditionnelle.",
     palette: ["#071717", "#8AE7C7", "#FFF8EE"],
     fonts: ["Montserrat", "Inter"],
-    images: [
-      "https://via.placeholder.com/1000x1000?text=Life+Talk+1",
-      "https://via.placeholder.com/800x800?text=Life+Talk+2",
-      "https://via.placeholder.com/600x800?text=Life+Talk+3",
-    ],
+    images: [],
   },
   {
     id: "fraikin",
-    title: "Fraikin",
-    type: "Refonte logo & charte",
+    title: "FRAIKIN",
+    type: "Refonte de logo · Charte graphique",
     objective:
-      "Raffiner l’identité d’un acteur logistique en mettant l’accent sur la robustesse et la lisibilité à grande échelle.",
+      "Pour célébrer son anniversaire, le leader du transport Fraikin a souhaité moderniser son logo tout en conservant sa dimension institutionnelle. Mission : raffiner l'identité visuelle en renforçant robustesse, lisibilité et aspect premium.",
     palette: ["#062A3F", "#F2AA4C", "#FFFFFF"],
     fonts: ["Poppins", "Inter"],
-    images: [
-      "https://via.placeholder.com/1000x1000?text=Fraikin+1",
-      "https://via.placeholder.com/800x800?text=Fraikin+2",
-    ],
+    images: [],
   },
   {
     id: "campagne-grand-froid",
-    title: "Campagne Grand Froid — Life",
-    type: "Campagne visuelle — œuvre caritative",
+    title: "CAMPAGNE GRAND FROID — LIFE",
+    type: "Campagne visuelle · Communication caritative",
     objective:
-      "Sensibiliser et mobiliser autour de la distribution de vêtements chauds — design empathique et impactant.",
+      "Pour LIFE, nous avons imaginé une campagne visuelle choc autour de la distribution de vêtements chauds pendant l'hiver. L'idée : détourner les codes de la publicité en créant des visuels trompe-l'œil, forts et émotionnels, confrontant le spectateur à la réalité de la rue tout en gardant une esthétique soignée et un ton empathique.",
     palette: ["#000000", "#FFE7A3", "#E33E6B"],
     fonts: ["Georgia", "Inter"],
-    images: [
-      "https://via.placeholder.com/1000x1000?text=Campagne+1",
-      "https://via.placeholder.com/800x800?text=Campagne+2",
-    ],
+    images: [],
   },
   {
     id: "cemika",
-    title: "Cemika — Cuisines équipées",
+    title: "CEMIKA — Cuisines équipées",
     type: "Identité produit & packaging",
     objective:
       "Structurer une ligne visuelle premium pour la gamme cuisine, adaptée au commerce en ligne et aux showrooms.",
     palette: ["#0D1321", "#D9D9D9", "#FFD9C7"],
     fonts: ["Sora", "Inter"],
-    images: [
-      "https://via.placeholder.com/1000x1000?text=Cemika+1",
-      "https://via.placeholder.com/800x800?text=Cemika+2",
-      "https://via.placeholder.com/600x800?text=Cemika+3",
-    ],
+    images: [],
   },
 ] as const;
 
@@ -210,85 +196,258 @@ const GraphismePage: NextPage = () => {
       <header className="w-full bg-gradient-to-r from-zinc-900 via-black to-zinc-900 py-20">
         <div className="max-w-6xl mx-auto px-6 text-center">
           <h1 className="text-5xl md:text-6xl font-extrabold tracking-tight">
-            Graphismes
+            Graphisme sur mesure qui marque les esprits
           </h1>
           <p className="mt-4 text-lg text-gray-300 max-w-3xl mx-auto">
-            Des identités visuelles & chartes graphiques pensées pour marquer
-            les esprits — explorations, déploiement et applications concrètes.
+            Chez Vanity Corp, on ne fait pas juste du joli. On crée des visuels
+            qui captent l’attention, racontent une histoire et rendent votre
+            marque impossible à ignorer.
           </p>
         </div>
       </header>
 
       {/* Service description */}
-      <section className="max-w-4xl mx-auto mt-12 px-6">
+      <section className="w-[90%] max-w-[1920px] mx-auto mt-12 ">
         <div className="text-center">
           <h2 className="text-2xl font-bold mb-4">Présentation du service</h2>
           <p className="text-gray-300 leading-relaxed mb-4">
-            Le graphisme est bien plus qu’une question d’esthétique : c’est un
-            langage visuel qui traduit vos valeurs et renforce votre
-            crédibilité. Notre équipe conçoit des visuels sur mesure, pensés
-            pour séduire et engager votre audience, en ligne comme sur papier.
+            Notre pôle graphique imagine, conçoit et décline tout ce qu’il faut
+            pour donner vie à votre image : identités visuelles & chartes
+            graphiques, logos et rebranding complets, affiches, flyers,
+            plaquettes et catalogues, packagings & étiquettes produits, design
+            de sites web et de landing pages, templates pour les réseaux
+            sociaux, motion design et habillages vidéo, présentations, documents
+            et supports commerciaux.
           </p>
+
           <p className="text-gray-300 leading-relaxed mb-4">
-            Nous réalisons la création et la refonte d’identités visuelles, la
-            conception de supports print et digitaux, ainsi que des maquettes
-            UI/UX haute fidélité pour vos sites et applications. Chaque projet
-            est pensé pour répondre à une stratégie précise et à des objectifs
-            métiers.
+            Pas de jargon, pas de chichi : on s’adapte à vous. Vous avez déjà
+            une idée claire ? On la met en forme. Vous partez d’une page blanche
+            ? On prend la température, on pose les bonnes questions, et on vous
+            propose plusieurs pistes créatives jusqu’à trouver celle qui fait
+            tilt.
           </p>
+
           <p className="text-gray-300 leading-relaxed">
-            La cohérence visuelle est essentielle : elle assure la
-            reconnaissance de la marque sur tous les points de contact et
-            renforce la confiance des clients. Nous veillons à une déclinaison
-            homogène des éléments graphiques sur l’ensemble des supports.
+            Qu’on travaille pour une startup, une marque de luxe, une ONG ou une
+            PME, nos designs s’ajustent à chaque univers. On ne parle pas de
+            “style Vanity”, parce que notre spécialité, c’est justement de faire
+            briller le vôtre.
           </p>
         </div>
+        <MagicBento
+          textAutoHide={true}
+          enableStars={true}
+          enableSpotlight={true}
+          enableBorderGlow={true}
+          enableTilt={true}
+          enableMagnetism={false}
+          clickEffect={true}
+          spotlightRadius={300}
+          particleCount={12}
+          glowColor="132, 0, 255"
+        />
 
-        <div className="mt-10 bg-zinc-900 p-6 rounded-xl">
-          <h3 className="text-xl font-semibold mb-4">
-            Nos services de graphisme
+        {/* === BENTO GRID (title -> description -> diversified grid -> final line) === */}
+        <div className="mt-10 bg-zinc-900 p-8 rounded-2xl shadow-lg">
+          {/* Title */}
+          <h3 className="text-2xl font-bold text-white">
+            Du logo au site web, on s’occupe de tout
           </h3>
 
-          <ul className="grid grid-cols-1 md:grid-cols-2 gap-4 text-gray-300">
-            <li>
-              <strong>Identité visuelle</strong>
-              <div className="text-sm text-gray-400">
-                Création de logos, chartes graphiques et déclinaisons complètes
-                pour garantir une image cohérente.
-              </div>
-            </li>
-            <li>
-              <strong>Design web & mobile</strong>
-              <div className="text-sm text-gray-400">
-                UI/UX design sur mesure pour sites et applications, maquettes
-                haute fidélité et composants visuels cohérents.
-              </div>
-            </li>
-            <li>
-              <strong>Supports de communication</strong>
-              <div className="text-sm text-gray-400">
-                Flyers, cartes de visite, affiches, bannières et présentations :
-                des visuels qui marquent les esprits.
-              </div>
-            </li>
-            <li>
-              <strong>Direction artistique</strong>
-              <div className="text-sm text-gray-400">
-                Accompagnement créatif complet pour assurer la cohérence entre
-                votre univers visuel et vos objectifs de marque.
-              </div>
-            </li>
-          </ul>
+          {/* Description (exact) */}
+          <p className="mt-3 text-gray-300">
+            Notre pôle graphique imagine, conçoit et décline tout ce qu’il faut
+            pour donner vie à votre image :
+          </p>
 
-          <p className="text-xs text-gray-500 mt-4">
-            Chaque service est décrit simplement afin d’être compris par des
-            non-designers.
+          {/* Diversified grid */}
+          <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            {/*
+              1 - image LEFT, text RIGHT
+            */}
+            <div className="rounded-2xl bg-zinc-800 shadow-sm overflow-hidden">
+              <div className="flex flex-col md:flex-row items-stretch">
+                <Image
+                  width={1000}
+                  height={1000}
+                  src="/services/graphismes/graphics-colors.webp"
+                  alt="Identités visuelles"
+                  className="w-full md:w-32 h-32 md:h-auto object-cover flex-none"
+                />
+                <div className="p-4">
+                  <div className="text-sm font-semibold">
+                    Identités visuelles & chartes graphiques
+                  </div>
+                  <div className="text-xs text-gray-400 mt-2">
+                    Logos, chartes graphiques et déclinaisons complètes pour
+                    garantir une image cohérente.
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/*
+              2 - image TOP, text BOTTOM (centered)
+            */}
+            <div className="rounded-2xl bg-zinc-900 shadow-sm overflow-hidden flex flex-col items-center text-center">
+              <Image
+                width={1000}
+                height={1000}
+                src="/services/graphismes/logo.webp"
+                alt="Logos et rebranding"
+                className="w-full h-28 object-cover"
+              />
+              <div className="p-4">
+                <div className="text-sm font-semibold">
+                  Logos et rebranding complets
+                </div>
+                <div className="text-xs text-gray-400 mt-2">
+                  Refonte d&apos;identité et modernisation pour renforcer la
+                  crédibilité.
+                </div>
+              </div>
+            </div>
+
+            {/*
+              3 - image BOTTOM, text TOP
+            */}
+            <div className="rounded-2xl bg-zinc-900 shadow-sm overflow-hidden flex flex-col">
+              <div className="p-4">
+                <div className="text-sm font-semibold">
+                  Affiches, flyers, plaquettes et catalogues
+                </div>
+                <div className="text-xs text-gray-400 mt-2">
+                  Affiches, flyers, plaquettes, catalogues.
+                </div>
+              </div>
+              <Image
+                width={1000}
+                height={1000}
+                src="/services/graphismes/graphics-colors.webp"
+                alt="Affiches et flyers"
+                className="w-full h-28 object-cover mt-auto"
+              />
+            </div>
+
+            {/*
+              4 - image RIGHT, text LEFT (reverse on md)
+            */}
+            <div className="rounded-2xl bg-zinc-800 shadow-sm overflow-hidden">
+              <div className="flex flex-col md:flex-row-reverse items-stretch">
+                <Image
+                  width={1000}
+                  height={1000}
+                  src="/services/graphismes/graphics-colors.webp"
+                  alt="Packagings"
+                  className="w-full md:w-32 h-32 md:h-auto object-cover flex-none"
+                />
+                <div className="p-4">
+                  <div className="text-sm font-semibold">
+                    Packagings & étiquettes produits
+                  </div>
+                  <div className="text-xs text-gray-400 mt-2">
+                    Packaging & étiquette produit.
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/*
+              5 - image as background overlay (text on top)
+            */}
+            <div className="rounded-2xl relative bg-zinc-900 shadow-sm overflow-hidden">
+              <Image
+                width={1000}
+                height={1000}
+                src="/services/graphismes/graphics-colors.webp"
+                alt="Design web"
+                className="absolute inset-0 w-full h-full object-cover opacity-30"
+              />
+              <div className="relative p-4">
+                <div className="text-sm font-semibold">
+                  Design de sites web et de landing pages
+                </div>
+                <div className="text-xs text-gray-200/80 mt-2">
+                  Design de sites, landing pages (UX & UI).
+                </div>
+              </div>
+            </div>
+
+            {/*
+              6 - image CENTERED above small title (compact)
+            */}
+            <div className="rounded-2xl bg-zinc-800 shadow-sm flex flex-col items-center p-4">
+              <Image
+                width={1000}
+                height={1000}
+                src="/services/graphismes/graphics-colors.webp"
+                alt="Templates sociaux"
+                className="w-20 h-20 rounded-lg object-cover"
+              />
+              <div className="mt-3 text-sm font-semibold text-center">
+                Templates pour les réseaux sociaux
+              </div>
+              <div className="text-xs text-gray-400 mt-2 text-center">
+                Templates optimisés & kits.
+              </div>
+            </div>
+
+            {/*
+              7 - two-column style inside tile: left text, right tall image
+            */}
+            <div className="rounded-2xl bg-zinc-900 shadow-sm overflow-hidden">
+              <div className="grid grid-cols-2">
+                <div className="p-4 flex flex-col justify-center">
+                  <div className="text-sm font-semibold">
+                    Motion design et habillages vidéo
+                  </div>
+                  <div className="text-xs text-gray-400 mt-2">
+                    Animations, habillages vidéo.
+                  </div>
+                </div>
+                <div className="col-span-1">
+                  <Image
+                    width={1000}
+                    height={1000}
+                    src="/services/graphismes/graphics-colors.webp"
+                    alt="Motion"
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+              </div>
+            </div>
+
+            {/*
+              8 - minimal card: small image bottom-left, text top-right
+            */}
+            <div className="rounded-2xl bg-zinc-800 shadow-sm p-4 relative overflow-hidden">
+              <div className="text-sm font-semibold">
+                Présentations, documents et supports commerciaux
+              </div>
+              <div className="text-xs text-gray-400 mt-2">
+                Présentations, documents & supports commerciaux.
+              </div>
+              <Image
+                width={1000}
+                height={1000}
+                src="/services/graphismes/graphics-colors.webp"
+                alt="Présentations"
+                className="absolute left-4 bottom-4 w-36 h-24 rounded-md object-cover border border-white/6"
+              />
+            </div>
+          </div>
+
+          {/* Final line (exact) */}
+          <p className="mt-6 text-xs text-gray-400">
+            Bref, tout ce qui s’imprime, s’affiche ou se scrolle.
           </p>
         </div>
+        {/* === fin bento grid === */}
       </section>
 
       {/* Projects */}
-      <section className="space-y-28 w-full mx-auto px-32 pb-32 mt-20">
+      <section className="space-y-28 w-[90%] max-w-[1920px] mx-auto  pb-32 mt-20">
         {projects.map((p) => {
           const isVisible = Boolean(visible[p.id]);
 
@@ -309,17 +468,14 @@ const GraphismePage: NextPage = () => {
                   : "opacity-0 translate-y-8"
               }`}
             >
-              <div className="w-full  mx-auto flex flex-col lg:flex-row items-center justify-center gap-10 px-6">
+              <div className="w-full  mx-auto flex flex-col lg:flex-row items-center justify-center gap-10 ">
                 {/* Left: textual column (centered vertically) */}
                 <div className="w-full lg:w-1/3 flex flex-col gap-6 items-start lg:items-start">
                   <div>
                     <h2 className="text-3xl md:text-6xl font-extrabold tracking-tight leading-tight">
                       <span className="block text-white-400">{p.title}</span>
                     </h2>
-                    <p className="text-sm text-gray-300 mt-3">
-                      {p.type}
-                      {p.client ? ` • ${p.client}` : ""}
-                    </p>
+                    <p className="text-sm text-gray-300 mt-3">{p.type}</p>
                   </div>
 
                   <p className="text-gray-300 leading-relaxed">{p.objective}</p>
@@ -366,7 +522,9 @@ const GraphismePage: NextPage = () => {
                         onClick={() => openModal(p, 0)}
                         className="w-full h-full block"
                       >
-                        <img
+                        <Image
+                          width={1000}
+                          height={1000}
                           src={img0}
                           alt={p.title}
                           className="w-full h-full object-cover"
@@ -382,7 +540,9 @@ const GraphismePage: NextPage = () => {
                           onClick={() => openModal(p, 1)}
                           className="w-full h-full block"
                         >
-                          <img
+                          <Image
+                            width={1000}
+                            height={1000}
                             src={img1}
                             alt={`${p.title}-1`}
                             className="w-full h-full object-cover"
@@ -395,7 +555,9 @@ const GraphismePage: NextPage = () => {
                           onClick={() => openModal(p, 2)}
                           className="w-full h-full block"
                         >
-                          <img
+                          <Image
+                            width={1000}
+                            height={1000}
                             src={img2}
                             alt={`${p.title}-2`}
                             className="w-full h-full object-cover"
@@ -412,7 +574,9 @@ const GraphismePage: NextPage = () => {
                           onClick={() => openModal(p, 3)}
                           className="w-full h-full block"
                         >
-                          <img
+                          <Image
+                            width={1000}
+                            height={1000}
                             src={img3}
                             alt={`${p.title}-3`}
                             className="w-full h-full object-cover"
@@ -430,8 +594,8 @@ const GraphismePage: NextPage = () => {
                           </h3>
                           <p className="text-xs text-gray-400 mt-3 max-w-xl">
                             Exemples d’application : affiches, packaging,
-                            mockups web et sociaux — présenté ici en contexte
-                            pour mieux appréhender le rendu réel.
+                            mockups web et sociaux — présentés en contexte pour
+                            mieux appréhender le rendu réel.
                           </p>
                         </div>
                       </div>
@@ -474,7 +638,9 @@ const GraphismePage: NextPage = () => {
                   ‹
                 </button>
 
-                <img
+                <Image
+                  width={1000}
+                  height={1000}
                   src={modalProject.images[modalIndex]}
                   alt={`${modalProject.title}-${modalIndex}`}
                   className="max-h-[70vh] object-contain"
@@ -497,7 +663,9 @@ const GraphismePage: NextPage = () => {
                       i === modalIndex ? "border-white" : "border-transparent"
                     }`}
                   >
-                    <img
+                    <Image
+                      width={1000}
+                      height={1000}
                       src={src}
                       alt={`thumb-${i}`}
                       className="w-full h-full object-cover"
@@ -523,3 +691,40 @@ const GraphismePage: NextPage = () => {
 };
 
 export default GraphismePage;
+interface GridItemProps {
+  area: string;
+  icon: React.ReactNode;
+  title: string;
+  description: React.ReactNode;
+}
+
+const GridItem = ({ area, icon, title, description }: GridItemProps) => {
+  return (
+    <li className={` list-none ${area}`}>
+      <div className="relative h-auto rounded-2xl border p-2 md:rounded-3xl md:p-3">
+        <GlowingEffect
+          spread={40}
+          glow={true}
+          disabled={false}
+          proximity={64}
+          inactiveZone={0.01}
+        />
+        <div className="border-0.75 relative flex h-fit flex-col justify-between gap-6 overflow-hidden rounded-xl p-6 md:p-6 dark:shadow-[0px_0px_27px_0px_#2D2D2D]">
+          <div className="relative flex flex-1 flex-col justify-between gap-3">
+            <div className="w-fit rounded-lg border border-gray-600 p-2">
+              {icon}
+            </div>
+            <div className="space-y-3">
+              <h3 className="-tracking-4 pt-0.5 font-sans text-xl/[1.375rem] font-semibold text-balance text-black md:text-2xl/[1.875rem] dark:text-white">
+                {title}
+              </h3>
+              <h2 className="font-sans text-sm/[1.125rem] text-black md:text-base/[1.375rem] dark:text-neutral-400 [&_b]:md:font-semibold [&_strong]:md:font-semibold">
+                {description}
+              </h2>
+            </div>
+          </div>
+        </div>
+      </div>
+    </li>
+  );
+};

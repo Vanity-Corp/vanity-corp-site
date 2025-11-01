@@ -39,7 +39,9 @@ export const QuoteRequestEmail = ({
       <Body className="bg-gray-100 p-6">
         <Container className="border border-solid border-[#eaeaea] rounded my-[40px] mx-auto p-[20px] max-w-[465px]">
           <Section className="mt-[32px]">
-            <Img
+            <Image
+              width={1000}
+              height={1000}
               src="https://firebasestorage.googleapis.com/v0/b/pokemoh-ad0fa.appspot.com/o/vanity_corp_Icon_color.png?alt=media&token=d032c028-f706-44e7-9ce7-344be758e94d"
               alt="Cat"
               width="100"
