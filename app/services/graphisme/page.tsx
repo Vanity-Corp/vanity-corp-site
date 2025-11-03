@@ -8,6 +8,7 @@ import MagicBento from "@/components/MagicBento";
 // Méta-description : Identité visuelle, logo, webdesign, print, réseaux sociaux… Vanity Corp crée des visuels sur mesure pour entreprises et particuliers. Découvrez nos réalisations et contactez notre studio graphique à Paris.
 // Mots-clés : agence de graphisme Paris, studio graphique, identité visuelle, création de logo, design sur mesure, branding, direction artistique, webdesign, communication visuelle.
 import { GlowingEffect } from "@/components/ui/glowing-effect";
+import { DottedGlowBackground } from "@/components/ui/dotted-glow-background";
 interface Project {
   id: string;
   title: string;
@@ -60,7 +61,12 @@ const projects: ReadonlyArray<Project> = [
       "Un talk-show caritatif imaginé par l'ONG LIFE. L'objectif : créer une identité qui évoque l'univers du plateau télé tout en parlant à une génération connectée. Nous avons développé une charte graphique jeune et impactante, capable de réunir les natifs de YouTube comme les amateurs de télévision traditionnelle.",
     palette: ["#071717", "#8AE7C7", "#FFF8EE"],
     fonts: ["Montserrat", "Inter"],
-    images: [],
+    images: [
+      "/services/graphismes/life-talk-showcase2.jpg",
+      "/services/graphismes/life-talk-showcase.png",
+      "/services/graphismes/life-talk-main.png",
+      "/services/graphismes/life-talk-main.png",
+    ],
   },
   {
     id: "fraikin",
@@ -70,7 +76,12 @@ const projects: ReadonlyArray<Project> = [
       "Pour célébrer son anniversaire, le leader du transport Fraikin a souhaité moderniser son logo tout en conservant sa dimension institutionnelle. Mission : raffiner l'identité visuelle en renforçant robustesse, lisibilité et aspect premium.",
     palette: ["#062A3F", "#F2AA4C", "#FFFFFF"],
     fonts: ["Poppins", "Inter"],
-    images: [],
+    images: [
+      "/services/graphismes/fraikin-logos.png",
+      "/services/graphismes/fraikin-font.png",
+      "/services/graphismes/fraikin-colors.png",
+      "/services/graphismes/fraikin-main.png",
+    ],
   },
   {
     id: "campagne-grand-froid",
@@ -193,261 +204,181 @@ const GraphismePage: NextPage = () => {
   return (
     <main className="min-h-screen w-full bg-black text-white antialiased">
       {/* Banner */}
-      <header className="w-full bg-gradient-to-r from-zinc-900 via-black to-zinc-900 py-20">
-        <div className="max-w-6xl mx-auto px-6 text-center">
-          <h1 className="text-5xl md:text-6xl font-extrabold tracking-tight">
-            Graphisme sur mesure qui marque les esprits
-          </h1>
-          <p className="mt-4 text-lg text-gray-300 max-w-3xl mx-auto">
-            Chez Vanity Corp, on ne fait pas juste du joli. On crée des visuels
-            qui captent l’attention, racontent une histoire et rendent votre
-            marque impossible à ignorer.
-          </p>
-        </div>
-      </header>
 
+      <section
+        className={`relative flex flex-col h-[90vh] justify-between items-center text-center overflow-hidden `}
+        style={{
+          backgroundImage: `url(/graphism-hero-background.png)`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        }}
+      >
+        {/* Overlay for better text readability */}
+        <div className="absolute inset-0 bg-[#f8f5f1]/30 mix-blend-overlay" />
+
+        {/* Content */}
+        <div className="relative z-10 flex flex-col items-center justify-center flex-1 px-6">
+          {/* Header */}
+
+          {/* Main title */}
+          <div className="relative flex flex-col items-center justify-center">
+            <h1 className="text-[4vw] uppercase font-black text-indigo-500 leading-none">
+              Graphisme sur mesure qui <br />
+              marque les esprits
+            </h1>
+            <p className="mt-4 text-lg text-black max-w-3xl mx-auto">
+              Chez Vanity Corp, on ne fait pas juste du joli. On crée des
+              visuels qui captent l’attention, racontent une histoire et rendent
+              votre marque impossible à ignorer.
+            </p>
+          </div>
+        </div>
+
+        {/* Footer */}
+        <div className="relative z-10 w-full flex items-center justify-between px-6 py-4 text-xs text-gray-700">
+          <div className="flex gap-2">
+            <div className="w-5 h-5 border border-black rounded-full flex items-center justify-center">
+              S
+            </div>
+            <div className="w-5 h-5 border border-black rounded-full flex items-center justify-center">
+              ✦
+            </div>
+          </div>
+          <div className="flex-1 h-px bg-black mx-4" />
+          <div>March 2025 – All rights are reserved</div>
+        </div>
+      </section>
       {/* Service description */}
       <section className="w-[90%] max-w-[1920px] mx-auto mt-12 ">
-        <div className="text-center">
-          <h2 className="text-2xl font-bold mb-4">Présentation du service</h2>
-          <p className="text-gray-300 leading-relaxed mb-4">
-            Notre pôle graphique imagine, conçoit et décline tout ce qu’il faut
-            pour donner vie à votre image : identités visuelles & chartes
-            graphiques, logos et rebranding complets, affiches, flyers,
-            plaquettes et catalogues, packagings & étiquettes produits, design
-            de sites web et de landing pages, templates pour les réseaux
-            sociaux, motion design et habillages vidéo, présentations, documents
-            et supports commerciaux.
-          </p>
-
-          <p className="text-gray-300 leading-relaxed mb-4">
-            Pas de jargon, pas de chichi : on s’adapte à vous. Vous avez déjà
-            une idée claire ? On la met en forme. Vous partez d’une page blanche
-            ? On prend la température, on pose les bonnes questions, et on vous
-            propose plusieurs pistes créatives jusqu’à trouver celle qui fait
-            tilt.
-          </p>
-
-          <p className="text-gray-300 leading-relaxed">
-            Qu’on travaille pour une startup, une marque de luxe, une ONG ou une
-            PME, nos designs s’ajustent à chaque univers. On ne parle pas de
-            “style Vanity”, parce que notre spécialité, c’est justement de faire
-            briller le vôtre.
-          </p>
-        </div>
-        <MagicBento
-          textAutoHide={true}
-          enableStars={true}
-          enableSpotlight={true}
-          enableBorderGlow={true}
-          enableTilt={true}
-          enableMagnetism={false}
-          clickEffect={true}
-          spotlightRadius={300}
-          particleCount={12}
-          glowColor="132, 0, 255"
-        />
-
         {/* === BENTO GRID (title -> description -> diversified grid -> final line) === */}
         <div className="mt-10 bg-zinc-900 p-8 rounded-2xl shadow-lg">
           {/* Title */}
-          <h3 className="text-2xl font-bold text-white">
+          <h3 className="text-5xl font-bold uppercase text-white">
             Du logo au site web, on s’occupe de tout
           </h3>
 
           {/* Description (exact) */}
-          <p className="mt-3 text-gray-300">
+          <p className="mt-3 text-gray-300 text-2xl">
             Notre pôle graphique imagine, conçoit et décline tout ce qu’il faut
             pour donner vie à votre image :
           </p>
 
-          {/* Diversified grid */}
-          <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            {/*
-              1 - image LEFT, text RIGHT
-            */}
-            <div className="rounded-2xl bg-zinc-800 shadow-sm overflow-hidden">
-              <div className="flex flex-col md:flex-row items-stretch">
-                <Image
-                  width={1000}
-                  height={1000}
-                  src="/services/graphismes/graphics-colors.webp"
-                  alt="Identités visuelles"
-                  className="w-full md:w-32 h-32 md:h-auto object-cover flex-none"
-                />
-                <div className="p-4">
-                  <div className="text-sm font-semibold">
-                    Identités visuelles & chartes graphiques
-                  </div>
-                  <div className="text-xs text-gray-400 mt-2">
-                    Logos, chartes graphiques et déclinaisons complètes pour
-                    garantir une image cohérente.
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/*
-              2 - image TOP, text BOTTOM (centered)
-            */}
-            <div className="rounded-2xl bg-zinc-900 shadow-sm overflow-hidden flex flex-col items-center text-center">
-              <Image
-                width={1000}
-                height={1000}
-                src="/services/graphismes/logo.webp"
-                alt="Logos et rebranding"
-                className="w-full h-28 object-cover"
-              />
-              <div className="p-4">
-                <div className="text-sm font-semibold">
-                  Logos et rebranding complets
-                </div>
-                <div className="text-xs text-gray-400 mt-2">
-                  Refonte d&apos;identité et modernisation pour renforcer la
-                  crédibilité.
-                </div>
-              </div>
-            </div>
-
-            {/*
-              3 - image BOTTOM, text TOP
-            */}
-            <div className="rounded-2xl bg-zinc-900 shadow-sm overflow-hidden flex flex-col">
-              <div className="p-4">
-                <div className="text-sm font-semibold">
-                  Affiches, flyers, plaquettes et catalogues
-                </div>
-                <div className="text-xs text-gray-400 mt-2">
-                  Affiches, flyers, plaquettes, catalogues.
-                </div>
-              </div>
-              <Image
-                width={1000}
-                height={1000}
-                src="/services/graphismes/graphics-colors.webp"
-                alt="Affiches et flyers"
-                className="w-full h-28 object-cover mt-auto"
-              />
-            </div>
-
-            {/*
-              4 - image RIGHT, text LEFT (reverse on md)
-            */}
-            <div className="rounded-2xl bg-zinc-800 shadow-sm overflow-hidden">
-              <div className="flex flex-col md:flex-row-reverse items-stretch">
-                <Image
-                  width={1000}
-                  height={1000}
-                  src="/services/graphismes/graphics-colors.webp"
-                  alt="Packagings"
-                  className="w-full md:w-32 h-32 md:h-auto object-cover flex-none"
-                />
-                <div className="p-4">
-                  <div className="text-sm font-semibold">
-                    Packagings & étiquettes produits
-                  </div>
-                  <div className="text-xs text-gray-400 mt-2">
-                    Packaging & étiquette produit.
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/*
-              5 - image as background overlay (text on top)
-            */}
-            <div className="rounded-2xl relative bg-zinc-900 shadow-sm overflow-hidden">
-              <Image
-                width={1000}
-                height={1000}
-                src="/services/graphismes/graphics-colors.webp"
-                alt="Design web"
-                className="absolute inset-0 w-full h-full object-cover opacity-30"
-              />
-              <div className="relative p-4">
-                <div className="text-sm font-semibold">
-                  Design de sites web et de landing pages
-                </div>
-                <div className="text-xs text-gray-200/80 mt-2">
-                  Design de sites, landing pages (UX & UI).
-                </div>
-              </div>
-            </div>
-
-            {/*
-              6 - image CENTERED above small title (compact)
-            */}
-            <div className="rounded-2xl bg-zinc-800 shadow-sm flex flex-col items-center p-4">
-              <Image
-                width={1000}
-                height={1000}
-                src="/services/graphismes/graphics-colors.webp"
-                alt="Templates sociaux"
-                className="w-20 h-20 rounded-lg object-cover"
-              />
-              <div className="mt-3 text-sm font-semibold text-center">
-                Templates pour les réseaux sociaux
-              </div>
-              <div className="text-xs text-gray-400 mt-2 text-center">
-                Templates optimisés & kits.
-              </div>
-            </div>
-
-            {/*
-              7 - two-column style inside tile: left text, right tall image
-            */}
-            <div className="rounded-2xl bg-zinc-900 shadow-sm overflow-hidden">
-              <div className="grid grid-cols-2">
-                <div className="p-4 flex flex-col justify-center">
-                  <div className="text-sm font-semibold">
-                    Motion design et habillages vidéo
-                  </div>
-                  <div className="text-xs text-gray-400 mt-2">
-                    Animations, habillages vidéo.
-                  </div>
-                </div>
-                <div className="col-span-1">
-                  <Image
-                    width={1000}
-                    height={1000}
-                    src="/services/graphismes/graphics-colors.webp"
-                    alt="Motion"
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-              </div>
-            </div>
-
-            {/*
-              8 - minimal card: small image bottom-left, text top-right
-            */}
-            <div className="rounded-2xl bg-zinc-800 shadow-sm p-4 relative overflow-hidden">
-              <div className="text-sm font-semibold">
-                Présentations, documents et supports commerciaux
-              </div>
-              <div className="text-xs text-gray-400 mt-2">
-                Présentations, documents & supports commerciaux.
-              </div>
-              <Image
-                width={1000}
-                height={1000}
-                src="/services/graphismes/graphics-colors.webp"
-                alt="Présentations"
-                className="absolute left-4 bottom-4 w-36 h-24 rounded-md object-cover border border-white/6"
-              />
-            </div>
-          </div>
-
-          {/* Final line (exact) */}
-          <p className="mt-6 text-xs text-gray-400">
-            Bref, tout ce qui s’imprime, s’affiche ou se scrolle.
-          </p>
+          <MagicBento
+            textAutoHide={true}
+            enableStars={true}
+            enableSpotlight={true}
+            enableBorderGlow={true}
+            enableTilt={true}
+            enableMagnetism={false}
+            clickEffect={true}
+            spotlightRadius={300}
+            particleCount={12}
+            glowColor="132, 0, 255"
+          />
         </div>
         {/* === fin bento grid === */}
       </section>
+      {/* === Début : Méthode & Adaptabilité (coller ici) === */}
+      <section
+        id="method-adapt"
+        aria-labelledby="method-heading"
+        className="w-[90%] max-w-[1920px] mx-auto  mt-12"
+      >
+        {/* SECTION 1 - Méthode */}
+        <div className="py-16 relative md:py-24 bg-zinc-900 rounded-2xl shadow-lg overflow-hidden">
+          <div className="container mx-auto px-6 flex justify-between gap-12 items-center">
+            {/* Texte */}
+            <div className="space-y-6 w-2/3">
+              <h2
+                id="method-heading"
+                className="text-3xl md:text-4xl lg:text-5xl  uppercase font-extrabold leading-tight text-white"
+              >
+                Une méthode simple et humaine
+              </h2>
+
+              <div className="space-y-4 text-lg text-gray-200">
+                <p>Pas de jargon, pas de chichi : on s’adapte à vous.</p>
+
+                <p className="font-medium">
+                  Vous avez déjà une idée claire ? On la met en forme.
+                </p>
+
+                <p>
+                  Vous partez d’une page blanche ? On prend la température, on
+                  pose les bonnes questions, et on vous propose plusieurs pistes
+                  créatives jusqu’à trouver celle qui fait tilt.
+                </p>
+
+                <p>
+                  Notre but, c’est pas de vous imposer notre style. C’est de
+                  créer une image qui vous ressemble, et qui tape juste.
+                </p>
+              </div>
+            </div>
+
+            {/* Visuel */}
+            <div className="relative rounded-2xl w-1/3 overflow-hidden h-64 md:h-96">
+              <Image
+                src="/images/methode-humaine.jpg"
+                alt="Illustration méthode humaine"
+                fill
+                className="object-cover"
+                sizes="(max-width: 768px) 100vw, 50vw"
+              />
+            </div>
+          </div>
+        </div>
+
+        {/* SECTION 2 - Adaptabilité */}
+        <div className="py-16 md:py-24 mt-10 bg-zinc-900 rounded-2xl shadow-lg overflow-hidden">
+          <div className="container mx-auto px-6 md:px-8 flex  justify-between gap-12 items-center">
+            {/* Visuel (gauche sur desktop) */}
+            <div className="relative rounded-2xl w-1/3 overflow-hidden h-64 md:h-96 order-1 md:order-none">
+              <Image
+                src="/images/adaptable.jpg"
+                alt="Illustration design adaptable"
+                fill
+                className="object-cover"
+                sizes="(max-width: 768px) 100vw, 50vw"
+              />
+            </div>
+
+            {/* Texte */}
+            <div className="space-y-6 w-2/3">
+              <h3
+                id="adapt-heading"
+                className="text-3xl md:text-4xl lg:text-5xl uppercase font-extrabold leading-tight text-white"
+              >
+                Nos créations s’adaptent à tout — comme nous
+              </h3>
+
+              <div className="space-y-4 text-lg text-gray-200">
+                <p>
+                  Qu’on travaille pour une startup, une marque de luxe, une ONG
+                  ou une PME, nos designs s’ajustent à chaque univers.
+                </p>
+
+                <p>
+                  On ne parle pas de “style Vanity”, parce que notre spécialité,
+                  c’est justement de faire briller le vôtre.
+                </p>
+
+                <p>
+                  Du minimalisme épuré à l’univers coloré et audacieux : on sait
+                  tout faire, et surtout, on le fait bien.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      {/* === Fin : Méthode & Adaptabilité === */}
 
       {/* Projects */}
-      <section className="space-y-28 w-[90%] max-w-[1920px] mx-auto  pb-32 mt-20">
+      <section className="space-y-28 w-[90%] max-w-[1920px] mx-auto  pb-32 mt-40">
+        <h3 className="text-5xl font-bold uppercase text-white">
+          Quelques réalisations
+        </h3>
         {projects.map((p) => {
           const isVisible = Boolean(visible[p.id]);
 
@@ -462,7 +393,7 @@ const GraphismePage: NextPage = () => {
               key={p.id}
               ref={setSectionRef(p.id)}
               data-id={p.id}
-              className={`h-screen flex items-center justify-center transition-all duration-700 ease-in-out transform ${
+              className={` flex items-center justify-center transition-all duration-700 ease-in-out transform ${
                 isVisible
                   ? "opacity-100 translate-y-0"
                   : "opacity-0 translate-y-8"
@@ -472,7 +403,7 @@ const GraphismePage: NextPage = () => {
                 {/* Left: textual column (centered vertically) */}
                 <div className="w-full lg:w-1/3 flex flex-col gap-6 items-start lg:items-start">
                   <div>
-                    <h2 className="text-3xl md:text-6xl font-extrabold tracking-tight leading-tight">
+                    <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight leading-tight">
                       <span className="block text-white-400">{p.title}</span>
                     </h2>
                     <p className="text-sm text-gray-300 mt-3">{p.type}</p>

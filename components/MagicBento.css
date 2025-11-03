@@ -65,6 +65,7 @@
 .card__label {
   font-size: 25px;
   text-transform: uppercase;
+  font-weight: 800;
 }
 
 .card__title,
@@ -83,6 +84,7 @@
   font-size: 16px;
   line-height: 1.2;
   opacity: 0.9;
+  font-weight: 600;
 }
 
 .card--text-autohide .card__title,

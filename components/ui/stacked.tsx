@@ -9,6 +9,7 @@ import { WrapperEffect } from "./Wrapper";
 import { motion } from "framer-motion";
 import { ContactModal } from "../ContactModal";
 import Link from "next/link";
+import Image from "next/image";
 const StackedCard = () => {
   useEffect(() => {
     StackAnimation();
@@ -81,20 +82,40 @@ const StackedCard = () => {
           className={styles.right}
         >
           <div className={styles.cards}>
-            <div className={`${styles.card} bg-white shadow-md card `}>
-              <div className="text-[100px] text-center">💻</div>
-              <div className="text-2xl text-black font-semibold text-center">
+            <div
+              className={`${styles.card} bg-white shadow-md card flex justify-between`}
+            >
+              <Image
+                src="/editing.webp"
+                width={100}
+                height={100}
+                alt="illustration"
+                className="h-2/3 w-full object-contain"
+              />
+              <div className="text-2xl h-1/3 text-black font-semibold text-center">
                 +1623 heures de montage
               </div>
             </div>
             <div className={`${styles.card} bg-white shadow-md card`}>
-              <div className="text-[100px] text-center">💡</div>
+              <Image
+                src="/lightbolb.webp"
+                width={100}
+                height={100}
+                alt="illustration"
+                className="h-2/3 w-full object-contain"
+              />
               <div className="text-2xl text-black font-semibold text-center">
                 +590 idées crées
               </div>
             </div>
             <div className={`${styles.card} bg-white shadow-md card`}>
-              <div className="text-[100px] text-center">🤯</div>
+              <Image
+                src="/subscribers.webp"
+                width={100}
+                height={100}
+                alt="illustration"
+                className="h-2/3 w-full object-contain"
+              />
               <div className="text-2xl text-black font-semibold text-center">
                 Boom ! Des centaines d'abonnés gagnés
               </div>

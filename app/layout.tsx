@@ -6,7 +6,11 @@ import Sidebar from "@/components/Sidebar";
 import { Footer } from "@/components/Footer";
 import GoogleAnalytics from "@/components/GoogleAnalytics";
 
-const montserrat = Montserrat({ subsets: ["latin"], weight: ["600"] });
+const montserrat = Montserrat({
+  subsets: ["latin"],
+  weight: ["400", "600", "700", "800", "900"],
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: "Vanity corp | Agence de communication créative 360",
