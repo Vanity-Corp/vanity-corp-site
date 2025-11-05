@@ -3,12 +3,8 @@ import React, { useEffect, useRef, useState, useCallback } from "react";
 import type { NextPage } from "next";
 import Image from "next/image";
 import MagicBento from "@/components/MagicBento";
-// SEO & métadonnées (extrait du document Word)
-// Méta-titre : Agence de graphisme à Paris – Créations sur mesure | Vanity Corp
-// Méta-description : Identité visuelle, logo, webdesign, print, réseaux sociaux… Vanity Corp crée des visuels sur mesure pour entreprises et particuliers. Découvrez nos réalisations et contactez notre studio graphique à Paris.
-// Mots-clés : agence de graphisme Paris, studio graphique, identité visuelle, création de logo, design sur mesure, branding, direction artistique, webdesign, communication visuelle.
 import { GlowingEffect } from "@/components/ui/glowing-effect";
-import { DottedGlowBackground } from "@/components/ui/dotted-glow-background";
+
 interface Project {
   id: string;
   title: string;
@@ -613,10 +609,6 @@ const GraphismePage: NextPage = () => {
           </div>
         </div>
       )}
-
-      <footer className="py-12 text-center text-sm text-gray-500">
-        © {new Date().getFullYear()} Vanity Corp — Tous droits réservés
-      </footer>
     </main>
   );
 };

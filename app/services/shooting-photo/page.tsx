@@ -3,11 +3,12 @@ import React from "react";
 import { GridBeams } from "@/components/ui/grid-beams";
 import ImageMouseTrail from "@/components/ui/mousetrail";
 import { WorksGrid } from "@/components/WorksGrid";
+import { Footer } from "@/components/Footer";
 const images = [
   "/img/DORIA.webp",
   "/img/gallery (4).webp",
   "/img/gallery (3).webp",
-  "img/LesFrangines.webp",
+  "/img/LesFrangines.webp",
   "/img/gallery-1.webp",
   "/img/gallery (9).webp",
   "/img/gallery (8).webp",

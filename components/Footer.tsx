@@ -32,7 +32,7 @@ export function Footer() {
       email: "",
     },
   });
-
+  const currentYear = new Date().getFullYear();
   function onSubmit(data: z.infer<typeof FormSchema>) {
     toast({
       title: "You submitted the following values:",
@@ -80,7 +80,9 @@ export function Footer() {
           <ul className="font-extralight w-full	flex flex-col gap-2 items-start flex-wrap">
             <li>À propos de nous</li>
             <li>Services</li>
-            <li>Réalisations</li>
+            <li>
+              <Link href={"/realisations"}>Réalisations</Link>
+            </li>
             <li>Vaniteam</li>
             <li>Actualités</li>
           </ul>
@@ -180,7 +182,9 @@ export function Footer() {
             <Link href="/mentions-legales">Mentions légales</Link>
           </div>
           <div>
-            <p>Droits d’auteur © 2023-2024 Vanity. Tous droits réservés. </p>
+            <p>
+              Droits d’auteur © {currentYear} Vanity. Tous droits réservés.{" "}
+            </p>
           </div>
         </div>
       </div>
