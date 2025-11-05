@@ -15,9 +15,13 @@ const videos = {
     "https://www.youtube.com/embed/bvN1oaxa6UY",
     "https://www.youtube.com/embed/LBcJyhv7HLU",
     "https://www.youtube.com/embed/SVEWluZm5Gg",
+    "https://www.youtube.com/embed/GkVpxsazbnQ",
+    "https://www.youtube.com/embed/N_vpEkYbeEs",
   ],
   clipMusicaux: [
     "https://www.youtube.com/embed/-w3Es3FWQbc",
+    "https://www.youtube.com/embed/fAjy9ribzBg",
+    "https://www.youtube.com/embed/t-bF6ksRqzY",
     "https://www.youtube.com/embed/3lnQqy2rEas",
     "https://www.youtube.com/embed/Kz-Wb80y1Ew",
     "https://www.youtube.com/embed/wtnoCLyCaC8",
@@ -25,6 +29,9 @@ const videos = {
   ],
   videosYoutube: [
     "https://www.youtube.com/embed/dJSDUQT4-8A",
+    "https://www.youtube.com/embed/wEBKnyGC8qQ",
+    "https://www.youtube.com/embed/wAZa3jZhC_g",
+    "https://www.youtube.com/embed/fN6ajIpiK4A",
     "https://www.youtube.com/embed/-Mi9ZGXi6CA",
     "https://www.youtube.com/embed/0hP97zNWvLc",
     "https://www.youtube.com/embed/Q9kkYBtzoqw",
@@ -32,12 +39,17 @@ const videos = {
     "https://www.youtube.com/embed/mtHZkhw22dk",
   ],
   reseauxSociaux: [
+    "https://www.youtube.com/embed/GPFSQ6MOyas",
+    "https://www.youtube.com/embed/4MECzGfqC2U",
+    "https://www.youtube.com/embed/SMsgsQ2KAEU",
+    "https://www.youtube.com/embed/puyR9MhTNKM",
     "https://www.youtube.com/embed/90WkKZWJrT0",
     "https://www.youtube.com/embed/kfROVwkBIIk",
     "https://www.youtube.com/embed/z_BfOMxJPOA",
     "https://www.youtube.com/embed/Z8AAFNOmkZo",
     "https://www.youtube.com/embed/tcldKtr6NMU",
   ],
+  documentaires: ["https://www.youtube.com/embed/6UwfLK1Th0I"],
   mariages: ["https://www.youtube.com/embed/mBy8MELq7r4"],
 };
 
@@ -62,6 +74,9 @@ export default function VideoTabs() {
           value="reseauxSociaux"
         >
           Réseaux Sociaux
+        </TabsTrigger>
+        <TabsTrigger className="text-[10px] md:text-base" value="documentaires">
+          Documentaires
         </TabsTrigger>
         <TabsTrigger className="text-[10px] md:text-base" value="mariages">
           Mariages

@@ -18,7 +18,7 @@ const images = [
 export default function index() {
   return (
     <main className="w-full flex flex-col justify-center items-center ">
-      <section className="w-full h-[50vh] flex flex-col justify-center items-center ">
+      <section className="w-full h-[90vh] flex flex-col justify-center items-center ">
         <GridBeams
           gridSize={0}
           gridColor="rgba(255, 255, 255, 0.2)"
@@ -28,7 +28,7 @@ export default function index() {
           rayLength="20vh"
           gridFadeStart={5}
           gridFadeEnd={90}
-          className="h-full w-full"
+          className="h-full w-full flex justify-center items-center"
         >
           <ImageMouseTrail
             items={images}
@@ -36,8 +36,9 @@ export default function index() {
             distance={25}
             imgClass="sm:w-40 w-28 sm:h-48 h-36"
             fadeAnimation={true}
+            className="h-[90vh] w-[100vw]"
           >
-            <article className="relative z-40 mix-blend-difference">
+            <article className="relative z-40 mix-blend-difference flex justify-center items-center">
               <h1 className="text-2xl md:text-7xl px-4 font-bold text-neutral-700 dark:text-white max-w-4xl leading-relaxed lg:leading-snug text-center mx-auto w-full mix-blend-difference">
                 Photo shooting
               </h1>

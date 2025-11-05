@@ -4,20 +4,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { motion } from "framer-motion";
-import { Button } from "@/components/ui/button";
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
+import { ArrowLeft } from "lucide-react";
 import { toast } from "@/components/ui/use-toast";
-import { HoverBorderGradient } from "./ui/hover-border-gradient";
 import Link from "next/link";
+import Image from "next/image";
 const FormSchema = z.object({
   email: z
     .string()
@@ -45,9 +35,10 @@ export function Footer() {
   }
 
   return (
-    <footer className="w-full flex flex-col  justify-center items-center bg-black text-white font-bold px-32 py-10">
+    <footer className="w-full flex flex-col justify-center items-center bg-black text-white font-bold px-32 py-10">
       <div className="w-full  flex flex-col  items-center justify-center">
         <div className="flex w-full md:items-start items-center justify-between md:flex-row flex-col gap-10">
+          {/*
           <Form {...form}>
             <form
               onSubmit={form.handleSubmit(onSubmit)}
@@ -76,7 +67,19 @@ export function Footer() {
               </HoverBorderGradient>
             </form>
           </Form>
-
+          */}
+          <div className="flex justify-between gap-4 flex-col">
+            <Image
+              src="/vanity_corp_logo.svg"
+              width={1000}
+              height={1000}
+              alt="logo"
+            />
+            <div className="flex flex-col justify-start gap-2 items-center">
+              <p className="">Suivez nous sur les réseaux</p>
+              <ArrowLeft />
+            </div>
+          </div>
           <ul className="font-extralight w-full	flex flex-col gap-2 items-start flex-wrap">
             <li>À propos de nous</li>
             <li>Services</li>
@@ -87,7 +90,7 @@ export function Footer() {
             <li>Actualités</li>
           </ul>
           <div className="w-full flex flex-col gap-2">
-            122 Rue Amelot, 75011 Paris France
+            Paris 11eme & Massy 91300
           </div>
           <div className=" flex flex-col justify-between gap-10">
             <a href="mailto:contact@vanitycorp.fr">contact@vanitycorp.fr</a>

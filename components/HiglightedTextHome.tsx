@@ -24,7 +24,7 @@ export function HighlightedTextHome() {
         « La clé c&apos;est le{" "}
         <Highlight className="text-black dark:text-white"> bonheur,</Highlight>{" "}
         <br />
-        vendez du{" "}
+        filmez du{" "}
         <Highlight className="text-black dark:text-white"> bonheur !</Highlight>
         »
       </motion.h1>
