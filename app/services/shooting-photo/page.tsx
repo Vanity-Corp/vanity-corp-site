@@ -49,6 +49,7 @@ export default function index() {
       <section className="w-full flex flex-col justify-center items-center ">
         <WorksGrid />
       </section>
+      <Footer />
     </main>
   );
 }

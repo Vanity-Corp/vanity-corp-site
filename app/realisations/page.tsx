@@ -13,6 +13,7 @@ export default function Realisations() {
         className="text-2xl md:text-7xl h-[50vh] w-full flex justify-center items-center"
       />
       <WorkFocusCards />
+      <Footer />
     </div>
   );
 }

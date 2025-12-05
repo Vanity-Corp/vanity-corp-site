@@ -4,6 +4,7 @@ import type { NextPage } from "next";
 import Image from "next/image";
 import MagicBento from "@/components/MagicBento";
 import { GlowingEffect } from "@/components/ui/glowing-effect";
+import { Footer } from "@/components/Footer";
 
 interface Project {
   id: string;
@@ -609,6 +610,7 @@ const GraphismePage: NextPage = () => {
           </div>
         </div>
       )}
+      <Footer />
     </main>
   );
 };

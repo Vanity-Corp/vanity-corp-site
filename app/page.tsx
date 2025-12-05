@@ -309,6 +309,7 @@ export default function Home() {
       <section className="w-full flex flex-col gap-10 justify-center items-center">
         {" "}
       </section>{" "}
+      <Footer />
     </div>
   );
 }
