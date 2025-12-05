@@ -77,7 +77,7 @@ export default function Home() {
     >
       {" "}
       <BannerVideo
-        src="/videos/SHOWREEL 2025_2026_V5.mp4"
+        src="/videos/SHOWREEL 2025_2026_V6SQ2.mp4"
         poster="/fallback.webp"
       />{" "}
       <div className="hidden md:block">

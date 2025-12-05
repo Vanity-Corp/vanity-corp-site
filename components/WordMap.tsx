@@ -1,6 +1,4 @@
-"use client";
 import WorldMap from "@/components/ui/world-map";
-import { motion } from "motion/react";
 
 export function WorldMapSection() {
   return (
@@ -9,33 +7,45 @@ export function WorldMapSection() {
         dots={[
           {
             start: {
-              lat: 64.2008,
-              lng: -149.4937,
-            }, // Alaska (Fairbanks)
+              lat: 37,
+              lng: 2.352222,
+              label: "Paris",
+            },
             end: {
-              lat: 34.0522,
-              lng: -118.2437,
-            }, // Los Angeles
+              lat: 25.0522,
+              lng: -95.2437,
+            }, // usa
           },
           {
-            start: { lat: 64.2008, lng: -149.4937 }, // Alaska (Fairbanks)
-            end: { lat: -15.7975, lng: -47.8919 }, // Brazil (Brasília)
+            start: {
+              lat: 37,
+              lng: 2.352222,
+              label: "Paris",
+            },
+            end: {
+              lat: 55.0522,
+              lng: -110.2437,
+            }, // canada
           },
           {
-            start: { lat: -15.7975, lng: -47.8919 }, // Brazil (Brasília)
-            end: { lat: 38.7223, lng: -9.1393 }, // Lisbon
+            start: { lat: 37, lng: 2.352222 },
+            end: { lat: 35.948002, lng: 7.44813 }, // suisse
           },
           {
-            start: { lat: 51.5074, lng: -0.1278 }, // London
-            end: { lat: 28.6139, lng: 77.209 }, // New Delhi
+            start: { lat: 37, lng: 2.352222 },
+            end: { lat: 40.845539, lng: 4.35571 }, // Belgium
           },
           {
-            start: { lat: 28.6139, lng: 77.209 }, // New Delhi
-            end: { lat: 43.1332, lng: 131.9113 }, // Vladivostok
+            start: { lat: 37, lng: 2.352222 },
+            end: { lat: 35.6139, lng: 90.209 }, // Asia
           },
           {
-            start: { lat: 28.6139, lng: 77.209 }, // New Delhi
-            end: { lat: -1.2921, lng: 36.8219 }, // Nairobi
+            start: { lat: 37, lng: 2.352222 },
+            end: { lat: -40.1332, lng: 131.9113 }, // Australia
+          },
+          {
+            start: { lat: 37, lng: 2.352222 },
+            end: { lat: -1.2921, lng: 15.8219 }, // Africa
           },
         ]}
       />
