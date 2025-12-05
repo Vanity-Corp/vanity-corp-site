@@ -1,8 +1,7 @@
 "use client";
+import dynamic from "next/dynamic";
 import { useEffect, useRef, useState } from "react";
-import Autoplay from "embla-carousel-autoplay";
 import { Carousel, CarouselContent } from "@/components/ui/carousel";
-import HeaderCarousel from "@/components/HeaderCarousel";
 import { Button } from "@/components/ui/button";
 import StackedCard from "@/components/ui/stacked";
 import { ExpertiseTabs } from "@/components/expertiseTabs";
@@ -16,16 +15,22 @@ import VideoTabs from "@/components/VideoTabs";
 import { HoverBorderGradient } from "@/components/ui/hover-border-gradient";
 import VaniTeam from "@/components/VaniTeam";
 import { BrandSlider } from "@/components/BrandSlider";
-import { News } from "@/components/News";
 import { Footer } from "@/components/Footer";
-import BannerSlider from "@/components/BannerSlider";
 import Link from "next/link";
 import { VaniteamGrid } from "@/components/VaniyTeamGrid";
 import { CarouselCard } from "@/components/CarouselCards";
 import { ClientSection } from "@/components/ClientSection";
-import { WorldMapSection } from "@/components/WordMap";
-import BannerVideo from "@/components/ui/BannerVideo";
 
+import BannerVideo from "@/components/ui/BannerVideo";
+const WorldMapSection = dynamic(
+  () => import("@/components/WordMap").then((mod) => mod.WorldMapSection),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="w-full aspect-[2/1] rounded-lg bg-neutral-200/30 animate-pulse" />
+    ),
+  }
+);
 const tabColors = {
   combo: "#493399",
   creation: "#5A2848",
@@ -141,7 +146,8 @@ export default function Home() {
           {" "}
           LE MONDE EST DANS NOS CARTES SD{" "}
         </motion.h2>{" "}
-        <div className="flex flex-col md:pl-32 md:flex-row items-center justify-center w-full">
+        <WorldMapSection />
+        <div className="flex flex-col md:flex-row items-center justify-center w-full">
           {" "}
           <div className="flex flex-col items-center justify-center">
             {" "}
@@ -150,7 +156,7 @@ export default function Home() {
               animate={{ x: "0%" }}
               transition={{ duration: 0.9, ease: "easeInOut" }}
               viewport={{ once: true }}
-              className="text-base md:text-2xl font-normal text-neutral-700 dark:text-neutral-200 mt-2 p-5"
+              className="text-base md:text-2xl text-center font-normal text-neutral-700 dark:text-neutral-200 mt-2 p-5"
             >
               {" "}
               On ne sait pas si l’herbe est plus verte ailleurs mais nos caméras

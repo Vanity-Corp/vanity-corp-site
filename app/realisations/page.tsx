@@ -1,7 +1,6 @@
 import { Footer } from "@/components/Footer";
 import SparklesText from "@/components/ui/sparkles-text";
 import { WorkFocusCards } from "@/components/WorkCards";
-
 import React from "react";
 
 export default function Realisations() {
@@ -10,8 +9,9 @@ export default function Realisations() {
       <SparklesText
         text="On vous en met "
         text2="plein les yeux !"
-        className="text-2xl md:text-7xl h-[50vh] w-full flex justify-center items-center"
+        className="text-2xl md:text-7xl h-[50vh] w-full flex text-center justify-center items-center"
       />
+
       <WorkFocusCards />
       <Footer />
     </div>

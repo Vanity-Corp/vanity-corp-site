@@ -4,7 +4,7 @@ import { motion } from "motion/react";
 
 export function WorldMapSection() {
   return (
-    <div className="my-8  w-1/2">
+    <div className="my-8 w-[80%]">
       <WorldMap
         dots={[
           {

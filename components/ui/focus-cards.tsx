@@ -15,7 +15,7 @@ export const Card = React.memo(
     hovered: number | null;
     setHovered: React.Dispatch<React.SetStateAction<number | null>>;
   }) => (
-    <a href={card.link}>
+    <a href={card.link} target="_blank">
       <div
         onMouseEnter={() => setHovered(index)}
         onMouseLeave={() => setHovered(null)}
