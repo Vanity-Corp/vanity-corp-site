@@ -1,24 +1,23 @@
 /* eslint-disable react/no-unescaped-entities */
-// components/Features.js
 "use client";
+
 import { useEffect } from "react";
-import styles from "./Features.module.css"; // Importer le CSS
 import StackAnimation from "@/lib/animation";
 import { HoverBorderGradient } from "./hover-border-gradient";
-import { WrapperEffect } from "./Wrapper";
 import { motion } from "framer-motion";
-import { ContactModal } from "../ContactModal";
 import Link from "next/link";
 import Image from "next/image";
+
 const StackedCard = () => {
   useEffect(() => {
     StackAnimation();
   }, []);
 
   return (
-    <div className={`${styles.center} h-screen `}>
-      <div className={`${styles.stackArea} stack-area`}>
-        <div className={`${styles.left} pl-32`}>
+    <div className="center">
+      <div className="stack-area">
+        {/* LEFT */}
+        <div className="left pl-32 max-[800px]:relative max-[800px]:w-screen">
           <motion.div
             initial={{ x: "-100%" }}
             animate={{ x: "0%" }}
@@ -35,7 +34,7 @@ const StackedCard = () => {
               whileInView={{ x: "0%" }}
               transition={{ duration: 1.3, ease: "easeInOut" }}
               viewport={{ once: true }}
-              className="text-base md:text-2xl font-normal text-neutral-700 dark:text-neutral-200 mt-2 "
+              className="text-base md:text-2xl font-normal text-neutral-700 dark:text-neutral-200 mt-2"
             >
               Vanity Corp est le combo parfait d'un génie du marketing, d'un
               créateur de contenu qui fait le buzz auprès de centaines de
@@ -71,6 +70,8 @@ const StackedCard = () => {
             </motion.div>
           </div>
         </div>
+
+        {/* RIGHT */}
         <motion.div
           initial={{ opacity: 0, scale: 0.5 }}
           whileInView={{ opacity: 1, scale: 1 }}
@@ -79,12 +80,10 @@ const StackedCard = () => {
             delay: 0.5,
             ease: [0, 0.71, 0.2, 1.01],
           }}
-          className={styles.right}
+          className="right"
         >
-          <div className={styles.cards}>
-            <div
-              className={`${styles.card} bg-white shadow-md card flex justify-between`}
-            >
+          <div className="cards">
+            <div className="card z-[4]">
               <Image
                 src="/editing.webp"
                 width={100}
@@ -92,11 +91,12 @@ const StackedCard = () => {
                 alt="illustration"
                 className="h-2/3 w-full object-contain"
               />
-              <div className="text-2xl h-1/3 text-black font-semibold text-center">
+              <div className="text-2xl text-black font-semibold text-center">
                 +1623 heures de montage
               </div>
             </div>
-            <div className={`${styles.card} bg-white shadow-md card`}>
+
+            <div className="card z-[3]">
               <Image
                 src="/lightbolb.webp"
                 width={100}
@@ -108,7 +108,8 @@ const StackedCard = () => {
                 +590 idées crées
               </div>
             </div>
-            <div className={`${styles.card} bg-white shadow-md card`}>
+
+            <div className="card z-[2]">
               <Image
                 src="/subscribers.webp"
                 width={100}

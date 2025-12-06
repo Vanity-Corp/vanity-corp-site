@@ -124,3 +124,54 @@ header-list {
     }
   }
 }
+
+@layer components {
+  .center {
+    @apply w-full h-fit flex flex-col items-center justify-center;
+  }
+
+  .stack-area {
+    @apply w-full h-[300vh] relative flex justify-center;
+  }
+
+  .left,
+  .right {
+    @apply h-screen flex items-center justify-center sticky top-0 box-border basis-1/2;
+  }
+
+  .left {
+    @apply flex-col;
+  }
+
+  .cards {
+    @apply w-full h-full relative;
+  }
+
+  .card {
+    @apply w-[350px] h-[350px] box-border p-[35px] rounded-[6mm]
+           flex justify-between flex-col absolute top-1/2 left-1/2
+           bg-white shadow-md transition-all duration-500 ease-in-out
+           -translate-x-1/2 -translate-y-1/2;
+  }
+
+  .sub {
+    @apply text-[20px] font-bold;
+  }
+
+  .content {
+    @apply text-[44px] font-bold leading-[54px];
+  }
+
+  .subTitle {
+    @apply w-[420px] text-[14px] mt-[30px];
+  }
+
+  .subTitle button {
+    @apply text-[14px] px-[30px] py-[15px] bg-black text-white rounded-[8mm] mt-[20px] cursor-pointer;
+  }
+
+  .top,
+  .bottom {
+    @apply w-full h-screen  text-[70px] flex items-center justify-center;
+  }
+}
