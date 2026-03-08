@@ -8,7 +8,7 @@ const images = [
   "/img/DORIA.webp",
   "/img/gallery (4).webp",
   "/img/gallery (3).webp",
-  "/img/LesFrangines.webp",
+  "/img/Portfolio Graphisme Vanity.webp",
   "/img/gallery-1.webp",
   "/img/gallery (9).webp",
   "/img/gallery (8).webp",

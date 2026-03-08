@@ -1,15 +1,17 @@
 "use client";
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 
 type Card = {
   id: number;
-  content: JSX.Element | React.ReactNode | string;
+  content: JSX.Element | React.ReactNode | string; // used by SelectedCard (modal)
   title: JSX.Element | React.ReactNode | string;
   className: string;
   thumbnail: string;
+  // optional new field:
+  animatedBackground?: JSX.Element | React.ReactNode;
 };
 
 export const LayoutGrid = ({ cards }: { cards: Card[] }) => {
@@ -44,7 +46,21 @@ export const LayoutGrid = ({ cards }: { cards: Card[] }) => {
             layoutId={`card-${card.id}`}
           >
             {selected?.id === card.id && <SelectedCard selected={selected} />}
+
+            {/* keep the existing thumbnail image (still used as fallback / baseline) */}
             <ImageComponent2 card={card} />
+
+            {/*
+              NEW: Render an animated background overlay (if provided)
+              This is the key: the animatedBackground is visible and fades in/out,
+              while the textual content (card.content) stays hidden when not selected.
+              pointer-events-none ensures clicks still hit the wrapper motion.div.
+            */}
+            {selected?.id !== card.id && (
+              <div className="absolute inset-0 z-20 pointer-events-none">
+                {card.animatedBackground ?? null}
+              </div>
+            )}
           </motion.div>
         </div>
       ))}
@@ -59,6 +75,7 @@ export const LayoutGrid = ({ cards }: { cards: Card[] }) => {
     </div>
   );
 };
+
 const ImageComponent2 = ({ card }: { card: Card }) => {
   return (
     <motion.img
@@ -73,6 +90,7 @@ const ImageComponent2 = ({ card }: { card: Card }) => {
     />
   );
 };
+
 const ImageComponent = ({ card }: { card: Card }) => {
   return (
     <motion.div

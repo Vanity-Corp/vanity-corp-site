@@ -88,8 +88,13 @@ const projects: ReadonlyArray<Project> = [
       "Pour LIFE, nous avons imaginé une campagne visuelle choc autour de la distribution de vêtements chauds pendant l'hiver. L'idée : détourner les codes de la publicité en créant des visuels trompe-l'œil, forts et émotionnels, confrontant le spectateur à la réalité de la rue tout en gardant une esthétique soignée et un ton empathique.",
     palette: ["#000000", "#FFE7A3", "#E33E6B"],
     fonts: ["Georgia", "Inter"],
-    images: [],
+    images: [
+      "/services/graphismes/grand-froid.webp",
+      "/services/graphismes/grand-froid2.webp",
+      "/services/graphismes/grand-froid3.webp",
+    ],
   },
+  /*
   {
     id: "cemika",
     title: "CEMIKA — Cuisines équipées",
@@ -99,7 +104,7 @@ const projects: ReadonlyArray<Project> = [
     palette: ["#0D1321", "#D9D9D9", "#FFD9C7"],
     fonts: ["Sora", "Inter"],
     images: [],
-  },
+  },*/
 ] as const;
 
 const GraphismePage: NextPage = () => {

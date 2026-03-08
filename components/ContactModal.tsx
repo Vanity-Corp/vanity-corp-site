@@ -33,7 +33,7 @@ const formSchema = z.object({
   message: z.string().min(1, { message: "Le message est requis." }),
   name: z.string().min(1, { message: "Le nom est requis." }),
   phone: z
-    .string() // Changed to string to handle phone numbers
+    .string()
     .min(10, {
       message: "Le numéro de téléphone doit contenir au moins 10 chiffres.",
     })
@@ -68,7 +68,7 @@ export function ContactModal({ children }: PropsWithChildren<{}>) {
     } catch (error) {
       console.error("Erreur:", error);
       setSuccessMessage(
-        "Une erreur s'est produite lors de l'envoi du message."
+        "Une erreur s'est produite lors de l'envoi du message.",
       );
     }
   };
@@ -79,7 +79,7 @@ export function ContactModal({ children }: PropsWithChildren<{}>) {
         <ModalTrigger>{children}</ModalTrigger>
         <ModalBody>
           <ModalContent>
-            <h4 className="text-base md:text-lg md:text-xl text-neutral-600 dark:text-neutral-100 font-bold text-center mb-8">
+            <h4 className="text-base md:text-lg  text-neutral-600 dark:text-neutral-100 font-bold text-center mb-8">
               ON EN PARLE AUTOUR D&apos;UN CAFÉ ?
             </h4>
             <div className="flex flex-wrap md:px-10 items-start justify-start ">

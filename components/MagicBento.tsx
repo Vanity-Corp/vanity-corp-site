@@ -70,7 +70,6 @@ const cardData: BentoCardProps[] = [
     color: "#060010",
     label: "Templates pour les réseaux sociaux",
     description: "Gabarits visuels cohérents et rapides à publier.",
-
     image: "/services/graphismes/social-media.webp",
   },
   {
@@ -453,7 +452,7 @@ const GlobalSpotlight: React.FC<{
         e.clientY <= rect.bottom;
 
       isInsideSection.current = mouseInside || false;
-      const cards = gridRef.current.querySelectorAll(".card");
+      const cards = gridRef.current.querySelectorAll(".bento-card");
 
       if (!mouseInside) {
         gsap.to(spotlightRef.current, {
@@ -523,7 +522,7 @@ const GlobalSpotlight: React.FC<{
 
     const handleMouseLeave = () => {
       isInsideSection.current = false;
-      gridRef.current?.querySelectorAll(".card").forEach((card) => {
+      gridRef.current?.querySelectorAll(".bento-card").forEach((card) => {
         (card as HTMLElement).style.setProperty("--glow-intensity", "0");
       });
       if (spotlightRef.current) {
@@ -553,7 +552,7 @@ const BentoCardGrid: React.FC<{
   children: React.ReactNode;
   gridRef?: any;
 }> = ({ children, gridRef }) => (
-  <div className="card-grid bento-section" ref={gridRef}>
+  <div className="bento-card-grid bento-section" ref={gridRef}>
     {children}
   </div>
 );
@@ -608,10 +607,10 @@ const MagicBento: React.FC<BentoProps> = ({
       <BentoCardGrid gridRef={gridRef}>
         {cardData.map((card, index) => {
           const isWide = index >= cardData.length - 2; // last two items span 2 columns
-          const baseClassName = `card ${
-            textAutoHide ? "card--text-autohide" : ""
-          } ${enableBorderGlow ? "card--border-glow" : ""} ${
-            isWide ? "card--span-2" : ""
+          const baseClassName = `bento-card ${
+            textAutoHide ? "bento-card--text-autohide" : ""
+          } ${enableBorderGlow ? "bento-card--border-glow" : ""} ${
+            isWide ? "bento-card--span-2" : ""
           }`;
 
           // create dimmed image background if image is provided
@@ -640,12 +639,12 @@ const MagicBento: React.FC<BentoProps> = ({
                 clickEffect={clickEffect}
                 enableMagnetism={enableMagnetism}
               >
-                <div className="card__header">
-                  <div className="card__label">{card.label}</div>
+                <div className="bento-card__header">
+                  <div className="bento-card__label">{card.label}</div>
                 </div>
-                <div className="card__content">
-                  <h2 className="card__title">{card.title}</h2>
-                  <p className="card__description">{card.description}</p>
+                <div className="bento-card__content">
+                  <h2 className="bento-card__title">{card.title}</h2>
+                  <p className="bento-card__description">{card.description}</p>
                 </div>
               </ParticleCard>
             );
@@ -763,11 +762,11 @@ const MagicBento: React.FC<BentoProps> = ({
                 el.addEventListener("click", handleClick);
               }}
             >
-              <div className="card__header">
-                <div className="card__label">{card.label}</div>
+              <div className="bento-card__header">
+                <div className="bento-card__label">{card.label}</div>
               </div>
-              <div className="card__content">
-                <h2 className="card__title">{card.description}</h2>
+              <div className="bento-card__content">
+                <h2 className="bento-card__title">{card.description}</h2>
               </div>
             </div>
           );
