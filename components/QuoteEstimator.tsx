@@ -21,6 +21,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { useToast } from "@/components/ui/use-toast";
 import { Textarea } from "@/components/ui/textarea";
 import Link from "next/link";
+import ReactBitsStepper from "@/components/ui/reactbits-stepper";
 
 const schema = z.object({
   clientType: z.enum(
@@ -167,23 +168,10 @@ export default function Component() {
   return (
     <div className="flex justify-center items-center w-full h-screen mt-10">
       <div className="bg-white shadow-md rounded-lg p-6 w-full md:w-1/2">
-        <div className="mb-8">
-          <div className="flex items-center justify-between">
-            {steps.slice(0, -1).map((step, index) => (
-              <div key={step.id} className="flex items-center justify-space">
-                <div
-                  className={`p-2 w-full rounded-full flex items-center justify-center text-[20px] md:text-base ${
-                    index <= currentStep
-                      ? "bg-white text-[#D33E6B] border-[#D33E6B] border-2"
-                      : "bg-[#D33E6B] text-white"
-                  }`}
-                >
-                  <span className="hidden md:block">Étape {index + 1}</span>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
+        <ReactBitsStepper
+          steps={steps.slice(0, -1).map((step) => step.name)}
+          currentStep={Math.min(currentStep, steps.length - 2)}
+        />
         <form onSubmit={handleSubmit(onSubmit)}>
           <motion.div
             key={currentStep}

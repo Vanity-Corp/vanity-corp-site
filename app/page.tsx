@@ -20,6 +20,8 @@ import Link from "next/link";
 import { VaniteamGrid } from "@/components/VaniyTeamGrid";
 import { CarouselCard } from "@/components/CarouselCards";
 import { ClientSection } from "@/components/ClientSection";
+import { StickyScroll } from "@/components/ui/sticky-scroll-reveal";
+import { PricingWithSwitch } from "@/components/ui/pricing-with-switch";
 
 import BannerVideo from "@/components/ui/BannerVideo";
 const WorldMapSection = dynamic(
@@ -40,45 +42,33 @@ const tabColors = {
   socialmedia: "#992D47",
 };
 
-const HOME_SECTIONS = [
+const STUDIO_CONTENT = [
   {
     title: "Studio de tournage",
-    description:
-      "Présentation du studio, photos des espaces, tarifs et réservation calendrier.",
+    description: "Découvrez nos espaces, équipements et options de location pour vos productions.",
     href: "/studio-de-tournage",
-    cta: "Voir la page",
+    buttonLabel: "Voir Studio de tournage",
+    content: <div className="h-full w-full bg-[url('/img/Shooting_Les_Frangines.webp')] bg-cover bg-center" />,
   },
+];
+
+const STRATEGIE_CONTENT = [
   {
     title: "Accompagnement stratégique",
-    description:
-      "Community management, audit digital et stratégie sur mesure.",
+    description: "Community management, audit digital et stratégie sur mesure pour votre croissance.",
     href: "/accompagnement-strategique",
-    cta: "Découvrir",
+    buttonLabel: "Voir Accompagnement stratégique",
+    content: <div className="h-full w-full bg-[url('/img/Portfolio%20Accompagnement%20Stratégique%20Vanity.webp')] bg-cover bg-center" />,
   },
+];
+
+const AUDIOVISUEL_CONTENT = [
   {
     title: "Audiovisuel",
-    description:
-      "Prestations vidéo/photo et options de production.",
+    description: "Prestations vidéo/photo, tournage, montage et livraison multi-formats.",
     href: "/audiovisuel",
-    cta: "Voir les prestations",
-  },
-  {
-    title: "Nos tarifs",
-    description: "Plaquette tarifaire globale et formules.",
-    href: "/nos-tarifs",
-    cta: "Consulter",
-  },
-  {
-    title: "Contactez-nous",
-    description: "La page de contact actuelle reste disponible.",
-    href: "/contactez-nous",
-    cta: "Contacter",
-  },
-  {
-    title: "Estimation gratuite",
-    description: "Obtenir une estimation rapide de votre projet.",
-    href: "/estimation",
-    cta: "Faire une estimation",
+    buttonLabel: "Voir Audiovisuel",
+    content: <div className="h-full w-full bg-[url('/img/Production.webp')] bg-cover bg-center" />,
   },
 ];
 export default function Home() {
@@ -126,19 +116,27 @@ export default function Home() {
         {" "}
         <StackedCard />{" "}
       </div>{" "}
-      <section className="w-full px-6 md:px-16 py-16 grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {HOME_SECTIONS.map((section) => (
-          <article
-            key={section.title}
-            className="rounded-2xl border border-gray-700 p-6 bg-black/50 text-white"
-          >
-            <h3 className="text-xl font-bold mb-2">{section.title}</h3>
-            <p className="text-sm text-gray-300 mb-4">{section.description}</p>
-            <Link href={section.href}>
-              <Button className="rounded-full">{section.cta}</Button>
-            </Link>
-          </article>
-        ))}
+      <section id="studio-de-tournage" className="w-full px-4 md:px-16 py-16">
+        <StickyScroll content={STUDIO_CONTENT} className="bg-neutral-900" />
+      </section>
+      <section id="accompagnement-strategique" className="w-full px-4 md:px-16 py-16">
+        <StickyScroll content={STRATEGIE_CONTENT} className="bg-neutral-900" />
+      </section>
+      <section id="audiovisuel" className="w-full px-4 md:px-16 py-16">
+        <StickyScroll content={AUDIOVISUEL_CONTENT} className="bg-neutral-900" />
+      </section>
+      <section id="nos-tarifs" className="w-full px-4 md:px-16 py-8">
+        <PricingWithSwitch />
+      </section>
+      <section id="contactez-nous" className="w-full px-6 md:px-16 py-10 flex justify-center">
+        <Link href="/contactez-nous">
+          <Button className="rounded-full">Voir la page contactez-nous</Button>
+        </Link>
+      </section>
+      <section id="estimation-gratuite" className="w-full px-6 md:px-16 py-4 flex justify-center">
+        <Link href="/estimation">
+          <Button className="rounded-full">Faire une estimation gratuite</Button>
+        </Link>
       </section>
       <div className="flex flex-col justify-center items-center md:hidden">
         {" "}
