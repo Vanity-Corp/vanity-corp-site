@@ -22,6 +22,8 @@ import { CarouselCard } from "@/components/CarouselCards";
 import { ClientSection } from "@/components/ClientSection";
 
 import BannerVideo from "@/components/ui/BannerVideo";
+import ServicesStickySections from "@/components/ServicesStickySections";
+import PricingSwitchSection from "@/components/PricingSwitchSection";
 const WorldMapSection = dynamic(
   () => import("@/components/WordMap").then((mod) => mod.WorldMapSection),
   {
@@ -80,6 +82,8 @@ export default function Home() {
         src="/videos/SHOWREEL 2025_2026_V6SQ2.mp4"
         poster="/fallback.webp"
       />{" "}
+      <ServicesStickySections />
+      <PricingSwitchSection />
       <div className="hidden md:block">
         {" "}
         <StackedCard />{" "}

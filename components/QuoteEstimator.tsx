@@ -168,20 +168,39 @@ export default function Component() {
     <div className="flex justify-center items-center w-full h-screen mt-10">
       <div className="bg-white shadow-md rounded-lg p-6 w-full md:w-1/2">
         <div className="mb-8">
-          <div className="flex items-center justify-between">
-            {steps.slice(0, -1).map((step, index) => (
-              <div key={step.id} className="flex items-center justify-space">
-                <div
-                  className={`p-2 w-full rounded-full flex items-center justify-center text-[20px] md:text-base ${
-                    index <= currentStep
-                      ? "bg-white text-[#D33E6B] border-[#D33E6B] border-2"
-                      : "bg-[#D33E6B] text-white"
-                  }`}
-                >
-                  <span className="hidden md:block">Étape {index + 1}</span>
-                </div>
-              </div>
-            ))}
+          <div className="relative">
+            <div className="absolute top-4 left-0 w-full h-1 bg-[#f4ceda] rounded-full" />
+            <div
+              className="absolute top-4 left-0 h-1 bg-[#D33E6B] rounded-full transition-all duration-300"
+              style={{
+                width: `${(Math.min(currentStep, steps.length - 2) / (steps.length - 2)) * 100}%`,
+              }}
+            />
+
+            <div className="relative flex items-start justify-between gap-2">
+              {steps.slice(0, -1).map((step, index) => {
+                const isDone = index <= currentStep;
+
+                return (
+                  <div key={step.id} className="flex flex-col items-center w-full">
+                    <button
+                      type="button"
+                      onClick={() => setCurrentStep(index)}
+                      className={`size-8 md:size-9 rounded-full border-2 text-xs md:text-sm font-semibold transition-colors ${
+                        isDone
+                          ? "bg-[#D33E6B] border-[#D33E6B] text-white"
+                          : "bg-white border-[#f4ceda] text-[#D33E6B]"
+                      }`}
+                    >
+                      {index + 1}
+                    </button>
+                    <span className="mt-2 text-[10px] md:text-xs text-center text-gray-600">
+                      Étape {index + 1}
+                    </span>
+                  </div>
+                );
+              })}
+            </div>
           </div>
         </div>
         <form onSubmit={handleSubmit(onSubmit)}>
