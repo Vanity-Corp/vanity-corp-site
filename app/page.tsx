@@ -39,6 +39,48 @@ const tabColors = {
   siteweb: "#A38141",
   socialmedia: "#992D47",
 };
+
+const HOME_SECTIONS = [
+  {
+    title: "Studio de tournage",
+    description:
+      "Présentation du studio, photos des espaces, tarifs et réservation calendrier.",
+    href: "/studio-de-tournage",
+    cta: "Voir la page",
+  },
+  {
+    title: "Accompagnement stratégique",
+    description:
+      "Community management, audit digital et stratégie sur mesure.",
+    href: "/accompagnement-strategique",
+    cta: "Découvrir",
+  },
+  {
+    title: "Audiovisuel",
+    description:
+      "Prestations vidéo/photo et options de production.",
+    href: "/audiovisuel",
+    cta: "Voir les prestations",
+  },
+  {
+    title: "Nos tarifs",
+    description: "Plaquette tarifaire globale et formules.",
+    href: "/nos-tarifs",
+    cta: "Consulter",
+  },
+  {
+    title: "Contactez-nous",
+    description: "La page de contact actuelle reste disponible.",
+    href: "/contactez-nous",
+    cta: "Contacter",
+  },
+  {
+    title: "Estimation gratuite",
+    description: "Obtenir une estimation rapide de votre projet.",
+    href: "/estimation",
+    cta: "Faire une estimation",
+  },
+];
 export default function Home() {
   const [bgColor, setBgColor] = useState("#000000");
   const [activeTab, setActiveTab] = useState("combo");
@@ -84,6 +126,20 @@ export default function Home() {
         {" "}
         <StackedCard />{" "}
       </div>{" "}
+      <section className="w-full px-6 md:px-16 py-16 grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {HOME_SECTIONS.map((section) => (
+          <article
+            key={section.title}
+            className="rounded-2xl border border-gray-700 p-6 bg-black/50 text-white"
+          >
+            <h3 className="text-xl font-bold mb-2">{section.title}</h3>
+            <p className="text-sm text-gray-300 mb-4">{section.description}</p>
+            <Link href={section.href}>
+              <Button className="rounded-full">{section.cta}</Button>
+            </Link>
+          </article>
+        ))}
+      </section>
       <div className="flex flex-col justify-center items-center md:hidden">
         {" "}
         <h2 className="text-center text-xl md:text-5xl font-bold text-black dark:text-white pt-10">

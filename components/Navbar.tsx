@@ -1,333 +1,48 @@
-// components/Navbar.tsx
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "./ui/button";
-import { ContactModal } from "./ContactModal";
-import { Menu as MenuIcon, X as CloseIcon, ChevronDown } from "lucide-react";
+import { Menu as MenuIcon, X as CloseIcon } from "lucide-react";
 
-type Service = {
-  image: string;
-  title: string;
-  description: string;
-  list: string[];
-};
-
-const SERVICES: Service[] = [
-  {
-    image: "/img/DORIA.webp",
-    title: "PRODUCTION AUDIOVISUELLE",
-    description: "De l’idéation à la publication",
-    list: [
-      "Production exécutive",
-      "Cadrage",
-      "Montage",
-      "Étalonnage",
-      "Sound FX",
-      "Voix off",
-    ],
-  },
-  {
-    image: "/img/banner-2.png",
-    title: "COMMUNITY MANAGEMENT",
-    description: "De l’idéation à la publication",
-    list: [
-      "Animation de réseaux sociaux",
-      "Création de contenu",
-      "Conception / rédaction",
-      "Modération",
-      "Reporting",
-    ],
-  },
-  {
-    image: "/img/Shooting_Les_Frangines.webp",
-    title: "SHOOTING PHOTO",
-    description: "De l’idéation à la publication",
-    list: [
-      "Shooting produits",
-      "Shooting studio",
-      "Photos portraits",
-      "Photos de mariage",
-      "Photos d’événement",
-    ],
-  },
-  {
-    image: "/img/design.webp",
-    title: "GRAPHISME",
-    description: "De l’idéation à la publication",
-    list: [
-      "Charge graphique",
-      "Papeterie",
-      "Affichages",
-      "Maquettes web",
-      "Infographies",
-    ],
-  },
-  {
-    image: "/img/Computer_Four_Screens.webp",
-    title: "DÉVELOPPEMENT WEB",
-    description: "De l’idéation à la publication",
-    list: [
-      "Création de site web",
-      "Landing page",
-      "Maintenance",
-      "Conception UX/UI Design",
-      "SEO : Référencement naturel",
-    ],
-  },
-];
-
-function slugify(str: string) {
-  return str
-    .toLowerCase()
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/(^-|-$)/g, "");
-}
+const MENU_ITEMS = [
+  { label: "Studio de tournage", href: "/studio-de-tournage" },
+  { label: "Accompagnement stratégique", href: "/accompagnement-strategique" },
+  { label: "Audiovisuel", href: "/audiovisuel" },
+  { label: "Nos réalisations", href: "/realisations" },
+  { label: "Nos tarifs", href: "/nos-tarifs" },
+  { label: "Contactez-nous", href: "/contactez-nous" },
+  { label: "Estimation gratuite", href: "/estimation" },
+] as const;
 
 export default function Navbar(): JSX.Element {
-  const [isOpen, setIsOpen] = useState(false); // mobile menu
-  const [megaOpen, setMegaOpen] = useState(false); // desktop mega open
-  const [mobileServicesOpen, setMobileServicesOpen] = useState(false);
-  const [isFullScreen, setIsFullScreen] = useState(false);
-  const [megaTop, setMegaTop] = useState(0);
-
-  const navRef = useRef<HTMLDivElement | null>(null);
-  const closeTimerRef = useRef<number | null>(null);
-
-  // Decide full-screen breakpoint and compute top offset
-  useEffect(() => {
-    function update() {
-      const vw = window.innerWidth;
-      // when viewport <= 1152px, we use full-width panel
-      setIsFullScreen(vw <= 1152);
-
-      // measure navbar bottom (relative to viewport top)
-      if (navRef.current) {
-        const rect = navRef.current.getBoundingClientRect();
-        setMegaTop(Math.ceil(rect.bottom));
-      }
-    }
-
-    update();
-    window.addEventListener("resize", update);
-    window.addEventListener("scroll", update); // keep position accurate on scroll
-    return () => {
-      window.removeEventListener("resize", update);
-      window.removeEventListener("scroll", update);
-    };
-  }, []);
-
-  // Prevent body horizontal scroll when full-screen mega is open
-  useEffect(() => {
-    if (megaOpen && isFullScreen) {
-      const prev = {
-        overflow: document.body.style.overflow,
-        overflowX: document.body.style.overflowX,
-      };
-      document.body.style.overflow = "hidden";
-      document.body.style.overflowX = "hidden";
-      return () => {
-        document.body.style.overflow = prev.overflow;
-        document.body.style.overflowX = prev.overflowX;
-      };
-    }
-    return;
-  }, [megaOpen, isFullScreen]);
-
-  // Clear any pending close timer on unmount
-  useEffect(() => {
-    return () => {
-      if (closeTimerRef.current) {
-        window.clearTimeout(closeTimerRef.current);
-        closeTimerRef.current = null;
-      }
-    };
-  }, []);
-
-  // open immediately, cancel any close timer
-  const openMega = () => {
-    if (closeTimerRef.current) {
-      window.clearTimeout(closeTimerRef.current);
-      closeTimerRef.current = null;
-    }
-    setMegaOpen(true);
-  };
-
-  // schedule close with a tiny delay so user can move pointer from button -> panel
-  const scheduleCloseMega = (delay = 150) => {
-    if (closeTimerRef.current) {
-      window.clearTimeout(closeTimerRef.current);
-    }
-    closeTimerRef.current = window.setTimeout(() => {
-      setMegaOpen(false);
-      closeTimerRef.current = null;
-    }, delay);
-  };
-
-  // classes
-  const basePanelStyles =
-    "transition-all duration-180 ease-in-out bg-black/60 border border-gray-700 p-6 backdrop-blur-lg shadow-2xl";
-  const visible = "opacity-100 translate-y-0 scale-100 pointer-events-auto";
-  const hidden = "opacity-0 translate-y-2 scale-95 pointer-events-none";
-
-  // Inline style to center independent of the trigger:
-  const panelStyle: React.CSSProperties = isFullScreen
-    ? {
-        position: "fixed",
-        top: `${megaTop}px`,
-        left: 0,
-        right: 0,
-        width: "100%",
-        borderRadius: 0,
-        zIndex: 1000,
-      }
-    : {
-        position: "fixed",
-        top: `${megaTop}px`,
-        left: "50%",
-        transform: "translateX(-50%)",
-        width: "min(92vw, 1152px)",
-        borderRadius: 16,
-        zIndex: 1000,
-      };
+  const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <nav ref={navRef} className="fixed  font-medium  z-50 w-full top-0">
+    <nav className="fixed z-50 w-full top-0">
       <div className="flex items-center justify-between px-3 md:px-32 py-3 bg-black text-white">
-        {/* Logo */}
-        <div>
-          <Link href="/">
-            <Image
-              src="/vanity_corp_Icon_color.svg"
-              width={35}
-              height={35}
-              alt="Vanity Corp Logo"
-            />
-          </Link>
-        </div>
+        <Link href="/">
+          <Image
+            src="/vanity_corp_Icon_color.svg"
+            width={35}
+            height={35}
+            alt="Vanity Corp Logo"
+          />
+        </Link>
 
-        {/* Desktop center links */}
-        <div className="hidden md:flex items-center gap-6">
-          <div
-            className="relative"
-            // use robust handlers (open immediately, close with delay)
-            onMouseEnter={openMega}
-            onMouseLeave={() => scheduleCloseMega(180)}
-          >
-            <button
-              aria-expanded={megaOpen}
-              className="flex items-center gap-2 px-4 py-2 hover:bg-gray-800 rounded-md"
+        <div className="hidden md:flex items-center gap-3">
+          {MENU_ITEMS.map((item) => (
+            <Link
+              key={item.label}
+              href={item.href}
+              className="px-3 py-2 hover:bg-gray-800 rounded-md text-sm"
             >
-              <span>Services</span>
-              <ChevronDown size={16} />
-            </button>
-
-            {/* Panel - fixed & centered (independent from button)
-                Attach same mouse handlers to panel so moving pointer into it cancels close */}
-            <div
-              className={`${basePanelStyles} ${megaOpen ? visible : hidden}`}
-              style={panelStyle}
-              onMouseEnter={openMega}
-              onMouseLeave={() => scheduleCloseMega(180)}
-            >
-              <div className="flex flex-col lg:flex-row gap-6 items-start z-50">
-                {/* Featured first service */}
-                <div className="hidden lg:flex w-1/3 items-center justify-center">
-                  <Link
-                    href={`/services/${slugify(SERVICES[0].title)}`}
-                    className="block rounded-xl overflow-hidden"
-                  >
-                    <div className="w-[320px]">
-                      <div className="aspect-[4/3] rounded-xl overflow-hidden shadow-lg bg-gray-900">
-                        <Image
-                          src={SERVICES[0].image}
-                          alt={SERVICES[0].title}
-                          width={420}
-                          height={320}
-                          className="object-cover w-full h-full"
-                        />
-                      </div>
-                      <div className="mt-4 text-center">
-                        <h3 className="text-lg font-bold uppercase tracking-wider">
-                          {SERVICES[0].title}
-                        </h3>
-                        <p className="mt-2 text-sm text-gray-300">
-                          {SERVICES[0].description}
-                        </p>
-                      </div>
-                    </div>
-                  </Link>
-                </div>
-
-                {/* Right side grid 2x2 (exclude the featured first service) */}
-                <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 gap-6 items-start">
-                  {SERVICES.slice(1, 5).map((s) => (
-                    <Link
-                      key={s.title}
-                      href={`/services/${slugify(s.title)}`}
-                      className="group block rounded-xl p-4 bg-black/50 border border-gray-800 hover:bg-white/5 transition-colors shadow-md hover:shadow-xl"
-                    >
-                      <div className="flex items-start gap-3">
-                        <div className="flex-shrink-0 w-20 h-20 rounded-lg overflow-hidden bg-gray-900">
-                          <Image
-                            src={s.image}
-                            alt={s.title}
-                            width={200}
-                            height={200}
-                            className="object-cover w-20 h-20"
-                          />
-                        </div>
-
-                        <div className="flex-1">
-                          <h3 className="text-sm tracking-wider uppercase font-semibold">
-                            {s.title}
-                          </h3>
-                          <p className="mt-2 text-sm text-gray-300">
-                            {s.description}
-                          </p>
-                        </div>
-                      </div>
-                    </Link>
-                  ))}
-                </div>
-              </div>
-
-              {/* Footer row with CTA */}
-              <div className="mt-6 pt-4 border-t border-gray-800 flex items-center justify-between gap-4">
-                <div className="text-sm text-gray-300">
-                  Vous ne trouvez pas ce que vous cherchez ?
-                </div>
-                <div className="flex items-center gap-3">
-                  <Link href="/estimation" className="text-sm hover:underline">
-                    Estimation gratuite
-                  </Link>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <Link
-            href="/realisations"
-            className="px-4 py-2 hover:bg-gray-800 rounded-md"
-          >
-            Réalisations
-          </Link>
-
-          <ContactModal>Contactez-nous</ContactModal>
+              {item.label}
+            </Link>
+          ))}
         </div>
 
-        {/* Right side - Estimation button */}
-        <div className="hidden md:block">
-          <Button className="rounded-full uppercase text-base py-1 px-4">
-            <Link href="/estimation">Estimation gratuite</Link>
-          </Button>
-        </div>
-
-        {/* Mobile icons */}
         <div className="md:hidden flex items-center gap-2">
           <Link href="/estimation">
             <Button className="rounded-full uppercase text-[10px] py-0 px-2">
@@ -338,76 +53,26 @@ export default function Navbar(): JSX.Element {
           <button
             className="focus:outline-none"
             onClick={() => setIsOpen(!isOpen)}
-            aria-label={isOpen ? "Close menu" : "Open menu"}
+            aria-label={isOpen ? "Fermer le menu" : "Ouvrir le menu"}
           >
             {isOpen ? <CloseIcon size={22} /> : <MenuIcon size={22} />}
           </button>
         </div>
       </div>
 
-      {/* Mobile dropdown */}
       {isOpen && (
         <div className="md:hidden bg-black border-t border-gray-800">
-          <div className="px-4 py-3">
-            <button
-              onClick={() => setMobileServicesOpen(!mobileServicesOpen)}
-              className="w-full flex items-center justify-between px-3 py-2 rounded-md hover:bg-gray-900"
-            >
-              <span>Services</span>
-              <ChevronDown
-                size={16}
-                className={`${
-                  mobileServicesOpen ? "rotate-180" : ""
-                } transition-transform`}
-              />
-            </button>
-
-            {mobileServicesOpen && (
-              <div className="mt-2 space-y-2">
-                {SERVICES.map((s) => (
-                  <div
-                    key={s.title}
-                    className="border border-gray-800 rounded-md overflow-hidden"
-                  >
-                    <Link
-                      href={`/services/${slugify(s.title)}`}
-                      className="flex items-center gap-3 px-3 py-2 hover:bg-gray-900"
-                    >
-                      <div className="w-12 h-12 flex-shrink-0 rounded-md overflow-hidden">
-                        <Image
-                          src={s.image}
-                          alt={s.title}
-                          width={48}
-                          height={48}
-                          className="object-cover w-12 h-12"
-                        />
-                      </div>
-                      <div className="flex-1">
-                        <div className="text-sm font-semibold">{s.title}</div>
-                        <div className="text-xs text-gray-300">
-                          {s.description}
-                        </div>
-                      </div>
-                    </Link>
-                  </div>
-                ))}
-              </div>
-            )}
-
-            <div className="mt-3">
-              <ContactModal>
-                <Button className="w-full rounded-full uppercase py-2">
-                  Contact
-                </Button>
-              </ContactModal>
-            </div>
-
-            <Link
-              href="/realisations"
-              className="block mt-3 px-3 py-2 hover:bg-gray-900 rounded-md"
-            >
-              Réalisations
-            </Link>
+          <div className="px-4 py-3 space-y-2">
+            {MENU_ITEMS.map((item) => (
+              <Link
+                key={item.label}
+                href={item.href}
+                className="block px-3 py-2 hover:bg-gray-900 rounded-md"
+                onClick={() => setIsOpen(false)}
+              >
+                {item.label}
+              </Link>
+            ))}
           </div>
         </div>
       )}
