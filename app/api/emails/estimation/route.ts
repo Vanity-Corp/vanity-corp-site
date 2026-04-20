@@ -14,17 +14,20 @@ export async function POST(request: Request) {
       : [body.features].filter(Boolean);
 
     const data = await resend.emails.send({
-      from: "contact@vanitycorp.fr",
-      to: "Corp.vanity@gmail.com",
+      from: "mohmost.contact@gmail.com",
+      to: "delivered@resend.dev",
       subject: "Nouvelle demande de devis",
       react: QuoteRequestEmail({ ...body, features }),
     });
 
     return NextResponse.json(data);
   } catch (error) {
+    console.log(" ⨯ ⨯ ⨯ ⨯ ⨯ ⨯ ⨯ ⨯ Full error :", error);
     return NextResponse.json(
-      { error: "Failed to send email" },
-      { status: 500 }
+      {
+        error: error instanceof Error ? error.message : "Failed to send email",
+      },
+      { status: 500 },
     );
   }
 }

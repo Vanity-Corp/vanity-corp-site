@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import {
   Body,
   Container,
@@ -12,7 +13,7 @@ import {
 } from "@react-email/components";
 import { Tailwind } from "@react-email/tailwind";
 import * as React from "react";
-import Image from "next/image";
+
 interface QuoteRequestEmailProps {
   clientType: string;
   budget: string;
@@ -39,11 +40,11 @@ export const QuoteRequestEmail = ({
       <Body className="bg-gray-100 p-6">
         <Container className="border border-solid border-[#eaeaea] rounded my-[40px] mx-auto p-[20px] max-w-[465px]">
           <Section className="mt-[32px]">
-            <Image
+            <img
               width={1000}
               height={1000}
               src="https://firebasestorage.googleapis.com/v0/b/pokemoh-ad0fa.appspot.com/o/vanity_corp_Icon_color.png?alt=media&token=d032c028-f706-44e7-9ce7-344be758e94d"
-              alt="Cat"
+              alt="logo"
               className="my-0 mx-auto"
             />
           </Section>

@@ -1,66 +1,111 @@
+// components/Navbar.tsx
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "./ui/button";
+import { ContactModal } from "./ContactModal";
 import { Menu as MenuIcon, X as CloseIcon, ChevronDown } from "lucide-react";
 
 type Service = {
   image: string;
   title: string;
   description: string;
-  href: string;
-  cta?: string;
+  link: string;
 };
 
 const SERVICES: Service[] = [
   {
-    image: "/img/Shooting_Les_Frangines.webp",
-    title: "Studio de tournage",
-    description: "Réserver le studio",
-    href: "/#studio-de-tournage",
-    cta: "Réserver le studio",
+    image: "/img/studio.jpg",
+    title: "STUDIO DE TOURNAGE",
+    description: "De l’idéation à la publication",
+    link: "/#studio-de-tournage",
   },
   {
     image: "/img/Portfolio Accompagnement Stratégique Vanity.webp",
     title: "Accompagnement stratégique",
     description: "Community management & audit digital",
-    href: "/#accompagnement-strategique",
+    link: "/#accompagnement-strategique",
   },
   {
     image: "/img/Production.webp",
     title: "Audiovisuel",
     description: "Production vidéo / photo",
-    href: "/#audiovisuel",
+    link: "/#audiovisuel",
   },
 ];
 
+function slugify(str: string) {
+  return str
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/(^-|-$)/g, "");
+}
+
 export default function Navbar(): JSX.Element {
-  const [isOpen, setIsOpen] = useState(false);
-  const [megaOpen, setMegaOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false); // mobile menu
+  const [megaOpen, setMegaOpen] = useState(false); // desktop mega open
   const [mobileServicesOpen, setMobileServicesOpen] = useState(false);
+  const [isFullScreen, setIsFullScreen] = useState(false);
   const [megaTop, setMegaTop] = useState(0);
 
   const navRef = useRef<HTMLDivElement | null>(null);
   const closeTimerRef = useRef<number | null>(null);
 
+  // Decide full-screen breakpoint and compute top offset
   useEffect(() => {
     function update() {
+      const vw = window.innerWidth;
+      // when viewport <= 1152px, we use full-width panel
+      setIsFullScreen(vw <= 1152);
+
+      // measure navbar bottom (relative to viewport top)
       if (navRef.current) {
         const rect = navRef.current.getBoundingClientRect();
         setMegaTop(Math.ceil(rect.bottom));
       }
     }
+
     update();
     window.addEventListener("resize", update);
-    window.addEventListener("scroll", update);
+    window.addEventListener("scroll", update); // keep position accurate on scroll
     return () => {
       window.removeEventListener("resize", update);
       window.removeEventListener("scroll", update);
     };
   }, []);
 
+  // Prevent body horizontal scroll when full-screen mega is open
+  useEffect(() => {
+    if (megaOpen && isFullScreen) {
+      const prev = {
+        overflow: document.body.style.overflow,
+        overflowX: document.body.style.overflowX,
+      };
+      document.body.style.overflow = "hidden";
+      document.body.style.overflowX = "hidden";
+      return () => {
+        document.body.style.overflow = prev.overflow;
+        document.body.style.overflowX = prev.overflowX;
+      };
+    }
+    return;
+  }, [megaOpen, isFullScreen]);
+
+  // Clear any pending close timer on unmount
+  useEffect(() => {
+    return () => {
+      if (closeTimerRef.current) {
+        window.clearTimeout(closeTimerRef.current);
+        closeTimerRef.current = null;
+      }
+    };
+  }, []);
+
+  // open immediately, cancel any close timer
   const openMega = () => {
     if (closeTimerRef.current) {
       window.clearTimeout(closeTimerRef.current);
@@ -69,7 +114,8 @@ export default function Navbar(): JSX.Element {
     setMegaOpen(true);
   };
 
-  const scheduleCloseMega = (delay = 120) => {
+  // schedule close with a tiny delay so user can move pointer from button -> panel
+  const scheduleCloseMega = (delay = 150) => {
     if (closeTimerRef.current) {
       window.clearTimeout(closeTimerRef.current);
     }
@@ -79,136 +125,255 @@ export default function Navbar(): JSX.Element {
     }, delay);
   };
 
-  return (
-    <nav ref={navRef} className="fixed z-50 w-full top-0">
-      <div className="flex items-center justify-between px-3 md:px-32 py-3 bg-black text-white">
-        <Link href="/">
-          <Image
-            src="/vanity_corp_Icon_color.svg"
-            width={35}
-            height={35}
-            alt="Vanity Corp Logo"
-          />
-        </Link>
+  // classes
+  const basePanelStyles =
+    "transition-all duration-180 ease-in-out bg-black/60 border border-gray-700 p-6 backdrop-blur-lg shadow-2xl";
+  const visible = "opacity-100 translate-y-0 scale-100 pointer-events-auto";
+  const hidden = "opacity-0 translate-y-2 scale-95 pointer-events-none";
 
-        <div className="hidden md:flex items-center gap-4">
+  // Inline style to center independent of the trigger:
+  const panelStyle: React.CSSProperties = isFullScreen
+    ? {
+        position: "fixed",
+        top: `${megaTop}px`,
+        left: 0,
+        right: 0,
+        width: "100%",
+        borderRadius: 0,
+        zIndex: 1000,
+      }
+    : {
+        position: "fixed",
+        top: `${megaTop}px`,
+        left: "50%",
+        transform: "translateX(-50%)",
+        width: "fit-content",
+        borderRadius: 16,
+        zIndex: 1000,
+      };
+
+  return (
+    <nav ref={navRef} className="fixed  font-medium  z-50 w-full top-0">
+      <div className="flex items-center justify-between px-3 md:px-32 py-3 bg-black text-white">
+        {/* Logo */}
+        <div>
+          <Link href="/">
+            <Image
+              src="/vanity_corp_Icon_color.svg"
+              width={35}
+              height={35}
+              alt="Vanity Corp Logo"
+            />
+          </Link>
+        </div>
+
+        {/* Desktop center links */}
+        <div className="hidden md:flex items-center gap-6">
           <div
             className="relative"
+            // use robust handlers (open immediately, close with delay)
             onMouseEnter={openMega}
-            onMouseLeave={() => scheduleCloseMega(150)}
+            onMouseLeave={() => scheduleCloseMega(180)}
           >
-            <button className="flex items-center gap-2 px-4 py-2 hover:bg-gray-800 rounded-md">
+            <button
+              aria-expanded={megaOpen}
+              className="flex items-center gap-2 px-4 py-2 hover:bg-gray-800 rounded-md"
+            >
               <span>Services</span>
               <ChevronDown size={16} />
             </button>
 
+            {/* Panel - fixed & centered (independent from button)
+                Attach same mouse handlers to panel so moving pointer into it cancels close */}
             <div
-              className={`fixed left-1/2 -translate-x-1/2 w-[min(92vw,1000px)] p-6 rounded-2xl bg-black/75 border border-gray-700 backdrop-blur-lg transition-all duration-200 ${
-                megaOpen
-                  ? "opacity-100 translate-y-0 pointer-events-auto"
-                  : "opacity-0 -translate-y-2 pointer-events-none"
-              }`}
-              style={{ top: megaTop }}
+              className={`${basePanelStyles} ${megaOpen ? visible : hidden}`}
+              style={panelStyle}
               onMouseEnter={openMega}
-              onMouseLeave={() => scheduleCloseMega(150)}
+              onMouseLeave={() => scheduleCloseMega(180)}
             >
-              <div className="grid lg:grid-cols-3 gap-4">
-                {SERVICES.map((s) => (
+              <div className="flex flex-col lg:flex-row gap-6 items-start z-50">
+                {/* Featured first service */}
+                <div className="hidden lg:flex  items-center justify-center">
                   <Link
-                    key={s.title}
-                    href={s.href}
-                    className="group rounded-xl p-4 bg-black/50 border border-gray-800 hover:bg-white/5 transition"
+                    href={`${SERVICES[0].link}`}
+                    className="block rounded-xl overflow-hidden"
                   >
-                    <div className="w-full h-40 rounded-lg overflow-hidden mb-4">
-                      <Image
-                        src={s.image}
-                        alt={s.title}
-                        width={400}
-                        height={220}
-                        className="w-full h-full object-cover"
-                      />
+                    <div className="w-[300px]">
+                      <div className="aspect-[4/3] rounded-xl overflow-hidden shadow-lg bg-gray-900">
+                        <Image
+                          src={SERVICES[0].image}
+                          alt={SERVICES[0].title}
+                          width={420}
+                          height={320}
+                          className="object-cover w-full h-full"
+                        />
+                      </div>
+                      <div className="mt-4 text-center">
+                        <h3 className="text-lg font-bold uppercase tracking-wider">
+                          {SERVICES[0].title}
+                        </h3>
+                        <a
+                          className="inline-block mt-3 text-lg rounded-full px-3 py-1 bg-white text-black font-medium"
+                          href="/studio-de-tournage/reservation"
+                        >
+                          Réserver le studio
+                        </a>
+                      </div>
                     </div>
-                    <h3 className="uppercase tracking-wide text-sm font-semibold">
-                      {s.title}
-                    </h3>
-                    {s.cta ? (
-                      <span className="inline-block mt-3 text-xs rounded-full px-3 py-1 bg-white text-black font-medium">
-                        {s.cta}
-                      </span>
-                    ) : (
-                      <p className="mt-2 text-sm text-gray-300">{s.description}</p>
-                    )}
                   </Link>
-                ))}
+                </div>
+
+                {/* Right side grid 2x2 (exclude the featured first service) */}
+                <div className="flex-1 grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-1 xl:grid-cols-1 gap-6 items-start">
+                  {SERVICES.slice(1, 5).map((s) => (
+                    <Link
+                      key={s.title}
+                      href={`${s.link}`}
+                      className="group block rounded-xl p-4 bg-black/50 border border-gray-800 hover:bg-white/5 transition-colors shadow-md hover:shadow-xl"
+                    >
+                      <div className="flex items-start gap-3">
+                        <div className="flex-shrink-0 w-32 h-32 rounded-lg overflow-hidden bg-gray-900">
+                          <Image
+                            src={s.image}
+                            alt={s.title}
+                            width={200}
+                            height={200}
+                            className="object-cover w-32 h-32"
+                          />
+                        </div>
+
+                        <div className="flex-1 h-full flex flex-col justify-center">
+                          <h3 className="text-base tracking-wider font-semibold">
+                            {s.title}
+                          </h3>
+                          <p className="mt-2 text-sm text-gray-300">
+                            {s.description}
+                          </p>
+                        </div>
+                      </div>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+
+              {/* Footer row with CTA */}
+              <div className="mt-6 pt-4 border-t border-gray-800 flex items-center justify-between gap-4">
+                <div className="text-sm text-gray-300">
+                  Vous ne trouvez pas ce que vous cherchez ?
+                </div>
+                <div className="flex items-center gap-3">
+                  <Link href="/estimation" className="text-sm hover:underline">
+                    Estimation gratuite
+                  </Link>
+                </div>
               </div>
             </div>
           </div>
 
-          <Link href="/realisations" className="px-4 py-2 hover:bg-gray-800 rounded-md">
-            Nos réalisations
+          <Link
+            href="/realisations"
+            className="px-4 py-2 hover:bg-gray-800 rounded-md"
+          >
+            Réalisations
           </Link>
-          <Link href="/#nos-tarifs" className="px-4 py-2 hover:bg-gray-800 rounded-md">
+          <Link
+            href="/#nos-tarifs"
+            className="px-4 py-2 hover:bg-gray-800 rounded-md"
+          >
             Nos tarifs
           </Link>
-          <Link href="/contactez-nous" className="px-4 py-2 hover:bg-gray-800 rounded-md">
-            Contactez-nous
-          </Link>
+          <ContactModal>Contactez-nous</ContactModal>
         </div>
 
+        {/* Right side - Estimation button */}
         <div className="hidden md:block">
           <Button className="rounded-full uppercase text-base py-1 px-4">
             <Link href="/estimation">Estimation gratuite</Link>
           </Button>
         </div>
 
+        {/* Mobile icons */}
         <div className="md:hidden flex items-center gap-2">
           <Link href="/estimation">
-            <Button className="rounded-full uppercase text-[10px] py-0 px-2">Estimation</Button>
+            <Button className="rounded-full uppercase text-[10px] py-0 px-2">
+              Estimation
+            </Button>
           </Link>
+
           <button
             className="focus:outline-none"
             onClick={() => setIsOpen(!isOpen)}
-            aria-label={isOpen ? "Fermer le menu" : "Ouvrir le menu"}
+            aria-label={isOpen ? "Close menu" : "Open menu"}
           >
             {isOpen ? <CloseIcon size={22} /> : <MenuIcon size={22} />}
           </button>
         </div>
       </div>
 
+      {/* Mobile dropdown */}
       {isOpen && (
-        <div className="md:hidden bg-black border-t border-gray-800 px-4 py-3 space-y-2">
-          <button
-            onClick={() => setMobileServicesOpen(!mobileServicesOpen)}
-            className="w-full flex items-center justify-between px-3 py-2 rounded-md hover:bg-gray-900"
-          >
-            <span>Services</span>
-            <ChevronDown size={16} className={mobileServicesOpen ? "rotate-180" : ""} />
-          </button>
+        <div className="md:hidden bg-black border-t border-gray-800">
+          <div className="px-4 py-3">
+            <button
+              onClick={() => setMobileServicesOpen(!mobileServicesOpen)}
+              className="w-full flex items-center justify-between px-3 py-2 rounded-md hover:bg-gray-900"
+            >
+              <span>Services</span>
+              <ChevronDown
+                size={16}
+                className={`${
+                  mobileServicesOpen ? "rotate-180" : ""
+                } transition-transform`}
+              />
+            </button>
 
-          {mobileServicesOpen && (
-            <div className="space-y-2">
-              {SERVICES.map((s) => (
-                <Link
-                  key={s.title}
-                  href={s.href}
-                  className="block px-3 py-2 rounded-md border border-gray-800 hover:bg-gray-900"
-                  onClick={() => setIsOpen(false)}
-                >
-                  {s.title}
-                </Link>
-              ))}
+            {mobileServicesOpen && (
+              <div className="mt-2 space-y-2">
+                {SERVICES.map((s) => (
+                  <div
+                    key={s.title}
+                    className="border border-gray-800 rounded-md overflow-hidden"
+                  >
+                    <Link
+                      href={`/services/${slugify(s.title)}`}
+                      className="flex items-center gap-3 px-3 py-2 hover:bg-gray-900"
+                    >
+                      <div className="w-12 h-12 flex-shrink-0 rounded-md overflow-hidden">
+                        <Image
+                          src={s.image}
+                          alt={s.title}
+                          width={48}
+                          height={48}
+                          className="object-cover w-12 h-12"
+                        />
+                      </div>
+                      <div className="flex-1">
+                        <div className="text-sm font-semibold">{s.title}</div>
+                        <div className="text-xs text-gray-300">
+                          {s.description}
+                        </div>
+                      </div>
+                    </Link>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            <div className="mt-3">
+              <ContactModal>
+                <Button className="w-full rounded-full uppercase py-2">
+                  Contact
+                </Button>
+              </ContactModal>
             </div>
-          )}
 
-          <Link href="/realisations" className="block px-3 py-2 rounded-md hover:bg-gray-900" onClick={() => setIsOpen(false)}>
-            Nos réalisations
-          </Link>
-          <Link href="/#nos-tarifs" className="block px-3 py-2 rounded-md hover:bg-gray-900" onClick={() => setIsOpen(false)}>
-            Nos tarifs
-          </Link>
-          <Link href="/contactez-nous" className="block px-3 py-2 rounded-md hover:bg-gray-900" onClick={() => setIsOpen(false)}>
-            Contactez-nous
-          </Link>
+            <Link
+              href="/realisations"
+              className="block mt-3 px-3 py-2 hover:bg-gray-900 rounded-md"
+            >
+              Réalisations
+            </Link>
+          </div>
         </div>
       )}
     </nav>

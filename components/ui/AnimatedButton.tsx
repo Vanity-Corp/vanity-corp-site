@@ -4,7 +4,7 @@ import React from "react";
 export function AnimatedButton(props: any) {
   return (
     <div className="flex items-center justify-center z-51">
-      <button className="px-4 py-2 rounded-md  dark:text-white text-center relative overflow-hidden dark:bg-white text-white flex justify-center group/modal-btn dark:hover:bg-[#4be961]">
+      <button className="px-4 py-2 rounded-md  dark:text-black text-center relative overflow-hidden dark:bg-white text-white flex justify-center group/modal-btn dark:hover:bg-[#4be961]">
         <span className="group-hover/modal-btn:translate-x-40 text-center transition duration-500 ">
           Appelez-nous
         </span>

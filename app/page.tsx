@@ -22,8 +22,20 @@ import { CarouselCard } from "@/components/CarouselCards";
 import { ClientSection } from "@/components/ClientSection";
 import { StickyScroll } from "@/components/ui/sticky-scroll-reveal";
 import { PricingWithSwitch } from "@/components/ui/pricing-with-switch";
-
+import {
+  Camera,
+  Lightbulb,
+  Clapperboard,
+  BarChart,
+  Target,
+  Users,
+  Video,
+  ImageIcon,
+  Film,
+  LucideIcon,
+} from "lucide-react";
 import BannerVideo from "@/components/ui/BannerVideo";
+import ServiceSection from "@/components/ServiceSection";
 const WorldMapSection = dynamic(
   () => import("@/components/WordMap").then((mod) => mod.WorldMapSection),
   {
@@ -31,7 +43,7 @@ const WorldMapSection = dynamic(
     loading: () => (
       <div className="w-full aspect-[2/1] rounded-lg bg-neutral-200/30 animate-pulse" />
     ),
-  }
+  },
 );
 const tabColors = {
   combo: "#493399",
@@ -42,33 +54,111 @@ const tabColors = {
   socialmedia: "#992D47",
 };
 
-const STUDIO_CONTENT = [
-  {
-    title: "Studio de tournage",
-    description: "Découvrez nos espaces, équipements et options de location pour vos productions.",
-    href: "/studio-de-tournage",
-    buttonLabel: "Voir Studio de tournage",
-    content: <div className="h-full w-full bg-[url('/img/Shooting_Les_Frangines.webp')] bg-cover bg-center" />,
-  },
-];
+type Feature = {
+  name: string;
+  description: string;
+  icon: LucideIcon;
+};
 
-const STRATEGIE_CONTENT = [
-  {
-    title: "Accompagnement stratégique",
-    description: "Community management, audit digital et stratégie sur mesure pour votre croissance.",
-    href: "/accompagnement-strategique",
-    buttonLabel: "Voir Accompagnement stratégique",
-    content: <div className="h-full w-full bg-[url('/img/Portfolio%20Accompagnement%20Stratégique%20Vanity.webp')] bg-cover bg-center" />,
-  },
-];
+export type Service = {
+  eyebrow: string;
+  title: string;
+  description: string;
+  image: string;
+  link: string;
+  reverse?: boolean;
+  features: Feature[];
+  color: string;
+};
 
-const AUDIOVISUEL_CONTENT = [
+export const services: Service[] = [
   {
-    title: "Audiovisuel",
-    description: "Prestations vidéo/photo, tournage, montage et livraison multi-formats.",
-    href: "/audiovisuel",
-    buttonLabel: "Voir Audiovisuel",
-    content: <div className="h-full w-full bg-[url('/img/Production.webp')] bg-cover bg-center" />,
+    eyebrow: "Studio de tournage",
+    title: "Des espaces pensés pour vos productions",
+    color: "text-indigo-400",
+    link: "studio-de-tournage",
+    description:
+      "Découvrez nos espaces, équipements et options de location pour vos productions. Nous mettons à disposition un environnement professionnel conçu pour maximiser la qualité de vos contenus tout en simplifiant vos tournages.",
+    image: "/img/studio.jpg",
+    features: [
+      {
+        name: "Espace modulable.",
+        description:
+          "Un studio adaptable pour différents formats de tournage, du contenu social media aux productions plus ambitieuses.",
+        icon: Camera,
+      },
+      {
+        name: "Éclairage professionnel.",
+        description:
+          "Des solutions d’éclairage optimisées pour garantir un rendu visuel cohérent et esthétique.",
+        icon: Lightbulb,
+      },
+      {
+        name: "Matériel disponible.",
+        description:
+          "Accédez à l’équipement essentiel pour produire efficacement sans contraintes techniques.",
+        icon: Clapperboard,
+      },
+    ],
+  },
+  {
+    eyebrow: "Accompagnement stratégique",
+    title: "Une vision claire pour votre croissance",
+    color: "text-fuchsia-400",
+    link: "accompagnement-strategique",
+    description:
+      "Community management, audit digital et stratégie sur mesure pour votre croissance. Nous analysons votre présence actuelle et construisons des actions concrètes pour améliorer votre visibilité et vos performances.",
+    image: "/img/Stratégie.webp",
+    reverse: true,
+    features: [
+      {
+        name: "Audit digital.",
+        description:
+          "Analyse complète de votre présence en ligne pour identifier les opportunités d’amélioration.",
+        icon: BarChart,
+      },
+      {
+        name: "Stratégie sur mesure.",
+        description:
+          "Des recommandations adaptées à votre marché et à vos objectifs business.",
+        icon: Target,
+      },
+      {
+        name: "Community management.",
+        description:
+          "Gestion et animation de vos réseaux sociaux pour créer une audience engagée.",
+        icon: Users,
+      },
+    ],
+  },
+  {
+    eyebrow: "Audiovisuel",
+    title: "Donnez vie à votre image",
+    color: "text-cyan-400",
+    link: "audiovisuel",
+    description:
+      "Prestations vidéo/photo, tournage, montage et livraison multi-formats. Nous vous accompagnons de la conception à la livraison pour produire du contenu impactant et adapté à tous vos canaux.",
+    image: "/img/Production.webp",
+    features: [
+      {
+        name: "Production vidéo.",
+        description:
+          "Tournage professionnel pour vos contenus marketing, corporate ou réseaux sociaux.",
+        icon: Video,
+      },
+      {
+        name: "Photographie.",
+        description:
+          "Des visuels de qualité pour valoriser votre marque et vos produits.",
+        icon: ImageIcon,
+      },
+      {
+        name: "Montage & formats.",
+        description:
+          "Optimisation et déclinaison de vos contenus pour toutes les plateformes.",
+        icon: Film,
+      },
+    ],
   },
 ];
 export default function Home() {
@@ -84,7 +174,7 @@ export default function Home() {
           setBgColor("#000000");
         }
       },
-      { threshold: 0.5 }
+      { threshold: 0.5 },
     );
     if (targetRef.current) {
       observer.observe(targetRef.current);
@@ -116,27 +206,16 @@ export default function Home() {
         {" "}
         <StackedCard />{" "}
       </div>{" "}
-      <section id="studio-de-tournage" className="w-full px-4 md:px-16 py-16">
-        <StickyScroll content={STUDIO_CONTENT} className="bg-neutral-900" />
-      </section>
-      <section id="accompagnement-strategique" className="w-full px-4 md:px-16 py-16">
-        <StickyScroll content={STRATEGIE_CONTENT} className="bg-neutral-900" />
-      </section>
-      <section id="audiovisuel" className="w-full px-4 md:px-16 py-16">
-        <StickyScroll content={AUDIOVISUEL_CONTENT} className="bg-neutral-900" />
-      </section>
+      {services.map((service, index) => (
+        <ServiceSection
+          key={service.title}
+          {...service}
+          // fallback automatique si tu veux alterner sans le définir à la main
+          reverse={service.reverse ?? index % 2 !== 0}
+        />
+      ))}
       <section id="nos-tarifs" className="w-full px-4 md:px-16 py-8">
         <PricingWithSwitch />
-      </section>
-      <section id="contactez-nous" className="w-full px-6 md:px-16 py-10 flex justify-center">
-        <Link href="/contactez-nous">
-          <Button className="rounded-full">Voir la page contactez-nous</Button>
-        </Link>
-      </section>
-      <section id="estimation-gratuite" className="w-full px-6 md:px-16 py-4 flex justify-center">
-        <Link href="/estimation">
-          <Button className="rounded-full">Faire une estimation gratuite</Button>
-        </Link>
       </section>
       <div className="flex flex-col justify-center items-center md:hidden">
         {" "}

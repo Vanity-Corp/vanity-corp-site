@@ -21,7 +21,8 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { useToast } from "@/components/ui/use-toast";
 import { Textarea } from "@/components/ui/textarea";
 import Link from "next/link";
-import ReactBitsStepper from "@/components/ui/reactbits-stepper";
+import Stepper, { Step } from "@/components/ui/Stepper"; // Import the new stepper
+import { BriefcaseBusiness, Coffee } from "lucide-react";
 
 const schema = z.object({
   clientType: z.enum(
@@ -33,7 +34,7 @@ const schema = z.object({
     ],
     {
       errorMap: () => ({ message: "ce champ est obligatoire" }),
-    }
+    },
   ),
   budget: z.enum(
     [
@@ -44,7 +45,7 @@ const schema = z.object({
     ],
     {
       errorMap: () => ({ message: "ce champ est obligatoire" }),
-    }
+    },
   ),
   services: z.enum(
     [
@@ -57,7 +58,7 @@ const schema = z.object({
     ],
     {
       errorMap: () => ({ message: "ce champ est obligatoire" }),
-    }
+    },
   ),
   features: z.string().min(1, "Ce champ est obligatoire"),
   name: z.string().min(2, "Le nom est obligatoire"),
@@ -95,13 +96,13 @@ const steps = [
   },
   {
     id: "step6",
-    name: "C'est parti ! On s'en occupe 💼",
+    name: "C'est parti ! On s'en occupe ",
     fields: [],
   },
 ];
 
 export default function Component() {
-  const [currentStep, setCurrentStep] = useState(0);
+  const [currentStep, setCurrentStep] = useState(1); // Start from 1 instead of 0
   const [isSubmitted, setIsSubmitted] = useState(false);
   const { toast } = useToast();
   const {
@@ -126,7 +127,7 @@ export default function Component() {
 
       if (response.ok) {
         setIsSubmitted(true);
-        handleNext();
+        setCurrentStep(6); // Move to final step after submission
         toast({
           title: "Quote Request Sent",
           description:
@@ -145,263 +146,246 @@ export default function Component() {
     }
   };
 
-  const handleNext = async () => {
-    const currentFields = steps[currentStep].fields;
-    const isStepValid = await trigger(currentFields as any);
-
-    if (isStepValid) {
-      setCurrentStep((prev) => Math.min(prev + 1, steps.length - 1));
+  const handleStepChange = (step: number) => {
+    // Validate current step before allowing navigation
+    const currentFields = steps[currentStep - 1].fields;
+    if (currentFields.length > 0) {
+      trigger(currentFields as any).then((isValid) => {
+        if (isValid) {
+          setCurrentStep(step);
+        }
+      });
+    } else {
+      setCurrentStep(step);
     }
   };
 
-  const handlePrev = () => {
-    setCurrentStep((prev) => Math.max(prev - 1, 0));
-  };
-
-  const currentStepFields = steps[currentStep].fields;
-
-  const isNextDisabled = () => {
-    const currentFields = steps[currentStep].fields;
-    return currentFields.some((field) => !!errors[field as keyof FormData]);
+  const isStepValid = (step: number) => {
+    const stepFields = steps[step - 1].fields;
+    return stepFields.every((field) => !errors[field as keyof FormData]);
   };
 
   return (
     <div className="flex justify-center items-center w-full h-screen mt-10">
-      <div className="bg-white shadow-md rounded-lg p-6 w-full md:w-1/2">
-        <ReactBitsStepper
-          steps={steps.slice(0, -1).map((step) => step.name)}
-          currentStep={Math.min(currentStep, steps.length - 2)}
-        />
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <motion.div
-            key={currentStep}
-            initial={{ opacity: 0, x: 50 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -50 }}
-            transition={{ duration: 0.3 }}
-          >
-            {currentStep < steps.length - 1 ? (
-              <div className="flex flex-col items-center gap-4 md:block">
-                <h3 className="text-xl font-[600] text-gray-900 mb-4">
-                  <span className="text-[#D33E6B]">{currentStep + 1}.</span>{" "}
-                  {steps[currentStep].name}
-                </h3>
-                {currentStepFields.includes("clientType") && (
-                  <div className="mb-4 w-[90%] md:w-full">
-                    <Select
-                      onValueChange={(value) =>
-                        setValue(
-                          "clientType",
-                          value as FormData["clientType"],
-                          { shouldValidate: true }
-                        )
-                      }
-                    >
-                      <SelectTrigger>
-                        <SelectValue placeholder="Sélectionnez une option" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {[
-                          "Une entreprise / Collectivité",
-                          "Un particulier",
-                          "Indépendant / Artiste / Créateur",
-                          "Une association / ONG",
-                        ].map((type) => (
-                          <SelectItem key={type} value={type}>
-                            {type}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                    {errors.clientType && (
-                      <p className="text-sm text-red-500 mt-1">
-                        {errors.clientType.message}
-                      </p>
+      <div className=" rounded-lg p-6 w-full">
+        <Stepper
+          initialStep={currentStep}
+          onStepChange={handleStepChange}
+          onFinalStepCompleted={() => console.log("Completed!")}
+          disableStepIndicators={false}
+        >
+          {steps.map((step, index) => (
+            <Step key={step.id}>
+              <motion.div
+                initial={{ opacity: 0, x: 50 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -50 }}
+                transition={{ duration: 0.3 }}
+              >
+                {index < steps.length - 1 ? (
+                  <div className="flex flex-col items-center gap-4 md:block">
+                    <h3 className="text-xl font-[600]  mb-4">
+                      <span>{index + 1}.</span> {step.name}
+                    </h3>
+                    {step.fields.includes("clientType") && (
+                      <div className="mb-4 w-[90%] md:w-full">
+                        <Select
+                          onValueChange={(value) =>
+                            setValue(
+                              "clientType",
+                              value as FormData["clientType"],
+                              { shouldValidate: true },
+                            )
+                          }
+                        >
+                          <SelectTrigger>
+                            <SelectValue placeholder="Sélectionnez une option" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {[
+                              "Une entreprise / Collectivité",
+                              "Un particulier",
+                              "Indépendant / Artiste / Créateur",
+                              "Une association / ONG",
+                            ].map((type) => (
+                              <SelectItem key={type} value={type}>
+                                {type}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                        {errors.clientType && (
+                          <p className="text-sm text-red-500 mt-1">
+                            {errors.clientType.message}
+                          </p>
+                        )}
+                      </div>
+                    )}
+                    {step.fields.includes("services") && (
+                      <div className="mb-4 w-[90%] md:w-full">
+                        <Select
+                          onValueChange={(value) =>
+                            setValue(
+                              "services",
+                              value as FormData["services"],
+                              {
+                                shouldValidate: true,
+                              },
+                            )
+                          }
+                        >
+                          <SelectTrigger>
+                            <SelectValue placeholder="Sélectionnez une option" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {[
+                              "Vidéo / Photo",
+                              "Site web",
+                              "Réseaux sociaux",
+                              "Graphisme",
+                              "Stratégie",
+                              "Autre",
+                            ].map((size) => (
+                              <SelectItem key={size} value={size}>
+                                {size}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                        {errors.services && (
+                          <p className="text-sm text-red-500 mt-1">
+                            {errors.services.message}
+                          </p>
+                        )}
+                      </div>
+                    )}
+                    {step.fields.includes("features") && (
+                      <div className="mb-4 w-[90%] md:w-full">
+                        <Label className=" text-gray-200">
+                          Donnez-nous le maximum de détails ( sur vous, la
+                          prestation attendu, les delais, le nombre de photos,
+                          la longueur de la vidéo, Etc...)
+                        </Label>
+                        <Textarea
+                          {...register("features")}
+                          placeholder="Votre message..."
+                        />
+                        {errors.features && (
+                          <p className="text-sm text-red-500 mt-1">
+                            {errors.features.message}
+                          </p>
+                        )}
+                      </div>
+                    )}
+                    {step.fields.includes("budget") && (
+                      <div className="mb-4 w-[90%] md:w-full">
+                        <Select
+                          onValueChange={(value) =>
+                            setValue("budget", value as FormData["budget"], {
+                              shouldValidate: true,
+                            })
+                          }
+                        >
+                          <SelectTrigger>
+                            <SelectValue placeholder="Sélectionnez une option" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {[
+                              "1 000 € à 2 000 €",
+                              "2 000 € à 5 000 €",
+                              "5 000 € à 10 000 € ",
+                              "+ 10 000 €",
+                            ].map((size) => (
+                              <SelectItem key={size} value={size}>
+                                {size}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                        {errors.budget && (
+                          <p className="text-sm text-red-500 mt-1">
+                            {errors.budget.message}
+                          </p>
+                        )}
+                      </div>
+                    )}
+                    {step.fields.includes("name") && (
+                      <div className="mb-4 w-[90%] md:w-full">
+                        <Input
+                          placeholder="Votre nom*"
+                          id="name"
+                          {...register("name")}
+                        />
+                        {errors.name && (
+                          <p className="text-sm text-red-500 mt-1">
+                            {errors.name.message}
+                          </p>
+                        )}
+                      </div>
+                    )}
+                    {step.fields.includes("email") && (
+                      <div className="mb-4 w-[90%] md:w-full">
+                        <Input
+                          placeholder="Votre adresse email*"
+                          id="email"
+                          type="email"
+                          {...register("email")}
+                        />
+                        {errors.email && (
+                          <p className="text-sm text-red-500 mt-1">
+                            {errors.email.message}
+                          </p>
+                        )}
+                      </div>
+                    )}
+                    {step.fields.includes("phone") && (
+                      <div className="mb-4 w-[90%] md:w-full">
+                        <Input
+                          id="phone"
+                          placeholder="Votre numéro de téléphone*"
+                          type="tel"
+                          {...register("phone")}
+                        />
+                        {errors.phone && (
+                          <p className="text-sm text-red-500 mt-1">
+                            {errors.phone.message}
+                          </p>
+                        )}
+                      </div>
                     )}
                   </div>
-                )}
-                {currentStepFields.includes("services") && (
-                  <div className="mb-4 w-[90%] md:w-full">
-                    <Select
-                      onValueChange={(value) =>
-                        setValue("services", value as FormData["services"], {
-                          shouldValidate: true,
-                        })
-                      }
-                    >
-                      <SelectTrigger>
-                        <SelectValue placeholder="Sélectionnez une option" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {[
-                          "Vidéo / Photo",
-                          "Site web",
-                          "Réseaux sociaux",
-                          "Graphisme",
-                          "Stratégie",
-                          "Autre",
-                        ].map((size) => (
-                          <SelectItem key={size} value={size}>
-                            {size}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                    {errors.services && (
-                      <p className="text-sm text-red-500 mt-1">
-                        {errors.services.message}
-                      </p>
-                    )}
-                  </div>
-                )}
-                {currentStepFields.includes("features") && (
-                  <div className="mb-4 w-[90%] md:w-full">
-                    <Label className="text-black">
-                      Donnez-nous le maximum de détails ( sur vous, la
-                      prestation attendu, les delais, le nombre de photos, la
-                      longueur de la vidéo, Etc...)
-                    </Label>
-                    <Textarea
-                      {...register("features")}
-                      placeholder="Votre message..."
-                    />
-                    {errors.features && (
-                      <p className="text-sm text-red-500 mt-1">
-                        {errors.features.message}
-                      </p>
-                    )}
-                  </div>
-                )}
-                {currentStepFields.includes("budget") && (
-                  <div className="mb-4 w-[90%] md:w-full">
-                    <Select
-                      onValueChange={(value) =>
-                        setValue("budget", value as FormData["budget"], {
-                          shouldValidate: true,
-                        })
-                      }
-                    >
-                      <SelectTrigger>
-                        <SelectValue placeholder="Sélectionnez une option" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {[
-                          "1 000 € à 2 000 €",
-                          "2 000 € à 5 000 €",
-                          "5 000 € à 10 000 € ",
-                          "+ 10 000 €",
-                        ].map((size) => (
-                          <SelectItem key={size} value={size}>
-                            {size}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                    {errors.budget && (
-                      <p className="text-sm text-red-500 mt-1">
-                        {errors.budget.message}
-                      </p>
-                    )}
-                  </div>
-                )}
-                {currentStepFields.includes("name") && (
-                  <div className="mb-4 w-[90%] md:w-full">
-                    <Input
-                      placeholder="Votre nom*"
-                      id="name"
-                      {...register("name")}
-                    />
-                    {errors.name && (
-                      <p className="text-sm text-red-500 mt-1">
-                        {errors.name.message}
-                      </p>
-                    )}
-                  </div>
-                )}
-                {currentStepFields.includes("email") && (
-                  <div className="mb-4 w-[90%] md:w-full">
-                    <Input
-                      placeholder="Votre adresse email*"
-                      id="email"
-                      type="email"
-                      {...register("email")}
-                    />
-                    {errors.email && (
-                      <p className="text-sm text-red-500 mt-1">
-                        {errors.email.message}
-                      </p>
-                    )}
-                  </div>
-                )}
-                {currentStepFields.includes("phone") && (
-                  <div className="mb-4 w-[90%] md:w-full">
-                    <Input
-                      id="phone"
-                      placeholder="Votre numéro de téléphone*"
-                      type="tel"
-                      {...register("phone")}
-                    />
-                    {errors.phone && (
-                      <p className="text-sm text-red-500 mt-1">
-                        {errors.phone.message}
-                      </p>
-                    )}
-                  </div>
-                )}
-              </div>
-            ) : (
-              <div className="text-center">
-                <h3 className="text-2xl font-bold text-gray-900 mb-4">
-                  C&apos;est parti !<br /> On s&apos;en occupe 💼{" "}
-                </h3>
-                <p className="text-lg text-gray-600 mb-6">
-                  Vous recevrez un devis dans moins de 24h. Vous voulez une
-                  réponse express ? programmez un rendez-vous téléphonique :
-                </p>
-              </div>
-            )}
-          </motion.div>
-          <div className="mt-8 flex justify-between">
-            {currentStep < steps.length - 1 ? (
-              <>
-                <Button
-                  type="button"
-                  className="text-black bg-white border-2 hover:bg-black hover:text-white rounded-full text-[10px] md:text-base"
-                  onClick={handlePrev}
-                  disabled={currentStep === 0}
-                  variant="outline"
-                >
-                  <ChevronLeft className="mr-2 h-4 w-4" />
-                  Étape précédente
-                </Button>
-                {currentStep < steps.length - 2 ? (
-                  <Button
-                    className="text-[#D33E6B] bg-white border-[#D33E6B] border-2 hover:bg-[#D33E6B] hover:text-white rounded-full text-[10px] md:text-base"
-                    type="button"
-                    onClick={handleNext}
-                    disabled={isNextDisabled()}
-                  >
-                    Hop ! la suite
-                  </Button>
                 ) : (
-                  <Button
-                    className="text-[#D33E6B] bg-white border-[#D33E6B] border-2 hover:bg-[#D33E6B] hover:text-white rounded-full text-[10px] md:text-base"
-                    type="submit"
-                    disabled={isNextDisabled()}
-                  >
-                    Soumettre
-                  </Button>
+                  <div className="flex flex-col  text-center">
+                    <div className="flex flex-col items-center justify-center">
+                      <BriefcaseBusiness
+                        size={30}
+                        color="#8b5cf6"
+                        className="mb-3"
+                      />
+                      <h3 className="text-2xl font-bold mb-4">
+                        C&apos;est parti !<br /> On s&apos;en occupe{" "}
+                      </h3>
+                    </div>
+
+                    <p className="text-lg text-gray-200 mb-6">
+                      Vous recevrez un devis dans moins de 24h. Vous voulez une
+                      réponse express ? programmez un rendez-vous téléphonique :
+                    </p>
+                    <Button type="button" className="mx-auto">
+                      <Coffee className="mr-2" />
+                      <Link
+                        className="text-lg"
+                        href="https://calendly.com/yanis-vanitycorp/30min"
+                      >
+                        Programmer un rendez-vous
+                      </Link>
+                    </Button>
+                  </div>
                 )}
-              </>
-            ) : (
-              <Button type="button" className="mx-auto">
-                <Link href="https://calendly.com/yanis-vanitycorp/30min">
-                  ☕ Programmer un rendez-vous{" "}
-                </Link>
-              </Button>
-            )}
-          </div>
-        </form>
+              </motion.div>
+            </Step>
+          ))}
+        </Stepper>
       </div>
     </div>
   );
