@@ -35,7 +35,7 @@ export function Footer() {
   }
 
   return (
-    <footer className="w-full flex flex-col justify-center items-center bg-black text-white font-bold px-24 py-10">
+    <footer className="w-full  max-w-[1920px] m-auto flex flex-col justify-center items-center bg-black text-white font-bold px-24 py-10">
       <div className="w-full  flex flex-col  items-center justify-center">
         <div className="flex w-full md:items-start items-center justify-between md:flex-row flex-col gap-10">
           {/*

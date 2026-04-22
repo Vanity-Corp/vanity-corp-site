@@ -202,7 +202,7 @@ export default function Home() {
         src="/videos/SHOWREEL 2025_2026_V6SQ2.mp4"
         poster="/fallback.webp"
       />{" "}
-      <div className="hidden md:block">
+      <div className="hidden max-w-[1920px] m-auto md:block">
         {" "}
         <StackedCard />{" "}
       </div>{" "}
