@@ -17,6 +17,7 @@ import dynamic from "next/dynamic";
 const StudioModel = dynamic(() => import("@/components/StudioModel"), {
   ssr: false,
 });
+
 // ── Types ─────────────────────────────────────────────────────────────────────
 
 interface Feature {
