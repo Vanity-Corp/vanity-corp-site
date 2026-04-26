@@ -87,21 +87,6 @@ export default function Estimation() {
                 ))}
               </div>
             </div>
-
-            {/* Contact fallback */}
-            <div className="border border-indigo-500/20 rounded-2xl p-5 bg-indigo-950/20">
-              <p className="text-sm font-semibold text-white mb-1">
-                Besoin d&apos;aide ?
-              </p>
-              <p className="text-xs text-neutral-500 leading-relaxed mb-4">
-                Vous préférez en discuter directement avec un expert avant de
-                remplir le formulaire ?
-              </p>
-              <Button className="w-full bg-indigo-500 hover:bg-indigo-400 text-white rounded-xl h-9 text-sm font-medium transition-colors">
-                Prendre rendez-vous
-                <ArrowRight size={14} className="ml-1.5" />
-              </Button>
-            </div>
           </aside>
 
           {/* ── RIGHT — estimator form ── */}

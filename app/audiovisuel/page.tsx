@@ -3,9 +3,6 @@
 import { useState, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import {
-  Video,
-  Camera,
-  Scissors,
   ArrowRight,
   Play,
   MonitorPlay,
@@ -18,12 +15,16 @@ import {
   CheckCircle2,
   Clock,
   Layers,
+  Camera,
+  Scissors,
 } from "lucide-react";
 import { Footer } from "@/components/Footer";
 import { StarsBackground } from "@/components/backgrounds/stars";
 import { cn } from "@/lib/utils";
 import { motion } from "motion/react";
 import dynamic from "next/dynamic";
+import Folder from "@/components/Folder";
+import Image from "next/image";
 
 const CameraModel = dynamic(() => import("@/components/CameraModel"), {
   ssr: false,
@@ -39,33 +40,114 @@ const CameraModel = dynamic(() => import("@/components/CameraModel"), {
 const HERO_IMAGE =
   "https://images.unsplash.com/photo-1492619375914-88005aa9e8fb?w=1800&auto=format&fit=crop&q=80";
 
-const SERVICES = [
+// ── Réalisation file card — used as Folder items ──────────────────────────────
+
+function RealisationFile({
+  src,
+  href,
+  alt,
+}: {
+  src: string;
+  href: string;
+  alt: string;
+}) {
+  return (
+    <a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="block w-full overflow-hidden rounded-lg border border-white/10 hover:border-amber-400/40 transition-all duration-200 group/file"
+      style={{ aspectRatio: "16/9" }}
+    >
+      <Image
+        src={src}
+        alt={alt}
+        className="w-full h-full object-cover transition-transform duration-300 group-hover/file:scale-105 brightness-75 group-hover/file:brightness-90"
+        width={100}
+        height={100}
+      />
+    </a>
+  );
+}
+
+const FOLDERS = [
   {
-    num: "01",
-    title: "Production vidéo",
+    label: "Production vidéo",
     description:
-      "Tournage professionnel pour vos contenus marketing, corporate ou réseaux sociaux. Équipe complète sur site.",
-    icon: <Video size={20} />,
-    tags: ["Corporate", "Marketing", "Social media", "Interview"],
-    accent: "#f59e0b",
+      "Tournage professionnel pour vos contenus marketing, corporate ou réseaux sociaux.",
+    color: "#d97706",
+    items: [
+      <RealisationFile
+        key="1"
+        src="https://images.unsplash.com/photo-1601506521793-dc748fc80b67?w=400&auto=format&fit=crop&q=70"
+        href="#"
+        alt="Film corporate"
+      />,
+      <RealisationFile
+        key="2"
+        src="https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?w=400&auto=format&fit=crop&q=70"
+        href="#"
+        alt="Spot publicitaire"
+      />,
+      <RealisationFile
+        key="3"
+        src="https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=400&auto=format&fit=crop&q=70"
+        href="#"
+        alt="Réels Instagram"
+      />,
+    ],
   },
   {
-    num: "02",
-    title: "Photographie",
+    label: "Photographie",
     description:
-      "Des visuels de qualité pour valoriser votre marque et vos produits. Studio ou extérieur, reportage ou packshot.",
-    icon: <Camera size={20} />,
-    tags: ["Branding", "Produit", "Reportage", "Studio"],
-    accent: "#f59e0b",
+      "Des visuels de qualité pour valoriser votre marque et vos produits.",
+    color: "#f59e0b",
+    items: [
+      <RealisationFile
+        key="1"
+        src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&auto=format&fit=crop&q=70"
+        href="#"
+        alt="Lookbook mode"
+      />,
+      <RealisationFile
+        key="2"
+        src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400&auto=format&fit=crop&q=70"
+        href="#"
+        alt="Packshots produit"
+      />,
+      <RealisationFile
+        key="3"
+        src="https://images.unsplash.com/photo-1542038784456-1ea8e935640e?w=400&auto=format&fit=crop&q=70"
+        href="#"
+        alt="Reportage événement"
+      />,
+    ],
   },
   {
-    num: "03",
-    title: "Montage & formats",
+    label: "Montage & formats",
     description:
-      "Optimisation et déclinaison de vos contenus pour toutes les plateformes. Du rush au rendu final.",
-    icon: <Scissors size={20} />,
-    tags: ["Color grading", "Motion design", "Sous-titres", "Multi-format"],
-    accent: "#f59e0b",
+      "Optimisation et déclinaison de vos contenus pour toutes les plateformes.",
+    color: "#fbbf24",
+    items: [
+      <RealisationFile
+        key="1"
+        src="https://images.unsplash.com/photo-1536240478700-b869ad10e2ab?w=400&auto=format&fit=crop&q=70"
+        href="#"
+        alt="Color grading"
+      />,
+      <RealisationFile
+        key="2"
+        src="https://images.unsplash.com/photo-1611532736597-de2d4265fba3?w=400&auto=format&fit=crop&q=70"
+        href="#"
+        alt="Motion design"
+      />,
+      <RealisationFile
+        key="3"
+        src="https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=400&auto=format&fit=crop&q=70"
+        href="#"
+        alt="Multi-formats"
+      />,
+    ],
   },
 ];
 
@@ -198,61 +280,6 @@ function VideoPlayerMock() {
   );
 }
 
-// ── Service Card ──────────────────────────────────────────────────────────────
-
-function ServiceCard({ service }: { service: (typeof SERVICES)[0] }) {
-  const [hovered, setHovered] = useState(false);
-
-  return (
-    <motion.div
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-      whileHover={{ y: -2 }}
-      transition={{ duration: 0.2 }}
-      className="group relative border border-white/10 rounded-2xl p-7 transition-colors duration-300 hover:border-amber-500/30 hover:bg-amber-950/10 cursor-default overflow-hidden"
-    >
-      <div
-        className="absolute inset-0 rounded-2xl transition-opacity duration-500 pointer-events-none"
-        style={{
-          background:
-            "radial-gradient(ellipse at top left, rgba(245,158,11,0.07) 0%, transparent 70%)",
-          opacity: hovered ? 1 : 0,
-        }}
-      />
-      <span className="absolute top-3 right-5 text-[64px] font-black leading-none text-white/[0.025] select-none group-hover:text-amber-400/10 transition-colors duration-300">
-        {service.num}
-      </span>
-
-      <div className="relative z-10">
-        <div className="flex items-start justify-between mb-5">
-          <div className="w-11 h-11 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-400 transition-all duration-300 group-hover:bg-amber-500/20 group-hover:border-amber-400/40">
-            {service.icon}
-          </div>
-          <span className="text-[11px] text-neutral-600 tracking-widest font-mono mt-1">
-            {service.num}
-          </span>
-        </div>
-        <h3 className="text-lg font-semibold text-white mb-2 leading-snug">
-          {service.title}
-        </h3>
-        <p className="text-sm text-neutral-400 leading-relaxed mb-5">
-          {service.description}
-        </p>
-        <div className="flex flex-wrap gap-1.5">
-          {service.tags.map((tag) => (
-            <span
-              key={tag}
-              className="text-[11px] px-2.5 py-1 rounded-full border border-white/10 text-neutral-500 bg-white/[0.02] tracking-wide"
-            >
-              {tag}
-            </span>
-          ))}
-        </div>
-      </div>
-    </motion.div>
-  );
-}
-
 function SectionLabel({ children }: { children: React.ReactNode }) {
   return (
     <p className="text-[11px] uppercase tracking-widest text-neutral-500 mb-6">
@@ -265,13 +292,13 @@ function SectionLabel({ children }: { children: React.ReactNode }) {
 
 export default function AudiovisuelPage() {
   return (
-    <div className="dark min-h-screen px-4 py-10 sm:px-6 lg:px-8">
-      <div className="mx-auto w-full max-w-[1920px]">
+    <div className="dark min-h-screen w-full px-4 py-10 sm:px-6 lg:px-8">
+      <div className="mx-auto w-full ">
         <main className="border border-white/10 rounded-2xl overflow-hidden text-white">
           {/* ══════════════════════════════════════════
               HERO — cinematic widescreen feel
           ══════════════════════════════════════════ */}
-          <section className="relative min-h-[420px] flex flex-col justify-end border-b border-white/10 overflow-hidden">
+          <section className="relative min-h-[420px] flex flex-col justify-end border-b border-white/10 overflow-hidden ">
             {/* BG image */}
             <div
               className="absolute inset-0 bg-cover bg-center"
@@ -296,7 +323,7 @@ export default function AudiovisuelPage() {
             />
 
             {/* Content — 2-col: text left, 3D model right */}
-            <div className="relative z-10 w-full px-6 sm:px-10 pt-20 pb-12 flex flex-col lg:flex-row lg:items-center gap-8">
+            <div className="relative max-w-[1920px] m-auto z-10 w-full px-6 sm:px-10 pt-20 pb-12 flex flex-col lg:flex-row lg:items-center gap-8">
               {/* Left — text */}
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2 mb-6">
@@ -337,7 +364,7 @@ export default function AudiovisuelPage() {
 
               {/* Right — 3D camera model */}
               <div
-                className="shrink-0 w-full lg:w-[480px] scale-105"
+                className="shrink-0 w-full lg:w-[480px]"
                 style={{ height: "420px" }}
               >
                 <CameraModel />
@@ -345,7 +372,7 @@ export default function AudiovisuelPage() {
             </div>
 
             {/* Film strip bottom edge */}
-            <div className="absolute bottom-0 left-0 right-0 z-10">
+            <div className="absolute max-w-[1920px] m-auto bottom-0 left-0 right-0 z-10">
               <FilmStrip />
             </div>
           </section>
@@ -353,7 +380,7 @@ export default function AudiovisuelPage() {
           {/* ══════════════════════════════════════════
               SECTION 1 — Stats bar
           ══════════════════════════════════════════ */}
-          <section className="border-b border-white/10">
+          <section className="border-b max-w-[1920px] m-auto border-white/10">
             <div className="grid grid-cols-3 divide-x divide-white/10">
               {STATS.map((s) => (
                 <div key={s.label} className="px-8 py-7 flex flex-col gap-1">
@@ -371,7 +398,7 @@ export default function AudiovisuelPage() {
           {/* ══════════════════════════════════════════
               SECTION 2 — Bento grid: video player + specs + services
           ══════════════════════════════════════════ */}
-          <section className="border-b border-white/10 p-6 sm:p-8">
+          <section className="border-b max-w-[1920px] m-auto border-white/10 p-6 sm:p-8">
             <div className="grid grid-cols-1 lg:grid-cols-[1.5fr_1fr] gap-5">
               {/* LEFT col — video player + services stacked */}
               <div className="flex flex-col gap-5">
@@ -381,12 +408,41 @@ export default function AudiovisuelPage() {
                   <VideoPlayerMock />
                 </div>
 
-                {/* Services — horizontal mini-cards on desktop */}
+                {/* Services — Folder components */}
                 <div className="border border-white/10 rounded-2xl p-6 bg-white/[0.01]">
-                  <SectionLabel>Nos services</SectionLabel>
-                  <div className="flex flex-col gap-4">
-                    {SERVICES.map((service) => (
-                      <ServiceCard key={service.num} service={service} />
+                  <SectionLabel>Nos services & réalisations</SectionLabel>
+                  <p className="text-xs text-neutral-500 leading-relaxed mb-8">
+                    Cliquez sur un dossier pour découvrir nos réalisations.
+                  </p>
+                  <div className="grid grid-cols-3 gap-6">
+                    {FOLDERS.map((folder) => (
+                      <div
+                        key={folder.label}
+                        className="flex flex-col items-center gap-4"
+                      >
+                        <div
+                          className="flex justify-center items-center"
+                          style={{
+                            height: "200px",
+                            position: "relative",
+                            width: "100%",
+                          }}
+                        >
+                          <Folder
+                            color={folder.color}
+                            size={1.5}
+                            items={folder.items}
+                          />
+                        </div>
+                        <div className="text-center">
+                          <p className="text-[13px] font-semibold text-white leading-snug mb-1">
+                            {folder.label}
+                          </p>
+                          <p className="text-[11px] text-neutral-500 leading-relaxed">
+                            {folder.description}
+                          </p>
+                        </div>
+                      </div>
                     ))}
                   </div>
                 </div>
@@ -488,37 +544,6 @@ export default function AudiovisuelPage() {
                     ))}
                   </div>
                 </div>
-
-                {/* CTA */}
-                <div
-                  className="border border-amber-500/20 rounded-2xl p-6 flex flex-col gap-4"
-                  style={{
-                    background:
-                      "radial-gradient(ellipse at top right, rgba(245,158,11,0.07) 0%, transparent 70%)",
-                  }}
-                >
-                  <div>
-                    <p className="text-sm font-semibold text-white mb-1">
-                      Un projet en tête ?
-                    </p>
-                    <p className="text-xs text-neutral-500 leading-relaxed">
-                      Parlez-nous de votre projet et obtenez un devis
-                      personnalisé sous 48h, sans engagement.
-                    </p>
-                  </div>
-                  <div className="flex flex-col gap-2">
-                    <Button className="w-full bg-amber-400 hover:bg-amber-300 text-neutral-950 rounded-xl h-10 text-sm font-semibold transition-colors">
-                      Demander un devis{" "}
-                      <ArrowRight size={14} className="ml-1.5" />
-                    </Button>
-                    <Button
-                      variant="outline"
-                      className="w-full rounded-xl border-white/10 text-neutral-400 bg-transparent h-10 text-sm hover:bg-white/5 hover:text-white"
-                    >
-                      Voir nos réalisations
-                    </Button>
-                  </div>
-                </div>
               </div>
             </div>
           </section>
@@ -527,7 +552,7 @@ export default function AudiovisuelPage() {
               SECTION 3 — Final CTA banner
           ══════════════════════════════════════════ */}
           <section
-            className="px-8 py-14 flex flex-col md:flex-row items-start md:items-center justify-between gap-8"
+            className="px-8 max-w-[1920px] m-auto py-14 flex flex-col md:flex-row items-start md:items-center justify-between gap-8"
             style={{
               background:
                 "linear-gradient(to right, rgba(245,158,11,0.06), transparent)",

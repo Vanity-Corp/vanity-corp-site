@@ -8,6 +8,7 @@ import React, {
   ReactNode,
 } from "react";
 import { motion, AnimatePresence, Variants } from "motion/react";
+import { ChevronLeft } from "lucide-react";
 
 interface StepperProps extends HTMLAttributes<HTMLDivElement> {
   children: ReactNode;
@@ -146,13 +147,14 @@ export default function Stepper({
               {currentStep !== 1 && (
                 <button
                   onClick={handleBack}
-                  className={`duration-350 rounded px-2 py-1 transition ${
+                  className={`flex items-center gap-2 duration-350 rounded px-2 py-1 transition ${
                     currentStep === 1
                       ? "pointer-events-none opacity-50 text-gray-400 dark:text-gray-600"
                       : "text-gray-400 hover:text-gray-700 dark:text-gray-500 dark:hover:text-gray-300"
                   }`}
                   {...backButtonProps}
                 >
+                  <ChevronLeft />
                   {backButtonText}
                 </button>
               )}

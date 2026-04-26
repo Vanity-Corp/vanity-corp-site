@@ -169,6 +169,8 @@ export default function Component() {
     <div className="flex justify-center items-center  mt-10">
       <div className=" rounded-lg p-6 w-full">
         <Stepper
+          nextButtonText="Hop ! la suite"
+          backButtonText="Étape précédente"
           initialStep={currentStep}
           onStepChange={handleStepChange}
           onFinalStepCompleted={() => console.log("Completed!")}
