@@ -166,7 +166,7 @@ export default function Component() {
   };
 
   return (
-    <div className="flex justify-center items-center w-full h-screen mt-10">
+    <div className="flex justify-center items-center  mt-10">
       <div className=" rounded-lg p-6 w-full">
         <Stepper
           initialStep={currentStep}

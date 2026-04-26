@@ -495,7 +495,7 @@ export default function StudioPage() {
                 Des espaces pensés
                 <br />
                 pour vos{" "}
-                <span className="font-normal italic text-indigo-400">
+                <span className="font-normal italic text-indigo-300">
                   productions
                 </span>
               </h1>

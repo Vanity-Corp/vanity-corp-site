@@ -194,37 +194,36 @@ export default function Navbar(): JSX.Element {
               <div className="flex flex-col lg:flex-row gap-6 items-start z-50">
                 {/* Featured first service */}
                 <div className="hidden lg:flex  items-center justify-center">
-                  <Link
-                    href={`${SERVICES[0].link}`}
-                    className="block rounded-xl overflow-hidden"
-                  >
-                    <div className="w-[300px]">
+                  <div className="w-fit">
+                    <Link href="/studio-de-tournage">
                       <div className="aspect-[4/3] rounded-xl overflow-hidden shadow-lg bg-gray-900">
                         <Image
                           src={SERVICES[0].image}
                           alt={SERVICES[0].title}
-                          width={420}
-                          height={320}
+                          width={220}
+                          height={120}
                           className="object-cover w-full h-full"
                         />
                       </div>
-                      <div className="mt-4 text-center">
+                    </Link>
+                    <div className="mt-4 text-center">
+                      <Link href="/studio-de-tournage">
                         <h3 className="text-lg font-bold uppercase tracking-wider">
                           {SERVICES[0].title}
                         </h3>
-                        <a
-                          className="inline-block mt-3 text-lg rounded-full px-3 py-1 bg-white text-black font-medium"
-                          href="/studio-de-tournage/reservation"
-                        >
-                          Réserver le studio
-                        </a>
-                      </div>
+                      </Link>
+                      <Link
+                        className="inline-block mt-3 text-lg rounded-full px-3 py-1 bg-white text-black font-medium"
+                        href="/studio-de-tournage/reservation"
+                      >
+                        Réserver le studio
+                      </Link>
                     </div>
-                  </Link>
+                  </div>
                 </div>
 
                 {/* Right side grid 2x2 (exclude the featured first service) */}
-                <div className="flex-1 grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-1 xl:grid-cols-1 gap-6 items-start">
+                <div className="flex-1 grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-1 xl:grid-cols-1 gap-6 items-start w-fit">
                   {SERVICES.slice(1, 5).map((s) => (
                     <Link
                       key={s.title}
