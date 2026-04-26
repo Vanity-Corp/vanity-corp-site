@@ -218,8 +218,8 @@ function StepIndicator({
     currentStep === step
       ? "active"
       : currentStep < step
-      ? "inactive"
-      : "complete";
+        ? "inactive"
+        : "complete";
 
   const handleClick = () => {
     if (step !== currentStep && !disableStepIndicators) onClickStep(step);

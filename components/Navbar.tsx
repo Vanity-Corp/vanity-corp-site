@@ -12,70 +12,27 @@ type Service = {
   image: string;
   title: string;
   description: string;
-  list: string[];
+  link: string;
 };
 
 const SERVICES: Service[] = [
   {
-    image: "/img/DORIA.webp",
-    title: "PRODUCTION AUDIOVISUELLE",
+    image: "/img/studio.jpg",
+    title: "STUDIO DE TOURNAGE",
     description: "De l’idéation à la publication",
-    list: [
-      "Production exécutive",
-      "Cadrage",
-      "Montage",
-      "Étalonnage",
-      "Sound FX",
-      "Voix off",
-    ],
+    link: "/#studio-de-tournage",
   },
   {
-    image: "/img/banner-2.png",
-    title: "COMMUNITY MANAGEMENT",
-    description: "De l’idéation à la publication",
-    list: [
-      "Animation de réseaux sociaux",
-      "Création de contenu",
-      "Conception / rédaction",
-      "Modération",
-      "Reporting",
-    ],
+    image: "/img/Portfolio Accompagnement Stratégique Vanity.webp",
+    title: "Accompagnement stratégique",
+    description: "Community management & audit digital",
+    link: "/#accompagnement-strategique",
   },
   {
-    image: "/img/Shooting_Les_Frangines.webp",
-    title: "SHOOTING PHOTO",
-    description: "De l’idéation à la publication",
-    list: [
-      "Shooting produits",
-      "Shooting studio",
-      "Photos portraits",
-      "Photos de mariage",
-      "Photos d’événement",
-    ],
-  },
-  {
-    image: "/img/design.webp",
-    title: "GRAPHISME",
-    description: "De l’idéation à la publication",
-    list: [
-      "Charge graphique",
-      "Papeterie",
-      "Affichages",
-      "Maquettes web",
-      "Infographies",
-    ],
-  },
-  {
-    image: "/img/Computer_Four_Screens.webp",
-    title: "DÉVELOPPEMENT WEB",
-    description: "De l’idéation à la publication",
-    list: [
-      "Création de site web",
-      "Landing page",
-      "Maintenance",
-      "Conception UX/UI Design",
-      "SEO : Référencement naturel",
-    ],
+    image: "/img/Production.webp",
+    title: "Audiovisuel",
+    description: "Production vidéo / photo",
+    link: "/#audiovisuel",
   },
 ];
 
@@ -190,7 +147,7 @@ export default function Navbar(): JSX.Element {
         top: `${megaTop}px`,
         left: "50%",
         transform: "translateX(-50%)",
-        width: "min(92vw, 1152px)",
+        width: "fit-content",
         borderRadius: 16,
         zIndex: 1000,
       };
@@ -236,54 +193,56 @@ export default function Navbar(): JSX.Element {
             >
               <div className="flex flex-col lg:flex-row gap-6 items-start z-50">
                 {/* Featured first service */}
-                <div className="hidden lg:flex w-1/3 items-center justify-center">
-                  <Link
-                    href={`/services/${slugify(SERVICES[0].title)}`}
-                    className="block rounded-xl overflow-hidden"
-                  >
-                    <div className="w-[320px]">
+                <div className="hidden lg:flex  items-center justify-center">
+                  <div className="w-fit">
+                    <Link href="/studio-de-tournage">
                       <div className="aspect-[4/3] rounded-xl overflow-hidden shadow-lg bg-gray-900">
                         <Image
                           src={SERVICES[0].image}
                           alt={SERVICES[0].title}
-                          width={420}
-                          height={320}
+                          width={220}
+                          height={120}
                           className="object-cover w-full h-full"
                         />
                       </div>
-                      <div className="mt-4 text-center">
+                    </Link>
+                    <div className="mt-4 text-center">
+                      <Link href="/studio-de-tournage">
                         <h3 className="text-lg font-bold uppercase tracking-wider">
                           {SERVICES[0].title}
                         </h3>
-                        <p className="mt-2 text-sm text-gray-300">
-                          {SERVICES[0].description}
-                        </p>
-                      </div>
+                      </Link>
+                      <Link
+                        className="inline-block mt-3 text-lg rounded-full px-3 py-1 bg-white text-black font-medium"
+                        href="/studio-de-tournage/reservation"
+                      >
+                        Réserver le studio
+                      </Link>
                     </div>
-                  </Link>
+                  </div>
                 </div>
 
                 {/* Right side grid 2x2 (exclude the featured first service) */}
-                <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 gap-6 items-start">
+                <div className="flex-1 grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-1 xl:grid-cols-1 gap-6 items-start w-fit">
                   {SERVICES.slice(1, 5).map((s) => (
                     <Link
                       key={s.title}
-                      href={`/services/${slugify(s.title)}`}
+                      href={`${s.link}`}
                       className="group block rounded-xl p-4 bg-black/50 border border-gray-800 hover:bg-white/5 transition-colors shadow-md hover:shadow-xl"
                     >
                       <div className="flex items-start gap-3">
-                        <div className="flex-shrink-0 w-20 h-20 rounded-lg overflow-hidden bg-gray-900">
+                        <div className="flex-shrink-0 w-32 h-32 rounded-lg overflow-hidden bg-gray-900">
                           <Image
                             src={s.image}
                             alt={s.title}
                             width={200}
                             height={200}
-                            className="object-cover w-20 h-20"
+                            className="object-cover w-32 h-32"
                           />
                         </div>
 
-                        <div className="flex-1">
-                          <h3 className="text-sm tracking-wider uppercase font-semibold">
+                        <div className="flex-1 h-full flex flex-col justify-center">
+                          <h3 className="text-base tracking-wider font-semibold">
                             {s.title}
                           </h3>
                           <p className="mt-2 text-sm text-gray-300">
@@ -316,7 +275,12 @@ export default function Navbar(): JSX.Element {
           >
             Réalisations
           </Link>
-
+          <Link
+            href="/#nos-tarifs"
+            className="px-4 py-2 hover:bg-gray-800 rounded-md"
+          >
+            Nos tarifs
+          </Link>
           <ContactModal>Contactez-nous</ContactModal>
         </div>
 
