@@ -36,7 +36,7 @@ export default function ReservationSection({
 
   return (
     <div className="dark min-h-screen pt-10  m-auto bg-neutral-950 text-white flex flex-col">
-      <main className="flex-1 mx-auto w-full h-screen max-w-[1920px] px-4 sm:px-6 lg:px-8">
+      <main className="flex-1 mx-auto w-full max-w-[1920px] px-4 sm:px-6 lg:px-8">
         {/* Header */}
 
         <div className="px-6 sm:px-10 py-10 border-b border-white/10 flex flex-col md:flex-row md:items-end md:justify-between gap-6">
@@ -66,7 +66,7 @@ export default function ReservationSection({
               01 — Choisir une date
             </p>
 
-            <div className="dark w-[70%] rounded-2xl border border-white/10 bg-neutral-950 shadow-xl shadow-black/40 p-3 m-auto">
+            <div className="dark w-full md:w-[70%] rounded-2xl border border-white/10 bg-neutral-950 shadow-xl shadow-black/40 p-3 m-auto">
               <Calendar
                 mode="single"
                 selected={date}

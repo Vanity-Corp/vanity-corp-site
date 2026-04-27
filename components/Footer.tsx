@@ -35,7 +35,7 @@ export function Footer() {
   }
 
   return (
-    <footer className="w-full  max-w-[1920px] m-auto flex flex-col justify-center items-center bg-black text-white font-bold px-24 py-10">
+    <footer className="w-full max-w-[1920px] m-auto flex flex-col justify-center items-center bg-black text-white font-bold px-6 sm:px-10 lg:px-24 py-10">
       <div className="w-full  flex flex-col  items-center justify-center">
         <div className="flex w-full md:items-start items-center justify-between md:flex-row flex-col gap-10">
           {/*
@@ -68,7 +68,7 @@ export function Footer() {
             </form>
           </Form>
           */}
-          <div className="flex justify-between gap-4 flex-col">
+          <div className="flex justify-between gap-4 flex-col items-center md:items-start">
             <Image
               src="/vanity_corp_logo.svg"
               width={1000}

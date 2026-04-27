@@ -291,9 +291,9 @@ export default function AccompagnementPage() {
           {/* ══════════════════════════════════════════
               SECTION 3 — Process (full-width 4-step grid)
           ══════════════════════════════════════════ */}
-          <section className="border-b border-white/10 max-w-[1920px] m-auto px-8 py-12">
+          <section className="border-b border-white/10 max-w-[1920px] m-auto px-6 sm:px-8 py-12">
             <SectionLabel>Notre processus</SectionLabel>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-px bg-white/[0.06] rounded-2xl overflow-hidden">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-px bg-white/[0.06] rounded-2xl overflow-hidden">
               {PROCESS_STEPS.map((item, i) => (
                 <div
                   key={item.step}
@@ -326,9 +326,9 @@ export default function AccompagnementPage() {
               SECTION 1 — Metrics bar (full-width, 4 equal cols)
           ══════════════════════════════════════════ */}
           <section className="border-b border-white/10 max-w-[1920px] m-auto">
-            <div className="grid grid-cols-2 md:grid-cols-4 divide-x divide-y md:divide-y-0 divide-white/10">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 divide-y sm:divide-x divide-white/10">
               {/* Intro cell */}
-              <div className="px-8 py-8 flex flex-col justify-center gap-3 col-span-1">
+              <div className="px-6 sm:px-8 py-8 flex flex-col justify-center gap-3 col-span-1">
                 <SectionLabel>Résultats clients</SectionLabel>
                 <p className="text-xs text-neutral-500 leading-relaxed">
                   Des chiffres mesurables, obtenus sur de vrais projets.
@@ -339,7 +339,7 @@ export default function AccompagnementPage() {
               {METRICS.map((m) => (
                 <div
                   key={m.label}
-                  className="px-8 py-8 flex flex-col justify-center gap-1"
+                  className="px-6 sm:px-8 py-8 flex flex-col justify-center gap-1"
                 >
                   <span className="text-3xl sm:text-4xl font-bold text-fuchsia-400 tracking-tight leading-none">
                     {m.value}
@@ -359,7 +359,7 @@ export default function AccompagnementPage() {
           <section className="border-b border-white/10 max-w-[1920px] m-auto">
             <div className="grid grid-cols-1 lg:grid-cols-[1.6fr_1fr] divide-y lg:divide-y-0 lg:divide-x divide-white/10">
               {/* Left — service cards */}
-              <div className="px-8 py-10">
+              <div className="px-6 sm:px-8 py-10">
                 <SectionLabel>Nos services</SectionLabel>
                 <div className="flex flex-col gap-4">
                   {SERVICES.map((service) => (
@@ -369,7 +369,7 @@ export default function AccompagnementPage() {
               </div>
 
               {/* Right sidebar — context + card + CTA */}
-              <div className="px-8 py-10 flex flex-col gap-8 bg-white/[0.01]">
+              <div className="px-6 sm:px-8 py-10 flex flex-col gap-8 bg-white/[0.01]">
                 {/* Description */}
                 <div>
                   <SectionLabel>Notre approche</SectionLabel>
@@ -415,7 +415,7 @@ export default function AccompagnementPage() {
           {/* ══════════════════════════════════════════
               SECTION 4 — CTA banner
           ══════════════════════════════════════════ */}
-          <section className="px-8 py-14 flex flex-col md:flex-row items-start md:items-center justify-between gap-8 bg-gradient-to-r from-fuchsia-950/20 via-transparent to-transparent max-w-[1920px] m-auto">
+          <section className="px-6 sm:px-8 py-14 flex flex-col md:flex-row items-start md:items-center justify-between gap-8 bg-gradient-to-r from-fuchsia-950/20 via-transparent to-transparent max-w-[1920px] m-auto">
             <div className="max-w-lg">
               <div className="flex items-center gap-2 mb-3">
                 <CheckCircle2 size={13} className="text-fuchsia-400" />

@@ -32,7 +32,7 @@ export default function FeatureSection({
 }: FeatureSectionProps) {
   return (
     <div className="overflow-hidden max-w-[1920px] m-auto py-24 sm:py-32">
-      <div className="mx-32 ">
+      <div className="px-6 sm:px-10 lg:px-32">
         <div className="mx-auto  grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 sm:gap-y-20 lg:max-w-none lg:grid-cols-2">
           <div className={clsx(reverse && "lg:order-2")}>
             <div className="lg:max-w-lg">
@@ -63,7 +63,7 @@ export default function FeatureSection({
                   );
                 })}
               </dl>
-              <Button className="mt-10 text-xl uppercase rounded-full">
+              <Button className="mt-10 text-base sm:text-xl uppercase rounded-full">
                 <Link href={link}>Voir plus de details</Link>
               </Button>
             </div>
@@ -75,7 +75,7 @@ export default function FeatureSection({
               alt={title}
               width={2432}
               height={1442}
-              className="w-3xl  rounded-xl object-cover shadow-xl ring-1 ring-white/10 h-[700px]"
+              className="w-full max-w-3xl rounded-xl object-cover shadow-xl ring-1 ring-white/10 h-[320px] sm:h-[500px] lg:h-[700px]"
             />
           </div>
         </div>
