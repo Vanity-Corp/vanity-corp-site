@@ -7,7 +7,7 @@ import Link from "next/link";
 import { Button } from "./ui/button";
 import { ContactModal } from "./ContactModal";
 import { Menu as MenuIcon, X as CloseIcon, ChevronDown } from "lucide-react";
-
+import { usePathname } from "next/navigation";
 type Service = {
   image: string;
   title: string;
@@ -20,19 +20,19 @@ const SERVICES: Service[] = [
     image: "/img/studio.jpg",
     title: "STUDIO DE TOURNAGE",
     description: "De l’idéation à la publication",
-    link: "/#studio-de-tournage",
+    link: "studio-de-tournage",
   },
   {
     image: "/img/Portfolio Accompagnement Stratégique Vanity.webp",
     title: "Accompagnement stratégique",
     description: "Community management & audit digital",
-    link: "/#accompagnement-strategique",
+    link: "accompagnement-strategique",
   },
   {
     image: "/img/Production.webp",
     title: "Audiovisuel",
     description: "Production vidéo / photo",
-    link: "/#audiovisuel",
+    link: "audiovisuel",
   },
 ];
 
@@ -54,7 +54,8 @@ export default function Navbar(): JSX.Element {
 
   const navRef = useRef<HTMLDivElement | null>(null);
   const closeTimerRef = useRef<number | null>(null);
-
+  const pathname = usePathname();
+  const isHomPage = pathname === "/";
   // Decide full-screen breakpoint and compute top offset
   useEffect(() => {
     function update() {
@@ -156,7 +157,7 @@ export default function Navbar(): JSX.Element {
     <nav ref={navRef} className="fixed  font-medium  z-50 w-full top-0">
       <div className="flex items-center justify-between px-3 md:px-32 py-3 bg-black text-white">
         {/* Logo */}
-        <div>
+        <div className="hidden md:block">
           <Link href="/">
             <Image
               src="/vanity_corp_Icon_color.svg"
@@ -195,7 +196,11 @@ export default function Navbar(): JSX.Element {
                 {/* Featured first service */}
                 <div className="hidden lg:flex  items-center justify-center">
                   <div className="w-fit">
-                    <Link href="/studio-de-tournage">
+                    <Link
+                      href={
+                        isHomPage ? `#${SERVICES[0].link}` : SERVICES[0].link
+                      }
+                    >
                       <div className="aspect-[4/3] rounded-xl overflow-hidden shadow-lg bg-gray-900">
                         <Image
                           src={SERVICES[0].image}
@@ -207,14 +212,18 @@ export default function Navbar(): JSX.Element {
                       </div>
                     </Link>
                     <div className="mt-4 text-center">
-                      <Link href="/studio-de-tournage">
+                      <Link
+                        href={
+                          isHomPage ? `#${SERVICES[0].link}` : SERVICES[0].link
+                        }
+                      >
                         <h3 className="text-lg font-bold uppercase tracking-wider">
                           {SERVICES[0].title}
                         </h3>
                       </Link>
                       <Link
                         className="inline-block mt-3 text-lg rounded-full px-3 py-1 bg-white text-black font-medium"
-                        href="/studio-de-tournage/reservation"
+                        href="/studio-de-tournage/#reservation"
                       >
                         Réserver le studio
                       </Link>
@@ -227,7 +236,7 @@ export default function Navbar(): JSX.Element {
                   {SERVICES.slice(1, 5).map((s) => (
                     <Link
                       key={s.title}
-                      href={`${s.link}`}
+                      href={isHomPage ? `#${s.link}` : s.link}
                       className="group block rounded-xl p-4 bg-black/50 border border-gray-800 hover:bg-white/5 transition-colors shadow-md hover:shadow-xl"
                     >
                       <div className="flex items-start gap-3">
@@ -292,7 +301,17 @@ export default function Navbar(): JSX.Element {
         </div>
 
         {/* Mobile icons */}
-        <div className="md:hidden flex items-center gap-2">
+        <div className="md:hidden flex items-center w-full justify-between gap-2">
+          <div>
+            <Link href="/">
+              <Image
+                src="/vanity_corp_Icon_color.svg"
+                width={35}
+                height={35}
+                alt="Vanity Corp Logo"
+              />
+            </Link>
+          </div>
           <Link href="/estimation">
             <Button className="rounded-full uppercase text-[10px] py-0 px-2">
               Estimation

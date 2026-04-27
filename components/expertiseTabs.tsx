@@ -7,17 +7,22 @@ import { useState, useEffect } from "react";
 import ImageMask from "@/components/ui/image-mask";
 import DefaultImageMask from "@/components/ui/image-mask";
 const TabContent = ({ content }: any) => (
-  <div className="flex flex-row gap-10 w-full overflow-hidden relative  rounded-2xl py-10 text-xl md:text-4xl  text-white">
-    <div className="relative h-1/2 w-1/2">
-      <DefaultImageMask
+  <div className="flex justify-center items-center flex-col md:flex-row gap-10 w-full overflow-hidden relative rounded-2xl py-10 text-xl md:text-4xl text-white">
+    <div className="relative md:w-[50%]">
+      <h3 className="font-bold text-center md:text-left text-xl md:hidden pb-7">
+        {content.title}
+      </h3>
+      <Image
         src={content.imageSrc}
-        variant="default"
-        shape="three"
+        width={2000}
+        height={2000}
+        style={{ objectFit: "cover" }}
         alt={content.title}
+        className="w-full rounded-2xl"
       />
     </div>
-    <div className=" flex gap-10 flex-col w-1/2 h-full">
-      <h3 className="font-bold text-center md:text-left text-3xl">
+    <div className="flex md:w-[50%] gap-10 flex-col md:px-10 h-full">
+      <h3 className="font-bold text-center md:text-left text-3xl hidden md:block">
         {content.title}
       </h3>
       <p className="text-[15px] md:text-xl text-center font-normal md:text-left">
@@ -159,8 +164,8 @@ export function ExpertiseTabs({ onTabChange }: any) {
   ];
 
   return (
-    <div className="h-full [perspective:1000px] relative flex flex-col md:max-w-full mx-32 w-5xl gap-10 items-start ">
-      <h2 className="text-center text-xl w-full md:text-5xl font-bold text-black dark:text-white pt-10">
+    <div className="h-full [perspective:1000px] relative flex flex-col  md:mx-32 w-full gap-10 items-start px-6 sm:px-10 lg:px-32">
+      <h2 className="text-center text-3xl w-full md:text-5xl font-bold text-black dark:text-white pt-10">
         Expertise
       </h2>
       <Tabs
@@ -171,7 +176,7 @@ export function ExpertiseTabs({ onTabChange }: any) {
         <TabsList className="flex flex-wrap">
           {tabsContent.map((tab) => (
             <TabsTrigger
-              className="text-[10px] md:text-xl"
+              className="text-sm md:text-xl"
               key={tab.value}
               value={tab.value}
             >

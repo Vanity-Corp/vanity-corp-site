@@ -288,7 +288,10 @@ function ReservationSection() {
     : null;
 
   return (
-    <section className="border-t border-white/10 m-auto  max-w-[1920px]">
+    <section
+      id="reservation"
+      className="border-t border-white/10 m-auto  max-w-[1920px]"
+    >
       {/* Header */}
       <div className="px-6 sm:px-10 py-10 border-b border-white/10 flex flex-col md:flex-row md:items-end md:justify-between gap-6">
         <div>

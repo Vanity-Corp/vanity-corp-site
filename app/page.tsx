@@ -64,6 +64,7 @@ export type Service = {
   eyebrow: string;
   title: string;
   description: string;
+  id: string;
   image: string;
   link: string;
   reverse?: boolean;
@@ -77,6 +78,7 @@ export const services: Service[] = [
     title: "Des espaces pensés pour vos productions",
     color: "text-indigo-400",
     link: "studio-de-tournage",
+    id: "studio-de-tournage",
     description:
       "Découvrez nos espaces, équipements et options de location pour vos productions. Nous mettons à disposition un environnement professionnel conçu pour maximiser la qualité de vos contenus tout en simplifiant vos tournages.",
     image: "/img/studio.jpg",
@@ -106,6 +108,7 @@ export const services: Service[] = [
     title: "Une vision claire pour votre croissance",
     color: "text-fuchsia-400",
     link: "accompagnement-strategique",
+    id: "accompagnement-strategique",
     description:
       "Community management, audit digital et stratégie sur mesure pour votre croissance. Nous analysons votre présence actuelle et construisons des actions concrètes pour améliorer votre visibilité et vos performances.",
     image: "/img/Stratégie.webp",
@@ -136,6 +139,7 @@ export const services: Service[] = [
     title: "Donnez vie à votre image",
     color: "text-cyan-400",
     link: "audiovisuel",
+    id: "audiovisuel",
     description:
       "Prestations vidéo/photo, tournage, montage et livraison multi-formats. Nous vous accompagnons de la conception à la livraison pour produire du contenu impactant et adapté à tous vos canaux.",
     image: "/img/Production.webp",
@@ -206,17 +210,6 @@ export default function Home() {
         {" "}
         <StackedCard />{" "}
       </div>{" "}
-      {services.map((service, index) => (
-        <ServiceSection
-          key={service.title}
-          {...service}
-          // fallback automatique si tu veux alterner sans le définir à la main
-          reverse={service.reverse ?? index % 2 !== 0}
-        />
-      ))}
-      <section id="nos-tarifs" className="w-full px-4 md:px-16 py-8">
-        <PricingWithSwitch />
-      </section>
       <div className="flex flex-col justify-center items-center md:hidden">
         {" "}
         <h2 className="text-center text-xl md:text-5xl font-bold text-black dark:text-white pt-10">
@@ -232,6 +225,14 @@ export default function Home() {
         </p>{" "}
         <CarouselCard />{" "}
       </div>{" "}
+      {services.map((service, index) => (
+        <ServiceSection
+          key={service.title}
+          {...service}
+          // fallback automatique si tu veux alterner sans le définir à la main
+          reverse={service.reverse ?? index % 2 !== 0}
+        />
+      ))}
       <section
         ref={targetRef}
         className="flex flex-col justify-center items-center w-full "
@@ -445,9 +446,9 @@ export default function Home() {
           <VaniteamGrid />{" "}
         </div>{" "}
       </section>{" "}
-      <section className="w-full flex flex-col gap-10 justify-center items-center">
-        {" "}
-      </section>{" "}
+      <section id="nos-tarifs" className="w-full px-4 md:px-16 py-8">
+        <PricingWithSwitch />
+      </section>
       <Footer />
     </div>
   );

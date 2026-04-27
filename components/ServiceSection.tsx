@@ -12,6 +12,7 @@ type Feature = {
 type FeatureSectionProps = {
   eyebrow: string;
   title: string;
+  id: string;
   description: string;
   features: Feature[];
   image: string;
@@ -20,9 +21,10 @@ type FeatureSectionProps = {
   reverse?: boolean;
 };
 
-export default function FeatureSection({
+export default function ServiceSection({
   eyebrow,
   title,
+  id,
   description,
   features,
   image,
@@ -31,7 +33,10 @@ export default function FeatureSection({
   reverse = false,
 }: FeatureSectionProps) {
   return (
-    <div className="overflow-hidden max-w-[1920px] m-auto py-24 sm:py-32">
+    <div
+      id={id}
+      className="overflow-hidden max-w-[1920px] m-auto py-24 sm:py-32"
+    >
       <div className="px-6 sm:px-10 lg:px-32">
         <div className="mx-auto  grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 sm:gap-y-20 lg:max-w-none lg:grid-cols-2">
           <div className={clsx(reverse && "lg:order-2")}>
