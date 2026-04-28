@@ -57,11 +57,7 @@ export default function CameraModel() {
         >
           <RotatingModel />
         </PresentationControls>
-        <Environment
-          preset="studio"
-          files="/hdr/lebombo.hdr"
-          background={false}
-        />
+        <Environment files="/hdr/lebombo.hdr" background={false} />
       </Suspense>
 
       <OrbitControls
