@@ -3,7 +3,6 @@
 import { Footer } from "@/components/Footer";
 import QuoteEstimator from "@/components/QuoteEstimator";
 import { Sparkles, ShieldCheck, Clock3, ArrowRight } from "lucide-react";
-import { Button } from "@/components/ui/button";
 
 const TRUST_ITEMS = [
   { icon: <Sparkles size={14} />, label: "100% gratuit, sans engagement" },
