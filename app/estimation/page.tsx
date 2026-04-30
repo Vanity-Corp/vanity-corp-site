@@ -16,7 +16,7 @@ const STEPS = [
 
 export default function Estimation() {
   return (
-    <div className="dark min-h-screen  m-auto bg-neutral-950 text-white flex flex-col">
+    <div className="dark min-h-screen  m-auto  text-white flex flex-col">
       {/* ── Main split layout ── */}
       <main className="flex-1 mx-auto w-full max-w-[1920px] px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col lg:flex-row lg:gap-16 py-16 sm:py-20">
