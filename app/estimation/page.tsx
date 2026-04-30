@@ -1,5 +1,3 @@
-"use client";
-
 import { Footer } from "@/components/Footer";
 import QuoteEstimator from "@/components/QuoteEstimator";
 import { Sparkles, ShieldCheck, Clock3, ArrowRight } from "lucide-react";

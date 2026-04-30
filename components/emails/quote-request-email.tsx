@@ -13,7 +13,7 @@ import {
 } from "@react-email/components";
 import { Tailwind } from "@react-email/tailwind";
 import * as React from "react";
-
+import Image from "next/image";
 interface QuoteRequestEmailProps {
   clientType: string;
   budget: string;

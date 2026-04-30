@@ -1,32 +1,50 @@
 import { NextResponse } from "next/server";
-import { Resend } from "resend";
-import QuoteRequestEmail from "@/components/emails/quote-request-email";
-
-const resend = new Resend(process.env.RESEND_API_KEY);
 
 export async function POST(request: Request) {
   try {
     const body = await request.json();
+    const cmsUrl = process.env.NEXT_PUBLIC_CMS_URL;
+
+    if (!cmsUrl) {
+      throw new Error("NEXT_PUBLIC_CMS_URL is not defined");
+    }
 
     // Ensure features is an array
     const features = Array.isArray(body.features)
       ? body.features
       : [body.features].filter(Boolean);
 
-    const data = await resend.emails.send({
-      from: "mohmost.contact@gmail.com",
-      to: "delivered@resend.dev",
-      subject: "Nouvelle demande de devis",
-      react: QuoteRequestEmail({ ...body, features }),
+    const payload = { ...body, features };
+
+    const response = await fetch(`${cmsUrl}/api/devis`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(payload),
     });
 
-    return NextResponse.json(data);
+    const data = await response.json();
+
+    if (!response.ok) {
+      return NextResponse.json(
+        {
+          error: data.error || "CMS request failed",
+          details: data.details,
+        },
+        { status: response.status },
+      );
+    }
+
+    // Retourner le statut de l'opération (sent/failed)
+    return NextResponse.json({
+      message: data.message || "Quote request processed",
+      status: data.status, // 'sent' ou 'failed'
+    });
   } catch (error) {
-    console.log(" ⨯ ⨯ ⨯ ⨯ ⨯ ⨯ ⨯ ⨯ Full error :", error);
+    console.error("Quote submission error:", error);
     return NextResponse.json(
-      {
-        error: error instanceof Error ? error.message : "Failed to send email",
-      },
+      { error: "Failed to submit quote request" },
       { status: 500 },
     );
   }

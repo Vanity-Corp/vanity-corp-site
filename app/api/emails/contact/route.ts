@@ -1,23 +1,23 @@
-import { Resend } from "resend";
-import ContactEmail from "@/components/emails/contactEmail";
-import { NextResponse } from "next/server"; // Import NextResponse
-
-const resend = new Resend(process.env.RESEND_API_KEY);
+import { NextResponse } from "next/server";
 
 export async function POST(request: Request) {
-  const { email, name, message, phone } = await request.json();
+  try {
+    const body = await request.json();
+    const cmsUrl = process.env.NEXT_PUBLIC_CMS_URL;
 
-  // Send the email using Resend
-  await resend.emails.send({
-    from: "contact@vanitycorp.fr",
-    to: "Corp.vanity@gmail.com",
-    subject: "Contact",
-    react: ContactEmail({ name, email, message, phone }),
-  });
+    const response = await fetch(`${cmsUrl}/api/emails/contact`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body),
+    });
 
-  // Return a success response
-  return NextResponse.json(
-    { message: "Email sent successfully!" },
-    { status: 200 }
-  );
+    const data = await response.json();
+    return NextResponse.json(data, { status: response.status });
+  } catch (error) {
+    console.error("Error forwarding to CMS:", error);
+    return NextResponse.json(
+      { error: "Failed to submit form" },
+      { status: 500 },
+    );
+  }
 }

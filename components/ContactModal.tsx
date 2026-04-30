@@ -66,7 +66,7 @@ export function ContactModal({ children }: PropsWithChildren<{}>) {
       setSuccessMessage("Votre message a été envoyé avec succès !");
       form.reset(); // Reset the form after submission
     } catch (error) {
-      console.error("Erreur:", error);
+      console.error("Erreur ❌❌❌❌❌❌:", error);
       setSuccessMessage(
         "Une erreur s'est produite lors de l'envoi du message.",
       );
