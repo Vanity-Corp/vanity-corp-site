@@ -33,14 +33,14 @@ const TabContent = ({ content }: any) => (
 );
 
 export function ExpertiseTabs({ onTabChange }: any) {
-  const [activeTab, setActiveTab] = useState("combo");
+  const [activeTab, setActiveTab] = useState("creation");
 
   useEffect(() => {
     onTabChange(activeTab);
   }, [activeTab, onTabChange]);
 
   const tabsContent = [
-    {
+    /* {
       title: "Combo 360",
       value: "combo",
       imageSrc: "/img/Combo 360.webp",
@@ -60,7 +60,7 @@ export function ExpertiseTabs({ onTabChange }: any) {
           poussin lors de la sortie de sa coquille.
         </>
       ),
-    },
+    }, */
     {
       title: "Creation",
       value: "creation",
@@ -169,7 +169,7 @@ export function ExpertiseTabs({ onTabChange }: any) {
         Expertise
       </h2>
       <Tabs
-        defaultValue="combo"
+        defaultValue="creation"
         onValueChange={setActiveTab}
         className="w-full"
       >

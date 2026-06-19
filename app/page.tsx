@@ -25,6 +25,7 @@ import { PricingWithSwitch } from "@/components/ui/pricing-with-switch";
 import { services } from "@/lib/services";
 import BannerVideo from "@/components/ui/BannerVideo";
 import ServiceSection from "@/components/ServiceSection";
+import MagicBento from "@/components/MagicBento";
 const WorldMapSection = dynamic(
   () => import("@/components/WordMap").then((mod) => mod.WorldMapSection),
   {
@@ -34,6 +35,7 @@ const WorldMapSection = dynamic(
     ),
   },
 );
+
 const tabColors = {
   combo: "#493399",
   creation: "#5A2848",
@@ -85,9 +87,8 @@ export default function Home() {
         poster="/fallback.webp"
       />{" "}
       <div className="hidden max-w-[1920px] m-auto md:block">
-        {" "}
-        <StackedCard />{" "}
-      </div>{" "}
+        <StackedCard />
+      </div>
       <div className="flex flex-col justify-center items-center md:hidden">
         {" "}
         <h2 className="text-center text-xl md:text-5xl font-bold text-black dark:text-white pt-10">
@@ -101,16 +102,9 @@ export default function Home() {
           milliers de followers, et d&apos;un réalisateur qui transforme vos
           idées en chef-d&apos;oeuvre.{" "}
         </p>{" "}
-        <CarouselCard />{" "}
+        {/* <CarouselCard /> */}
       </div>{" "}
-      {services.map((service, index) => (
-        <ServiceSection
-          key={service.title}
-          {...service}
-          // fallback automatique si tu veux alterner sans le définir à la main
-          reverse={service.reverse ?? index % 2 !== 0}
-        />
-      ))}
+      <ServiceSection services={services} />
       <section
         ref={targetRef}
         className="flex flex-col justify-center items-center w-full "

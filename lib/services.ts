@@ -32,7 +32,7 @@ export const services: Service[] = [
   {
     eyebrow: "Studio de tournage",
     title: "Des espaces pensés pour vos productions",
-    color: "text-indigo-400",
+    color: "#7c86ff",
     link: "studio-de-tournage",
     id: "studio-de-tournage",
     description:
@@ -62,7 +62,7 @@ export const services: Service[] = [
   {
     eyebrow: "Accompagnement stratégique",
     title: "Une vision claire pour votre croissance",
-    color: "text-fuchsia-400",
+    color: "#ed6aff",
     link: "accompagnement-strategique",
     id: "accompagnement-strategique",
     description:
@@ -93,7 +93,7 @@ export const services: Service[] = [
   {
     eyebrow: "Audiovisuel",
     title: "Donnez vie à votre image",
-    color: "text-cyan-400",
+    color: "#00d3f2",
     link: "audiovisuel",
     id: "audiovisuel",
     description:
