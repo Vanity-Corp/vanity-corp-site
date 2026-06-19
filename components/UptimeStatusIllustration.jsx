@@ -56,15 +56,17 @@ function UptimeBar({ bar, onHover, onLeave }) {
   );
 }
 
-export default function UptimeStatusIllustration() {
+export default function UptimeStatusIllustration({ forceHovered = false }) {
   const bars = useMemo(() => generateBars(45), []);
 
   // default: show overall 99.9% / "Uptime"
   const [hovered, setHovered] = useState(null);
 
-  const displayPct = hovered ? `${hovered.status.pct}%` : "99.9%";
-  const displayLabel = hovered ? hovered.status.label : "Uptime";
-  const displayColor = hovered ? hovered.status.color : "#22c55e";
+  const forcedStatus = forceHovered ? STATUSES[1] : null;
+  const activeStatus = hovered?.status ?? forcedStatus;
+  const displayPct = activeStatus ? `${activeStatus.pct}%` : "99.9%";
+  const displayLabel = activeStatus ? activeStatus.label : "Uptime";
+  const displayColor = activeStatus ? activeStatus.color : "#22c55e";
 
   return (
     <div
@@ -83,7 +85,7 @@ export default function UptimeStatusIllustration() {
           style={{
             fontSize: 14,
             fontWeight: 500,
-            color: hovered ? displayColor : "inherit",
+            color: activeStatus ? displayColor : "inherit",
             transition: "color 0.2s",
           }}
         >

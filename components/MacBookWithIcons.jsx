@@ -157,11 +157,13 @@ function ScreenContent() {
  *   icons    — array of { name, icon (ReactNode), rotation, yOffset, delay }
  *   content  — ReactNode rendered inside the screen (defaults to pricing UI)
  */
-export default function MacBookWithIcons({ icons = DEFAULT_ICONS, content }) {
+export default function MacBookWithIcons({ icons = DEFAULT_ICONS, content, forceHovered = false }) {
   const [hovered, setHovered] = useState(false);
 
   // Lid angle: half-open = -55deg perspective tilt, open = 0 (flat)
-  const lidTransform = hovered
+  const isAnimated = hovered || forceHovered;
+
+  const lidTransform = isAnimated
     ? "perspective(600px) rotateX(0deg)"
     : "perspective(600px) rotateX(-55deg)";
 
@@ -207,8 +209,8 @@ export default function MacBookWithIcons({ icons = DEFAULT_ICONS, content }) {
               fontWeight: 500,
               whiteSpace: "nowrap",
               boxShadow: "0 4px 12px rgba(0,0,0,0.08)",
-              opacity: hovered ? 1 : 0,
-              transform: hovered
+              opacity: isAnimated ? 1 : 0,
+              transform: isAnimated
                 ? `translateY(${icon.yOffset}px) rotate(${icon.rotation}deg)`
                 : "translateY(20px) rotate(0deg)",
               transition: `opacity 0.4s, transform 0.45s cubic-bezier(0.34,1.56,0.64,1) ${icon.delay}`,
@@ -269,7 +271,7 @@ export default function MacBookWithIcons({ icons = DEFAULT_ICONS, content }) {
               style={{
                 position: "absolute",
                 inset: 0,
-                opacity: hovered ? 1 : 0,
+                opacity: isAnimated ? 1 : 0,
                 transition: "opacity 0.45s ease 0.1s",
               }}
             >

@@ -136,7 +136,7 @@ function SelectionBox({ x, y, width, height, color }) {
   );
 }
 
-export default function CollaborativeCursors() {
+export default function CollaborativeCursors({ forceHovered = false }) {
   const [sarahIdx, setSarahIdx] = useState(0);
   const [tylerIdx, setTylerIdx] = useState(0);
   const [tylerVisible, setTylerVisible] = useState(false);
@@ -176,9 +176,9 @@ export default function CollaborativeCursors() {
         }, 1400);
       }
     }
-    timeoutRef.current = setTimeout(step, 800);
+    timeoutRef.current = setTimeout(step, forceHovered ? 120 : 800);
     return () => clearTimeout(timeoutRef.current);
-  }, [activeCursor]);
+  }, [activeCursor, forceHovered]);
 
   return (
     <div
@@ -362,7 +362,7 @@ export default function CollaborativeCursors() {
         color="#e8507a"
         x={tp.x}
         y={tp.y}
-        visible={tylerVisible}
+        visible={tylerVisible || forceHovered}
       />
     </div>
   );
