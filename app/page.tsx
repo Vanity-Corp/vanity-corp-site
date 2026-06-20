@@ -106,7 +106,7 @@ export default function Home() {
       </div>{" "}
       <ServiceSection services={services} />
       <section
-        ref={targetRef}
+        /*  ref={targetRef} */
         className="flex flex-col justify-center items-center w-full "
       >
         {" "}

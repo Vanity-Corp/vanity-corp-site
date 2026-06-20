@@ -22,7 +22,7 @@ const IllustrationFrame = ({ children }: { children: ReactNode }) => (
 );
 
 export function ExpertiseTabs({ onTabChange }: any) {
-  const [activeTab, setActiveTab] = useState("creation");
+  const [activeTab, setActiveTab] = useState("");
   const [hoveredCard, setHoveredCard] = useState<string | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -177,12 +177,14 @@ export function ExpertiseTabs({ onTabChange }: any) {
               aria-pressed={isActive}
             >
               <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(168,85,247,0.28),transparent_45%)] opacity-0 transition-opacity duration-300 group-hover:opacity-100 group-focus-visible:opacity-100" />
-              <span className="pointer-events-none absolute left-1/2 top-5 z-20 -translate-x-1/2 rounded-full border border-white/10 bg-black/80 px-4 py-2 text-xs font-medium text-white opacity-0 shadow-xl backdrop-blur-md transition-all duration-200 group-hover:-translate-y-1 group-hover:opacity-100 group-focus-visible:-translate-y-1 group-focus-visible:opacity-100">
+              <span className="pointer-events-none absolute left-1/2 top-[70%] z-20 -translate-x-1/2 rounded-full border border-white/10 bg-black/80 px-4 py-2 text-xs font-medium text-white opacity-0 shadow-xl backdrop-blur-md transition-all duration-200 group-hover:-translate-y-1 group-hover:opacity-100 group-focus-visible:-translate-y-1 group-focus-visible:opacity-100">
                 En savoir plus
               </span>
 
               <div className="relative z-10 flex h-full flex-1 flex-col">
-                <IllustrationFrame>{tab.renderIllustration(isHovered)}</IllustrationFrame>
+                <IllustrationFrame>
+                  {tab.renderIllustration(isHovered)}
+                </IllustrationFrame>
 
                 <h3 className="mt-auto pt-7 text-center text-xl font-semibold text-white md:text-2xl">
                   {tab.title}
