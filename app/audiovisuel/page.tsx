@@ -381,7 +381,7 @@ export default function AudiovisuelPage() {
               SECTION 1 — Stats bar
           ══════════════════════════════════════════ */}
           <section className="border-b max-w-[1920px] m-auto border-white/10">
-            <div className="grid grid-cols-3 divide-x divide-white/10">
+            <div className="grid grid-cols-1 sm:grid-cols-3 divide-y sm:divide-y-0 sm:divide-x divide-white/10">
               {STATS.map((s) => (
                 <div key={s.label} className="px-8 py-7 flex flex-col gap-1">
                   <span className="text-3xl sm:text-4xl font-bold text-amber-400 tracking-tight leading-none">
@@ -414,7 +414,7 @@ export default function AudiovisuelPage() {
                   <p className="text-xs text-neutral-500 leading-relaxed mb-8">
                     Cliquez sur un dossier pour découvrir nos réalisations.
                   </p>
-                  <div className="grid grid-cols-3 gap-6">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                     {FOLDERS.map((folder) => (
                       <div
                         key={folder.label}
@@ -552,7 +552,7 @@ export default function AudiovisuelPage() {
               SECTION 3 — Final CTA banner
           ══════════════════════════════════════════ */}
           <section
-            className="px-8 max-w-[1920px] m-auto py-14 flex flex-col md:flex-row items-start md:items-center justify-between gap-8"
+            className="px-6 sm:px-8 max-w-[1920px] m-auto py-14 flex flex-col md:flex-row items-start md:items-center justify-between gap-8"
             style={{
               background:
                 "linear-gradient(to right, rgba(245,158,11,0.06), transparent)",

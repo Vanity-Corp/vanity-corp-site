@@ -15,7 +15,7 @@ const StackedCard = () => {
 
   return (
     <div className="center">
-      <div className="stack-area">
+      <div /* className="stack-area" */>
         {/* LEFT */}
         <div className="left pl-32 max-[800px]:relative max-[800px]:w-screen">
           <motion.div
@@ -72,7 +72,7 @@ const StackedCard = () => {
         </div>
 
         {/* RIGHT */}
-        <motion.div
+        {/*  <motion.div
           initial={{ opacity: 0, scale: 0.5 }}
           whileInView={{ opacity: 1, scale: 1 }}
           transition={{
@@ -122,7 +122,7 @@ const StackedCard = () => {
               </div>
             </div>
           </div>
-        </motion.div>
+        </motion.div> */}
       </div>
     </div>
   );

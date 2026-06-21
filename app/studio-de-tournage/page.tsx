@@ -288,7 +288,10 @@ function ReservationSection() {
     : null;
 
   return (
-    <section className="border-t border-white/10 m-auto  max-w-[1920px]">
+    <section
+      id="reservation"
+      className="border-t border-white/10 m-auto  max-w-[1920px]"
+    >
       {/* Header */}
       <div className="px-6 sm:px-10 py-10 border-b border-white/10 flex flex-col md:flex-row md:items-end md:justify-between gap-6">
         <div>
@@ -558,11 +561,11 @@ export default function StudioPage() {
               </div>
             </div>
 
-            <div className="flex-1 px-6 sm:px-10 py-10 bg-white/[0.02] flex flex-col justify-between min-h-[220px] h-[500px]">
+            <div className="flex-1 px-6 sm:px-10 py-10 bg-white/[0.02] flex flex-col justify-between min-h-[220px] md:h-[500px]">
               <p className="text-[11px] uppercase tracking-widest text-indigo-400 mb-4">
                 Aperçu de l&apos;espace
               </p>
-              <div className="flex-1 flex items-center justify-center h-[500px]">
+              <div className="flex-1 flex items-center justify-center md:h-[500px]">
                 <StudioModel />
               </div>
               <span className="inline-block text-[11px] text-indigo-400 border border-white/10 rounded-full px-3 py-1 mt-4 w-fit">

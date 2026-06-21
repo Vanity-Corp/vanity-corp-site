@@ -4,6 +4,7 @@ import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { OrbitControls, Html, useTexture } from "@react-three/drei";
 import * as THREE from "three";
 import { cn } from "@/lib/utils";
+import Image from "next/image";
 
 // ============================================================================
 // Types
@@ -234,11 +235,13 @@ function Marker({
             onMouseLeave={handlePointerLeave}
             onClick={handleClick}
           >
-            <img
+            <Image
               src={marker.src}
               alt={marker.label || "Marker"}
               className="h-full w-full object-cover"
               draggable={false}
+              width={30}
+              height={30}
             />
           </div>
         </Html>
