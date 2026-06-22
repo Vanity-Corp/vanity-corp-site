@@ -109,7 +109,7 @@ export default function Home() {
         {" "}
         <ExpertiseTabs onTabChange={handleTabChange} />{" "}
       </section>{" "}
-      <section className="w-full flex flex-col gap-10 justify-center items-center h-screen">
+      <section className="w-full flex flex-col gap-8 justify-center items-center py-16 md:py-24">
         {" "}
         <motion.h2
           initial={{ opacity: 0, y: 20 }}
@@ -119,7 +119,7 @@ export default function Home() {
           className="md:text-left text-center text-xl uppercase md:px-4 md:text-5xl font-bold text-black dark:text-white pt-10"
         >
           {" "}
-          IlS nous ont fait confiance{" "}
+          Ils nous ont fait confiance{" "}
         </motion.h2>{" "}
         <BrandSlider />{" "}
       </section>{" "}
@@ -133,7 +133,7 @@ export default function Home() {
           className="md:text-left text-center text-xl uppercase md:px-4 md:text-5xl font-bold text-black dark:text-white pt-10 mb-20"
         >
           {" "}
-          on a filmé ta star préférée !{" "}
+          Artistes & talents accompagnés{" "}
         </motion.h2>{" "}
         <ClientSection />{" "}
       </section>{" "}
@@ -191,7 +191,7 @@ export default function Home() {
           </Link>{" "}
         </div>{" "}
       </section>{" "}
-      <section className="flex flex-col px-6 gap-6 justify-center items-center h-screen w-full">
+      <section className="flex flex-col px-6 gap-6 justify-center items-center py-16 md:py-24 w-full">
         {" "}
         <div className=" w-auto relative ">
           {" "}

@@ -282,7 +282,7 @@ export default function Navbar(): JSX.Element {
             href="/realisations"
             className="px-4 py-2 hover:bg-gray-800 rounded-md"
           >
-            Réalisations
+            Portfolio
           </Link>
           <Link
             href="/#nos-tarifs"
@@ -353,7 +353,7 @@ export default function Navbar(): JSX.Element {
                     className="border border-gray-800 rounded-md overflow-hidden"
                   >
                     <Link
-                      href={`/services/${slugify(s.title)}`}
+                      href={`/${s.link}`}
                       className="flex items-center gap-3 px-3 py-2 hover:bg-gray-900"
                     >
                       <div className="w-12 h-12 flex-shrink-0 rounded-md overflow-hidden">
@@ -389,7 +389,7 @@ export default function Navbar(): JSX.Element {
               href="/realisations"
               className="block mt-3 px-3 py-2 hover:bg-gray-900 rounded-md"
             >
-              Réalisations
+              Portfolio
             </Link>
           </div>
         </div>

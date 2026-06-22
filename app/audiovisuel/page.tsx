@@ -25,6 +25,7 @@ import { motion } from "motion/react";
 import dynamic from "next/dynamic";
 import Folder from "@/components/Folder";
 import Image from "next/image";
+import Link from "next/link";
 
 const CameraModel = dynamic(() => import("@/components/CameraModel"), {
   ssr: false,
@@ -354,10 +355,11 @@ export default function AudiovisuelPage() {
                     <ArrowRight size={15} className="ml-1.5" />
                   </Button>
                   <Button
+                    asChild
                     variant="outline"
                     className="rounded-lg border-white/15 text-neutral-300 bg-transparent text-sm h-10 px-5 hover:bg-white/5 hover:text-white"
                   >
-                    Voir nos réalisations
+                    <Link href="/realisations">Voir le Portfolio</Link>
                   </Button>
                 </div>
               </div>
@@ -410,7 +412,7 @@ export default function AudiovisuelPage() {
 
                 {/* Services — Folder components */}
                 <div className="border border-white/10 rounded-2xl p-6 bg-white/[0.01]">
-                  <SectionLabel>Nos services & réalisations</SectionLabel>
+                  <SectionLabel>Nos services & <Link href="/realisations" className="text-amber-400 hover:text-amber-300 underline underline-offset-4">Portfolio</Link></SectionLabel>
                   <p className="text-xs text-neutral-500 leading-relaxed mb-8">
                     Cliquez sur un dossier pour découvrir nos réalisations.
                   </p>
@@ -470,31 +472,6 @@ export default function AudiovisuelPage() {
                   </div>
                 </div>
 
-                {/* Multi-format delivery */}
-                <div className="border border-white/10 rounded-2xl p-6 bg-white/[0.01]">
-                  <SectionLabel>Livraison multi-plateformes</SectionLabel>
-                  <div className="flex flex-col gap-2.5">
-                    {FORMATS.map((f) => (
-                      <div
-                        key={f.label}
-                        className="flex items-center justify-between px-4 py-3 rounded-xl border border-white/10 bg-white/[0.02] hover:border-amber-500/30 hover:bg-amber-950/10 transition-all duration-200 group"
-                      >
-                        <div className="flex items-center gap-3">
-                          <span className="text-amber-400/70 group-hover:text-amber-400 transition-colors">
-                            {f.icon}
-                          </span>
-                          <span className="text-sm text-neutral-300 font-medium">
-                            {f.label}
-                          </span>
-                        </div>
-                        <span className="text-[11px] text-neutral-600 font-mono">
-                          {f.ratio}
-                        </span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
                 {/* Process steps — vertical */}
                 <div className="border border-white/10 rounded-2xl p-6 bg-white/[0.01]">
                   <SectionLabel>Notre processus</SectionLabel>
@@ -507,16 +484,17 @@ export default function AudiovisuelPage() {
                       },
                       {
                         step: "02",
-                        label: "Tournage / Prise de vue",
-                        icon: <Camera size={13} />,
+                        label: "Préparation & planning",
+                        icon: <Layers size={13} />,
                       },
+                      { step: "03", label: "Production", icon: <Camera size={13} /> },
                       {
-                        step: "03",
-                        label: "Montage & étalonnage",
+                        step: "04",
+                        label: "Post-production",
                         icon: <Scissors size={13} />,
                       },
                       {
-                        step: "04",
+                        step: "05",
                         label: "Livraison multi-formats",
                         icon: <CheckCircle2 size={13} />,
                       },
@@ -543,7 +521,32 @@ export default function AudiovisuelPage() {
                       </div>
                     ))}
                   </div>
+                </div>                {/* Multi-format delivery */}
+                <div className="border border-white/10 rounded-2xl p-6 bg-white/[0.01]">
+                  <SectionLabel>Livraison multi-plateformes</SectionLabel>
+                  <div className="flex flex-col gap-2.5">
+                    {FORMATS.map((f) => (
+                      <div
+                        key={f.label}
+                        className="flex items-center justify-between px-4 py-3 rounded-xl border border-white/10 bg-white/[0.02] hover:border-amber-500/30 hover:bg-amber-950/10 transition-all duration-200 group"
+                      >
+                        <div className="flex items-center gap-3">
+                          <span className="text-amber-400/70 group-hover:text-amber-400 transition-colors">
+                            {f.icon}
+                          </span>
+                          <span className="text-sm text-neutral-300 font-medium">
+                            {f.label}
+                          </span>
+                        </div>
+                        <span className="text-[11px] text-neutral-600 font-mono">
+                          {f.ratio}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
                 </div>
+
+
               </div>
             </div>
           </section>

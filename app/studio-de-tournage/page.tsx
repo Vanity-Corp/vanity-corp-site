@@ -81,6 +81,21 @@ const TIME_SLOTS: TimeSlot[] = [
 // ── Hero background (Unsplash, cinematic studio atmosphere) ───────────────────
 const HERO_IMAGE = "/img/studio.jpg";
 
+const PRICING_OFFERS = [
+  { name: "Essentiel", price: "Demi-journée", description: "Pour contenus courts et interviews.", features: ["Accès plateau", "Éclairage de base", "Assistance installation", "Créneau 4h"] },
+  { name: "Production", price: "Journée", description: "Le format recommandé pour tourner sereinement.", features: ["Accès plateau journée", "Kit lumière complet", "Espace préparation", "Support technique"] },
+  { name: "Sur mesure", price: "Projet", description: "Pour productions complexes et équipes élargies.", features: ["Repérage", "Options matériel", "Planning dédié", "Accompagnement Vanity"] },
+];
+
+const ACCESSIBILITY_ROWS = [
+  { city: "Paris (RER B - Orsay Ville)", time: "20 min", transport: "RER B + navette / taxi", road: "N118 / A10", parking: "Sur place" },
+  { city: "Versailles", time: "25 min", transport: "Voiture / VTC", road: "N118", parking: "Sur place" },
+  { city: "Massy", time: "10 min", transport: "RER B / voiture", road: "A10 / N118", parking: "Sur place" },
+  { city: "Gif-sur-Yvette", time: "10 min", transport: "RER B / bus", road: "D306", parking: "Sur place" },
+  { city: "Orly", time: "25 min", transport: "Orlyval + RER B / voiture", road: "A10 / A6", parking: "Sur place" },
+  { city: "Évry", time: "20 min", transport: "Voiture / VTC", road: "N104 / A10", parking: "Sur place" },
+];
+
 // ── Sub-components ─────────────────────────────────────────────────────────────
 
 function FeatureCard({ feature }: { feature: Feature }) {
@@ -264,6 +279,70 @@ function FloorPlanSVG() {
         Vue aérienne — plan de studio
       </text>
     </svg>
+  );
+}
+
+
+function PricingSection() {
+  return (
+    <section className="border-b border-white/10 max-w-[1920px] m-auto px-6 sm:px-10 py-12">
+      <p className="text-[11px] uppercase tracking-widest text-indigo-400 mb-4">Offres studio</p>
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
+        {PRICING_OFFERS.map((offer) => (
+          <article key={offer.name} className="rounded-3xl border border-white/10 bg-white/[0.03] p-6 hover:border-indigo-400/40 transition-colors">
+            <h3 className="text-xl font-semibold text-white">{offer.name}</h3>
+            <p className="mt-2 text-3xl font-bold text-indigo-300">{offer.price}</p>
+            <p className="mt-3 text-sm text-neutral-400">{offer.description}</p>
+            <details className="mt-6 rounded-2xl border border-white/10 bg-black/20 p-4 open:border-indigo-400/30">
+              <summary className="cursor-pointer text-sm font-medium text-white">Voir les détails</summary>
+              <ul className="mt-4 space-y-3">
+                {offer.features.map((feature) => (
+                  <li key={feature} className="flex items-center gap-2 text-sm text-neutral-300"><CheckCircle2 size={14} className="text-indigo-300" />{feature}</li>
+                ))}
+              </ul>
+            </details>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function AccessibilitySection() {
+  return (
+    <section className="border-b border-white/10 max-w-[1920px] m-auto px-6 sm:px-10 py-12">
+      <p className="text-[11px] uppercase tracking-widest text-indigo-400 mb-4">Accessibilité</p>
+      <div className="overflow-x-auto rounded-2xl border border-white/10">
+        <table className="w-full min-w-[760px] text-sm">
+          <thead className="bg-white/[0.06] text-left text-neutral-300"><tr>{["Ville", "Temps", "Transports", "Accès routiers", "Stationnement"].map((h)=><th key={h} className="px-5 py-4 font-medium">{h}</th>)}</tr></thead>
+          <tbody className="divide-y divide-white/10">
+            {ACCESSIBILITY_ROWS.map((row) => (
+              <tr key={row.city} className="text-neutral-400"><td className="px-5 py-4 text-white">{row.city}</td><td className="px-5 py-4 text-indigo-300 font-semibold">{row.time}</td><td className="px-5 py-4">{row.transport}</td><td className="px-5 py-4">{row.road}</td><td className="px-5 py-4">{row.parking}</td></tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </section>
+  );
+}
+
+function ReservationUXSection() {
+  return (
+    <section className="border-b border-white/10 max-w-[1920px] m-auto px-6 sm:px-10 py-12">
+      <p className="text-[11px] uppercase tracking-widest text-indigo-400 mb-4">Fonctionnement réservation</p>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        {[
+          { title: "Marge avant validation", text: "Le calendrier collecte une intention de réservation : date et créneau restent modifiables tant que la demande n'est pas confirmée par l'équipe." },
+          { title: "Pré-validation", text: "Une demande complète peut être pré-validée côté équipe après vérification de disponibilité, puis transformée en confirmation définitive." },
+          { title: "Avant confirmation", text: "L'utilisateur reçoit un retour sous 24h. UX recommandée : email automatique récapitulatif + statut “en attente de validation”." },
+        ].map((item) => (
+          <div key={item.title} className="rounded-2xl border border-white/10 bg-white/[0.03] p-5">
+            <h3 className="text-base font-semibold text-white">{item.title}</h3>
+            <p className="mt-3 text-sm leading-relaxed text-neutral-400">{item.text}</p>
+          </div>
+        ))}
+      </div>
+    </section>
   );
 }
 
@@ -473,11 +552,7 @@ export default function StudioPage() {
         <main className=" border border-white/10 rounded-2xl overflow-hidden text-white">
           {/* ── Hero ── */}
           <section className="relative min-h-[420px]  flex justify-center items-end border-b border-white/10 overflow-hidden">
-            {/* Background image */}
-            <div
-              className="absolute  inset-0 bg-cover bg-center"
-              style={{ backgroundImage: `url('${HERO_IMAGE}')` }}
-            />
+            <div className="absolute right-0 top-0 bottom-0 hidden lg:flex w-1/2 items-center justify-center opacity-90"><StudioModel /></div>
             {/* Dark gradient overlay — top transparent, bottom solid */}
             <div className="absolute inset-0 bg-gradient-to-t from-neutral-950 via-neutral-950/70 to-neutral-950" />
             {/* Subtle vertical grid lines on top */}
@@ -511,18 +586,20 @@ export default function StudioPage() {
                 tout en simplifiant vos tournages.
               </p>
 
-              <Button className="bg-white text-neutral-900 hover:bg-neutral-200 rounded-lg px-5 h-10 text-sm font-medium transition-colors">
-                Réserver le studio →
+              <Button asChild className="bg-white text-neutral-900 hover:bg-neutral-200 rounded-lg px-5 h-10 text-sm font-medium transition-colors">
+                <a href="mailto:contact@krtstudios.fr?subject=Demande%20de%20visite%20studio">Prévoir une visite →</a>
               </Button>
             </div>
           </section>
 
           {/* ── Features ── */}
-          <div className="flex flex-col m-auto md:flex-row border-b border-white/10 divide-y max-w-[1920px] md:divide-y-0 md:divide-x divide-white/10">
+          <div className="m-auto border-b border-white/10 max-w-[1920px] divide-y divide-white/10">
             {FEATURES.map((feature) => (
               <FeatureCard key={feature.num} feature={feature} />
             ))}
           </div>
+
+          <PricingSection />
 
           {/* ── Stats ── */}
           <div className="flex max-w-[1920px] m-auto flex-wrap border-b border-white/10 divide-x divide-white/10">
@@ -552,11 +629,8 @@ export default function StudioPage() {
                 <Button className="bg-white text-neutral-900 hover:bg-neutral-200 rounded-lg text-sm h-10 px-5 transition-colors">
                   Voir les tarifs
                 </Button>
-                <Button
-                  variant="outline"
-                  className="rounded-lg border-white/10 text-neutral-300 bg-transparent text-sm h-10 px-5 hover:bg-white/5 hover:text-white"
-                >
-                  Demander une visite
+                <Button asChild variant="outline" className="rounded-lg border-white/10 text-neutral-300 bg-transparent text-sm h-10 px-5 hover:bg-white/5 hover:text-white">
+                  <a href="mailto:contact@krtstudios.fr?subject=Demande%20de%20visite%20studio">Demander une visite</a>
                 </Button>
               </div>
             </div>
@@ -573,6 +647,10 @@ export default function StudioPage() {
               </span>
             </div>
           </div>
+
+          <AccessibilitySection />
+
+          <ReservationUXSection />
 
           {/* ── Reservation with Calendar ── */}
           <ReservationSection />

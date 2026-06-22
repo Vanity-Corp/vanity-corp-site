@@ -74,3 +74,25 @@ model VerificationToken {
   @@unique([identifier, token])
   @@map("verification_tokens")
 }
+
+enum ClientCategory {
+  BRAND
+  ARTIST
+  STRATEGIC_CLIENT
+}
+
+model ClientReference {
+  id        String         @id @default(cuid())
+  name      String
+  logo      String?
+  sector    String?
+  focus     String?
+  category  ClientCategory @default(BRAND)
+  active    Boolean        @default(true)
+  sortOrder Int            @default(0)
+  createdAt DateTime       @default(now())
+  updatedAt DateTime       @updatedAt
+
+  @@index([category, active, sortOrder])
+  @@map("client_references")
+}

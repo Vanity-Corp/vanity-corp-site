@@ -1,6 +1,8 @@
-import React from "react";
+"use client";
+
+import React, { useRef } from "react";
 import { Canvas } from "@react-three/fiber";
-import { Environment } from "@react-three/drei";
+import { Environment, OrbitControls } from "@react-three/drei";
 import Model from "./models/Camera2";
 import { Group } from "three";
 
@@ -17,6 +19,13 @@ export const ThreeScene: React.FC<ThreeSceneProps> = ({ groupRef }) => {
       <group ref={groupRef} scale={0.8} position={[0, -3, 0]}>
         <Model />
       </group>
+      <OrbitControls enableZoom={false} />
     </Canvas>
   );
 };
+
+export default function CameraModel() {
+  const groupRef = useRef<Group>(null);
+
+  return <ThreeScene groupRef={groupRef} />;
+}
