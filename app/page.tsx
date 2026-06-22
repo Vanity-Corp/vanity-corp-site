@@ -17,6 +17,7 @@ import VaniTeam from "@/components/VaniTeam";
 import { BrandSlider } from "@/components/BrandSlider";
 import { Footer } from "@/components/Footer";
 import Link from "next/link";
+import Image from "next/image";
 import { VaniteamGrid } from "@/components/VaniyTeamGrid";
 import { ClientSection } from "@/components/ClientSection";
 import { PricingWithSwitch } from "@/components/ui/pricing-with-switch";
@@ -101,6 +102,30 @@ export default function Home() {
         </p>{" "}
         {/* <CarouselCard /> */}
       </div>{" "}
+
+      <section className="w-full px-6 py-14 md:px-16 md:py-20">
+        <div className="mx-auto grid max-w-[1400px] grid-cols-1 items-center gap-10 rounded-[2rem] border border-white/10 bg-white/[0.04] p-6 shadow-[0_30px_100px_rgba(0,0,0,0.25)] md:grid-cols-[1.1fr_0.9fr] md:p-10">
+          <div>
+            <p className="mb-3 text-sm font-semibold uppercase tracking-[0.35em] text-violet-300">À propos</p>
+            <h2 className="text-3xl font-bold leading-tight text-white md:text-5xl">Une équipe créative, stratégique et terrain.</h2>
+            <p className="mt-6 max-w-2xl text-base leading-relaxed text-neutral-300 md:text-lg">
+              Vanity Corp réunit stratégie, production audiovisuelle, création de contenu et studio de tournage pour transformer une idée en contenu prêt à performer.
+            </p>
+            <div className="mt-8 grid grid-cols-1 gap-3 sm:grid-cols-3">
+              {["Brief clair", "Production agile", "Livraison multi-format"].map((item) => (
+                <div key={item} className="rounded-2xl border border-white/10 bg-black/20 px-4 py-3 text-sm font-medium text-white">{item}</div>
+              ))}
+            </div>
+          </div>
+          <div className="grid grid-cols-3 gap-4">
+            {["camera.png", "story board.png", "director Chair.png", "lighting.png", "microphone.png", "film reel.png"].map((icon) => (
+              <div key={icon} className="flex aspect-square items-center justify-center rounded-3xl border border-white/10 bg-black/25 p-4">
+                <Image src={`/newicones/${icon}`} alt="Icône production Vanity Corp" width={120} height={120} className="h-full w-full object-contain" />
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
       <ServiceSection services={services} />
       <section
         /*  ref={targetRef} */

@@ -13,8 +13,13 @@ import {
 } from "lucide-react";
 import { Footer } from "@/components/Footer";
 import dynamic from "next/dynamic";
+import { Canvas } from "@react-three/fiber";
+import { Environment, OrbitControls } from "@react-three/drei";
 
 const StudioModel = dynamic(() => import("@/components/StudioModel"), {
+  ssr: false,
+});
+const GreenScreenModel = dynamic(() => import("@/components/models/GreenScreend"), {
   ssr: false,
 });
 
@@ -346,6 +351,21 @@ function ReservationUXSection() {
   );
 }
 
+
+function StudioHomeModelHero() {
+  return (
+    <Canvas camera={{ position: [0, 0, 8], fov: 45 }}>
+      <ambientLight intensity={0.7} />
+      <directionalLight position={[5, 5, 5]} intensity={1.1} />
+      <Environment preset="city" />
+      <group scale={0.75} position={[0, -2, 0]}>
+        <GreenScreenModel />
+      </group>
+      <OrbitControls enableZoom={false} />
+    </Canvas>
+  );
+}
+
 // ── Reservation Section ───────────────────────────────────────────────────────
 
 function ReservationSection() {
@@ -552,7 +572,7 @@ export default function StudioPage() {
         <main className=" border border-white/10 rounded-2xl overflow-hidden text-white">
           {/* ── Hero ── */}
           <section className="relative min-h-[420px]  flex justify-center items-end border-b border-white/10 overflow-hidden">
-            <div className="absolute right-0 top-0 bottom-0 hidden lg:flex w-1/2 items-center justify-center opacity-90"><StudioModel /></div>
+            <div className="absolute right-0 top-0 bottom-0 hidden lg:flex w-1/2 items-center justify-center opacity-90"><StudioHomeModelHero /></div>
             {/* Dark gradient overlay — top transparent, bottom solid */}
             <div className="absolute inset-0 bg-gradient-to-t from-neutral-950 via-neutral-950/70 to-neutral-950" />
             {/* Subtle vertical grid lines on top */}
@@ -592,13 +612,6 @@ export default function StudioPage() {
             </div>
           </section>
 
-          {/* ── Features ── */}
-          <div className="m-auto border-b border-white/10 max-w-[1920px] divide-y divide-white/10">
-            {FEATURES.map((feature) => (
-              <FeatureCard key={feature.num} feature={feature} />
-            ))}
-          </div>
-
           <PricingSection />
 
           {/* ── Stats ── */}
@@ -625,6 +638,18 @@ export default function StudioPage() {
                 formules s&apos;adaptent à vos besoins et à votre budget de
                 production.
               </p>
+              <div className="mb-7 grid gap-3">
+                {FEATURES.map((feature) => (
+                  <div key={feature.num} className="flex gap-3 rounded-2xl border border-white/10 bg-white/[0.03] p-4">
+                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-indigo-300/20 text-indigo-300">{feature.icon}</div>
+                    <div>
+                      <p className="text-[11px] uppercase tracking-widest text-indigo-400">{feature.num}</p>
+                      <h3 className="text-sm font-semibold text-white">{feature.title}</h3>
+                      <p className="mt-1 text-xs leading-relaxed text-neutral-500">{feature.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
               <div className="flex flex-wrap gap-2.5">
                 <Button className="bg-white text-neutral-900 hover:bg-neutral-200 rounded-lg text-sm h-10 px-5 transition-colors">
                   Voir les tarifs

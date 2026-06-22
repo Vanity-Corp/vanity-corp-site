@@ -30,6 +30,17 @@ export function ExpertiseTabs({ onTabChange }: any) {
     onTabChange(activeTab);
   }, [activeTab, onTabChange]);
 
+  useEffect(() => {
+    if (!isModalOpen) return;
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+    };
+  }, [isModalOpen]);
+
   const tabsContent = [
     {
       title: "Création",
@@ -197,34 +208,44 @@ export function ExpertiseTabs({ onTabChange }: any) {
 
       {isModalOpen && (
         <div
-          className="fixed inset-0 z-50 flex items-stretch justify-center bg-black/70 p-0 backdrop-blur-md md:items-center md:p-6"
+          className="fixed inset-0 z-[999] flex h-dvh w-screen items-stretch justify-center overflow-hidden bg-black/80 p-0 backdrop-blur-xl md:items-center md:p-8"
           role="dialog"
           aria-modal="true"
           aria-labelledby="expertise-modal-title"
         >
-          <div className="relative flex h-screen w-full flex-col overflow-y-auto border border-white/10 bg-[#160b2f] p-6 text-white shadow-[0_30px_120px_rgba(0,0,0,0.55)] md:h-auto md:max-h-[85vh] md:max-w-3xl md:rounded-[2rem] md:p-10">
+          <div className="relative flex h-dvh w-screen flex-col overflow-y-auto bg-[#160b2f] p-6 text-white shadow-[0_30px_120px_rgba(0,0,0,0.65)] md:h-auto md:max-h-[88vh] md:w-[min(1120px,calc(100vw-4rem))] md:rounded-[2rem] md:border md:border-white/10 md:p-10">
             <button
               type="button"
               onClick={() => setIsModalOpen(false)}
-              className="sticky top-0 ml-auto flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-white/15 bg-white/10 text-2xl leading-none text-white transition hover:border-violet-200/70 hover:bg-violet-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-300"
+              className="sticky top-0 z-20 ml-auto flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-white/15 bg-white/10 text-2xl leading-none text-white transition hover:border-violet-200/70 hover:bg-violet-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-300"
               aria-label="Fermer le détail"
             >
               ×
             </button>
 
-            <div className="mt-8 md:mt-0">
-              <p className="mb-3 text-sm font-semibold uppercase tracking-[0.35em] text-violet-200/70">
-                Expertise
-              </p>
-              <h3
-                id="expertise-modal-title"
-                className="text-3xl font-bold md:text-5xl"
-              >
-                {activeContent.title}
-              </h3>
-              <p className="mt-8 text-[16px] font-normal leading-relaxed text-white/80 md:text-xl">
-                {activeContent.description}
-              </p>
+            <div className="grid flex-1 items-center gap-8 md:grid-cols-[1fr_0.95fr]">
+              <div>
+                <p className="mb-3 text-sm font-semibold uppercase tracking-[0.35em] text-violet-200/70">
+                  Expertise
+                </p>
+                <h3
+                  id="expertise-modal-title"
+                  className="text-3xl font-bold md:text-5xl"
+                >
+                  {activeContent.title}
+                </h3>
+                <p className="mt-8 text-[16px] font-normal leading-relaxed text-white/80 md:text-xl">
+                  {activeContent.description}
+                </p>
+              </div>
+
+              <div className="min-h-[320px] rounded-[2rem] border border-white/10 bg-white/[0.04] p-4 md:min-h-[420px]">
+                <div className="flex h-full items-center justify-center overflow-hidden rounded-[1.5rem] bg-black/20">
+                  <div className="origin-center scale-[0.78] sm:scale-[0.86] md:scale-[0.72] lg:scale-[0.82]">
+                    {activeContent.renderIllustration(true)}
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>

@@ -19,6 +19,9 @@ import { Footer } from "@/components/Footer";
 import HoldingsCard from "@/components/Holdingscard";
 import { StarsBackground } from "@/components/backgrounds/stars";
 import { cn } from "@/lib/utils";
+import dynamic from "next/dynamic";
+import { Canvas } from "@react-three/fiber";
+import { Environment, OrbitControls } from "@react-three/drei";
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 
@@ -39,12 +42,33 @@ interface Metric {
 // ── Data ──────────────────────────────────────────────────────────────────────
 
 
+const StoryBoardModel = dynamic(() => import("@/components/models/StoryBoard"), {
+  ssr: false,
+});
+
 const STRATEGIC_CLIENTS = [
   { name: "CMI France", sector: "Média", focus: "Audit social & roadmap contenu" },
   { name: "Ecole Ducasse", sector: "Formation", focus: "Positionnement digital" },
   { name: "Marionnaud", sector: "Retail", focus: "Activation social media" },
   { name: "Fraikin", sector: "B2B", focus: "Stratégie de visibilité" },
 ];
+
+
+function StrategyModelHero() {
+  return (
+    <div className="absolute right-0 bottom-0 top-10 hidden w-1/2 lg:block">
+      <Canvas camera={{ position: [0, 0, 8], fov: 45 }}>
+        <ambientLight intensity={0.7} />
+        <directionalLight position={[5, 5, 5]} intensity={1.2} />
+        <Environment preset="city" />
+        <group scale={0.9} position={[0, -1.6, 0]}>
+          <StoryBoardModel />
+        </group>
+        <OrbitControls enableZoom={false} />
+      </Canvas>
+    </div>
+  );
+}
 
 function StrategyIllustration() {
   return (
@@ -221,6 +245,7 @@ export default function AccompagnementPage() {
                   Voir les formules
                 </Button>
               </div>
+              <StrategyModelHero />
               <StrategyIllustration />
             </div>
           </section>
