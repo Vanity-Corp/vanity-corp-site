@@ -20,8 +20,6 @@ import HoldingsCard from "@/components/Holdingscard";
 import { StarsBackground } from "@/components/backgrounds/stars";
 import { cn } from "@/lib/utils";
 import dynamic from "next/dynamic";
-import { Canvas } from "@react-three/fiber";
-import { Environment, OrbitControls } from "@react-three/drei";
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 
@@ -41,34 +39,28 @@ interface Metric {
 
 // ── Data ──────────────────────────────────────────────────────────────────────
 
-
-const StoryBoardModel = dynamic(() => import("@/components/models/StoryBoard"), {
+const StoryBoardModel = dynamic(() => import("@/components/StoryBoardModel"), {
   ssr: false,
+  loading: () => (
+    <div className="w-full h-full flex items-center justify-center">
+      <div className="w-8 h-8 rounded-full border-2 border-amber-400/30 border-t-amber-400 animate-spin" />
+    </div>
+  ),
 });
-
 const STRATEGIC_CLIENTS = [
-  { name: "CMI France", sector: "Média", focus: "Audit social & roadmap contenu" },
-  { name: "Ecole Ducasse", sector: "Formation", focus: "Positionnement digital" },
+  {
+    name: "CMI France",
+    sector: "Média",
+    focus: "Audit social & roadmap contenu",
+  },
+  {
+    name: "Ecole Ducasse",
+    sector: "Formation",
+    focus: "Positionnement digital",
+  },
   { name: "Marionnaud", sector: "Retail", focus: "Activation social media" },
   { name: "Fraikin", sector: "B2B", focus: "Stratégie de visibilité" },
 ];
-
-
-function StrategyModelHero() {
-  return (
-    <div className="absolute right-0 bottom-0 top-10 hidden w-1/2 lg:block">
-      <Canvas camera={{ position: [0, 0, 8], fov: 45 }}>
-        <ambientLight intensity={0.7} />
-        <directionalLight position={[5, 5, 5]} intensity={1.2} />
-        <Environment preset="city" />
-        <group scale={0.9} position={[0, -1.6, 0]}>
-          <StoryBoardModel />
-        </group>
-        <OrbitControls enableZoom={false} />
-      </Canvas>
-    </div>
-  );
-}
 
 function StrategyIllustration() {
   return (
@@ -76,14 +68,31 @@ function StrategyIllustration() {
       <div className="grid grid-cols-2 gap-3">
         {[
           { icon: <Target size={18} />, label: "Objectifs", value: "KPIs" },
-          { icon: <Network size={18} />, label: "Canaux", value: "Social / Web" },
-          { icon: <BarChart2 size={18} />, label: "Mesure", value: "+340% reach" },
+          {
+            icon: <Network size={18} />,
+            label: "Canaux",
+            value: "Social / Web",
+          },
+          {
+            icon: <BarChart2 size={18} />,
+            label: "Mesure",
+            value: "+340% reach",
+          },
           { icon: <Sparkles size={18} />, label: "Actions", value: "Roadmap" },
         ].map((item) => (
-          <div key={item.label} className="rounded-2xl border border-white/10 bg-white/[0.04] p-4">
-            <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-xl bg-fuchsia-500/10 text-fuchsia-300">{item.icon}</div>
-            <p className="text-[11px] uppercase tracking-widest text-neutral-500">{item.label}</p>
-            <p className="mt-1 text-sm font-semibold text-white">{item.value}</p>
+          <div
+            key={item.label}
+            className="rounded-2xl border border-white/10 bg-white/[0.04] p-4"
+          >
+            <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-xl bg-fuchsia-500/10 text-fuchsia-300">
+              {item.icon}
+            </div>
+            <p className="text-[11px] uppercase tracking-widest text-neutral-500">
+              {item.label}
+            </p>
+            <p className="mt-1 text-sm font-semibold text-white">
+              {item.value}
+            </p>
           </div>
         ))}
       </div>
@@ -207,46 +216,53 @@ export default function AccompagnementPage() {
           {/* ══════════════════════════════════════════
               HERO
           ══════════════════════════════════════════ */}
-          <section className="relative min-h-[380px] flex items-end border-b border-white/10 overflow-hidden">
+          <section className="relative min-h-[420px] ">
             <StarsBackground
               className={cn(
                 "absolute inset-0 flex items-center justify-center rounded-xl",
                 "dark:bg-[radial-gradient(ellipse_at_bottom,_#262626_0%,_#000_100%)] bg-[radial-gradient(ellipse_at_bottom,_#f5f5f5_0%,_#fff_100%)]",
               )}
             />
-            <div className="relative max-w-[1920px] m-auto z-10 w-full px-6 sm:px-10 pt-16 pb-12">
-              <div className="flex items-center gap-2 mb-6">
-                <div className="w-1.5 h-1.5 rounded-full bg-fuchsia-400" />
-                <span className="text-[11px] font-medium tracking-[0.14em] uppercase text-fuchsia-400">
-                  Accompagnement stratégique
-                </span>
+            <div className="max-w-[1920px] flex justify-center items-end border-b border-white/10 overflow-hidden m-auto">
+              <div className="relative max-w-[1920px] m-auto z-10 w-full px-6 sm:px-10 pt-16 pb-12">
+                <div className="flex items-center gap-2 mb-6">
+                  <div className="w-1.5 h-1.5 rounded-full bg-fuchsia-400" />
+                  <span className="text-[11px] font-medium tracking-[0.14em] uppercase text-fuchsia-400">
+                    Accompagnement stratégique
+                  </span>
+                </div>
+                <h1 className="text-4xl sm:text-[3.25rem] font-bold leading-[1.08] tracking-tight max-w-2xl mb-5 text-white">
+                  Une vision claire
+                  <br />
+                  <span className="font-normal italic text-fuchsia-300">
+                    pour votre croissance
+                  </span>
+                </h1>
+                <p className="text-[15px] text-neutral-400 leading-relaxed max-w-lg mb-8">
+                  Community management, audit digital et stratégie sur mesure
+                  pour votre croissance. Nous analysons votre présence actuelle
+                  et construisons des actions concrètes pour améliorer votre
+                  visibilité et vos performances.
+                </p>
+                <div className="flex flex-wrap gap-3">
+                  <Button className="bg-white text-neutral-900 hover:bg-neutral-200 rounded-lg px-5 h-10 text-sm font-medium transition-colors">
+                    Démarrer un audit{" "}
+                    <ArrowRight size={15} className="ml-1.5" />
+                  </Button>
+                  <Button
+                    variant="outline"
+                    className="rounded-lg border-white/15 text-neutral-300 bg-transparent text-sm h-10 px-5 hover:bg-white/5 hover:text-white"
+                  >
+                    Voir les formules
+                  </Button>
+                </div>
+              </div>{" "}
+              <div
+                className="shrink-0 w-full lg:w-[480px]"
+                style={{ height: "420px" }}
+              >
+                <StoryBoardModel />
               </div>
-              <h1 className="text-4xl sm:text-[3.25rem] font-bold leading-[1.08] tracking-tight max-w-2xl mb-5 text-white">
-                Une vision claire
-                <br />
-                <span className="font-normal italic text-fuchsia-300">
-                  pour votre croissance
-                </span>
-              </h1>
-              <p className="text-[15px] text-neutral-400 leading-relaxed max-w-lg mb-8">
-                Community management, audit digital et stratégie sur mesure pour
-                votre croissance. Nous analysons votre présence actuelle et
-                construisons des actions concrètes pour améliorer votre
-                visibilité et vos performances.
-              </p>
-              <div className="flex flex-wrap gap-3">
-                <Button className="bg-white text-neutral-900 hover:bg-neutral-200 rounded-lg px-5 h-10 text-sm font-medium transition-colors">
-                  Démarrer un audit <ArrowRight size={15} className="ml-1.5" />
-                </Button>
-                <Button
-                  variant="outline"
-                  className="rounded-lg border-white/15 text-neutral-300 bg-transparent text-sm h-10 px-5 hover:bg-white/5 hover:text-white"
-                >
-                  Voir les formules
-                </Button>
-              </div>
-              <StrategyModelHero />
-              <StrategyIllustration />
             </div>
           </section>
           {/* ══════════════════════════════════════════
@@ -373,19 +389,30 @@ export default function AccompagnementPage() {
             </div>
           </section>
 
-
           <section className="border-b border-white/10 max-w-[1920px] m-auto px-6 sm:px-8 py-12">
             <SectionLabel>Clients accompagnés</SectionLabel>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
               {STRATEGIC_CLIENTS.map((client) => (
-                <div key={client.name} className="rounded-2xl border border-white/10 bg-white/[0.03] p-5 hover:border-fuchsia-400/30 transition-colors">
-                  <p className="text-base font-semibold text-white">{client.name}</p>
-                  <p className="mt-1 text-[11px] uppercase tracking-widest text-fuchsia-400">{client.sector}</p>
-                  <p className="mt-4 text-sm text-neutral-400 leading-relaxed">{client.focus}</p>
+                <div
+                  key={client.name}
+                  className="rounded-2xl border border-white/10 bg-white/[0.03] p-5 hover:border-fuchsia-400/30 transition-colors"
+                >
+                  <p className="text-base font-semibold text-white">
+                    {client.name}
+                  </p>
+                  <p className="mt-1 text-[11px] uppercase tracking-widest text-fuchsia-400">
+                    {client.sector}
+                  </p>
+                  <p className="mt-4 text-sm text-neutral-400 leading-relaxed">
+                    {client.focus}
+                  </p>
                 </div>
               ))}
             </div>
-            <p className="mt-5 text-xs text-neutral-500">Cette liste est prévue pour être alimentée par la catégorie CMS <span className="text-fuchsia-300">STRATEGIC_CLIENT</span>.</p>
+            <p className="mt-5 text-xs text-neutral-500">
+              Cette liste est prévue pour être alimentée par la catégorie CMS{" "}
+              <span className="text-fuchsia-300">STRATEGIC_CLIENT</span>.
+            </p>
           </section>
           {/* ══════════════════════════════════════════
               SECTION 4 — CTA banner

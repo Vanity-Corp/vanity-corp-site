@@ -88,7 +88,13 @@ export const artistClients = [
   },
 ];
 
-function ArtistMarquee({ items, reverse = false }: { items: typeof artistClients; reverse?: boolean }) {
+function ArtistMarquee({
+  items,
+  reverse = false,
+}: {
+  items: typeof artistClients;
+  reverse?: boolean;
+}) {
   return (
     <div className="scroller relative w-full overflow-hidden [mask-image:linear-gradient(to_right,transparent,white_15%,white_85%,transparent)]">
       <div
@@ -96,7 +102,9 @@ function ArtistMarquee({ items, reverse = false }: { items: typeof artistClients
         style={{ "--animation-duration": "55s" } as React.CSSProperties}
       >
         <AnimatedTooltip items={items} />
-        <AnimatedTooltip items={items.map((item) => ({ ...item, id: item.id + 100 }))} />
+        <AnimatedTooltip
+          items={items.map((item) => ({ ...item, id: item.id + 100 }))}
+        />
       </div>
     </div>
   );
