@@ -412,7 +412,15 @@ export default function AudiovisuelPage() {
 
                 {/* Services — Folder components */}
                 <div className="border border-white/10 rounded-2xl p-6 bg-white/[0.01]">
-                  <SectionLabel>Nos services & <Link href="/realisations" className="text-amber-400 hover:text-amber-300 underline underline-offset-4">Portfolio</Link></SectionLabel>
+                  <SectionLabel>
+                    Nos services &{" "}
+                    <Link
+                      href="/realisations"
+                      className="text-amber-400 hover:text-amber-300 underline underline-offset-4"
+                    >
+                      Portfolio
+                    </Link>
+                  </SectionLabel>
                   <p className="text-xs text-neutral-500 leading-relaxed mb-8">
                     Cliquez sur un dossier pour découvrir nos réalisations.
                   </p>
@@ -471,7 +479,6 @@ export default function AudiovisuelPage() {
                     ))}
                   </div>
                 </div>
-
                 {/* Process steps — vertical */}
                 <div className="border border-white/10 rounded-2xl p-6 bg-white/[0.01]">
                   <SectionLabel>Notre processus</SectionLabel>
@@ -487,7 +494,11 @@ export default function AudiovisuelPage() {
                         label: "Préparation & planning",
                         icon: <Layers size={13} />,
                       },
-                      { step: "03", label: "Production", icon: <Camera size={13} /> },
+                      {
+                        step: "03",
+                        label: "Production",
+                        icon: <Camera size={13} />,
+                      },
                       {
                         step: "04",
                         label: "Post-production",
@@ -521,7 +532,8 @@ export default function AudiovisuelPage() {
                       </div>
                     ))}
                   </div>
-                </div>                {/* Multi-format delivery */}
+                </div>{" "}
+                {/* Multi-format delivery */}
                 <div className="border border-white/10 rounded-2xl p-6 bg-white/[0.01]">
                   <SectionLabel>Livraison multi-plateformes</SectionLabel>
                   <div className="flex flex-col gap-2.5">
@@ -545,8 +557,6 @@ export default function AudiovisuelPage() {
                     ))}
                   </div>
                 </div>
-
-
               </div>
             </div>
           </section>

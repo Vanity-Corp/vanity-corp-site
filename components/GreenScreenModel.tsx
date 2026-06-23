@@ -16,7 +16,7 @@ export const ThreeScene: React.FC<ThreeSceneProps> = ({ groupRef }) => {
       <ambientLight intensity={0.7} />
       <directionalLight position={[5, 5, 5]} intensity={1.1} />
 
-      <Environment preset="city" />
+      <Environment files="/hdr/studio.hdr" />
       <group scale={0.75} position={[0, -2, 0]}>
         <Model />
       </group>

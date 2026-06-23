@@ -15,7 +15,7 @@ export const ThreeScene: React.FC<ThreeSceneProps> = ({ groupRef }) => {
     <Canvas camera={{ position: [0, 0, 8], fov: 45 }}>
       <ambientLight intensity={0.6} />
       <directionalLight position={[5, 5, 5]} intensity={1} />
-      <Environment preset="city" />
+      <Environment files="/hdr/studio.hdr" />
       <group ref={groupRef} scale={0.8} position={[0, -3, 0]}>
         <Model />
       </group>
