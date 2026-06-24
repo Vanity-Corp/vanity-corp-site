@@ -160,7 +160,7 @@ export default function Component() {
                         className="mx-auto mb-4 text-violet-500"
                       />
                       <h3 className="text-2xl font-bold mb-4">
-                        C'est parti ! On s&apos;en occupe
+                        C&apos;est parti ! On s&apos;en occupe
                       </h3>
                       <p className="mb-6">Vous recevrez un devis sous 24h.</p>
                       <Button>
