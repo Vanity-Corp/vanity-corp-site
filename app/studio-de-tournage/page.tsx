@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, Suspense } from "react";
 import { Calendar } from "@/components/ui/calendar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -13,6 +13,8 @@ import {
 } from "lucide-react";
 import { Footer } from "@/components/Footer";
 import dynamic from "next/dynamic";
+import { Canvas } from "@react-three/fiber";
+import { Environment, OrbitControls } from "@react-three/drei";
 
 const StudioModel = dynamic(() => import("@/components/StudioModel"), {
   ssr: false,
@@ -37,6 +39,18 @@ interface TimeSlot {
   label: string;
   available: boolean;
 }
+
+const GreenScreenModel = dynamic(
+  () => import("@/components/GreenScreenModel"),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="w-full h-full flex items-center justify-center">
+        <div className="w-8 h-8 rounded-full border-2 border-amber-400/30 border-t-amber-400 animate-spin" />
+      </div>
+    ),
+  },
+);
 
 // ── Data ──────────────────────────────────────────────────────────────────────
 
@@ -80,6 +94,87 @@ const TIME_SLOTS: TimeSlot[] = [
 
 // ── Hero background (Unsplash, cinematic studio atmosphere) ───────────────────
 const HERO_IMAGE = "/img/studio.jpg";
+
+const PRICING_OFFERS = [
+  {
+    name: "Essentiel",
+    price: "Demi-journée",
+    description: "Pour contenus courts et interviews.",
+    features: [
+      "Accès plateau",
+      "Éclairage de base",
+      "Assistance installation",
+      "Créneau 4h",
+    ],
+  },
+  {
+    name: "Production",
+    price: "Journée",
+    description: "Le format recommandé pour tourner sereinement.",
+    features: [
+      "Accès plateau journée",
+      "Kit lumière complet",
+      "Espace préparation",
+      "Support technique",
+    ],
+  },
+  {
+    name: "Sur mesure",
+    price: "Projet",
+    description: "Pour productions complexes et équipes élargies.",
+    features: [
+      "Repérage",
+      "Options matériel",
+      "Planning dédié",
+      "Accompagnement Vanity",
+    ],
+  },
+];
+
+const ACCESSIBILITY_ROWS = [
+  {
+    city: "Paris (RER B - Orsay Ville)",
+    time: "20 min",
+    transport: "RER B + navette / taxi",
+    road: "N118 / A10",
+    parking: "Sur place",
+  },
+  {
+    city: "Versailles",
+    time: "25 min",
+    transport: "Voiture / VTC",
+    road: "N118",
+    parking: "Sur place",
+  },
+  {
+    city: "Massy",
+    time: "10 min",
+    transport: "RER B / voiture",
+    road: "A10 / N118",
+    parking: "Sur place",
+  },
+  {
+    city: "Gif-sur-Yvette",
+    time: "10 min",
+    transport: "RER B / bus",
+    road: "D306",
+    parking: "Sur place",
+  },
+  {
+    city: "Orly",
+    time: "25 min",
+    transport: "Orlyval + RER B / voiture",
+    road: "A10 / A6",
+    parking: "Sur place",
+  },
+  {
+    city: "Évry",
+    time: "20 min",
+    transport: "Voiture / VTC",
+    road: "N104 / A10",
+    parking: "Sur place",
+  },
+];
 
 // ── Sub-components ─────────────────────────────────────────────────────────────
 
@@ -264,6 +359,124 @@ function FloorPlanSVG() {
         Vue aérienne — plan de studio
       </text>
     </svg>
+  );
+}
+
+function PricingSection() {
+  return (
+    <section className="border-b border-white/10 max-w-[1920px] m-auto px-6 sm:px-10 py-12">
+      <p className="text-[11px] uppercase tracking-widest text-indigo-400 mb-4">
+        Offres studio
+      </p>
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
+        {PRICING_OFFERS.map((offer) => (
+          <article
+            key={offer.name}
+            className="rounded-3xl border border-white/10 bg-white/[0.03] p-6 hover:border-indigo-400/40 transition-colors"
+          >
+            <h3 className="text-xl font-semibold text-white">{offer.name}</h3>
+            <p className="mt-2 text-3xl font-bold text-indigo-300">
+              {offer.price}
+            </p>
+            <p className="mt-3 text-sm text-neutral-400">{offer.description}</p>
+            <details className="mt-6 rounded-2xl border border-white/10 bg-black/20 p-4 open:border-indigo-400/30">
+              <summary className="cursor-pointer text-sm font-medium text-white">
+                Voir les détails
+              </summary>
+              <ul className="mt-4 space-y-3">
+                {offer.features.map((feature) => (
+                  <li
+                    key={feature}
+                    className="flex items-center gap-2 text-sm text-neutral-300"
+                  >
+                    <CheckCircle2 size={14} className="text-indigo-300" />
+                    {feature}
+                  </li>
+                ))}
+              </ul>
+            </details>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function AccessibilitySection() {
+  return (
+    <section className="border-b border-white/10 max-w-[1920px] m-auto px-6 sm:px-10 py-12">
+      <p className="text-[11px] uppercase tracking-widest text-indigo-400 mb-4">
+        Accessibilité
+      </p>
+      <div className="overflow-x-auto rounded-2xl border border-white/10">
+        <table className="w-full min-w-[760px] text-sm">
+          <thead className="bg-white/[0.06] text-left text-neutral-300">
+            <tr>
+              {[
+                "Ville",
+                "Temps",
+                "Transports",
+                "Accès routiers",
+                "Stationnement",
+              ].map((h) => (
+                <th key={h} className="px-5 py-4 font-medium">
+                  {h}
+                </th>
+              ))}
+            </tr>
+          </thead>
+          <tbody className="divide-y divide-white/10">
+            {ACCESSIBILITY_ROWS.map((row) => (
+              <tr key={row.city} className="text-neutral-400">
+                <td className="px-5 py-4 text-white">{row.city}</td>
+                <td className="px-5 py-4 text-indigo-300 font-semibold">
+                  {row.time}
+                </td>
+                <td className="px-5 py-4">{row.transport}</td>
+                <td className="px-5 py-4">{row.road}</td>
+                <td className="px-5 py-4">{row.parking}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </section>
+  );
+}
+
+function ReservationUXSection() {
+  return (
+    <section className="border-b border-white/10 max-w-[1920px] m-auto px-6 sm:px-10 py-12">
+      <p className="text-[11px] uppercase tracking-widest text-indigo-400 mb-4">
+        Fonctionnement réservation
+      </p>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        {[
+          {
+            title: "Marge avant validation",
+            text: "Le calendrier collecte une intention de réservation : date et créneau restent modifiables tant que la demande n'est pas confirmée par l'équipe.",
+          },
+          {
+            title: "Pré-validation",
+            text: "Une demande complète peut être pré-validée côté équipe après vérification de disponibilité, puis transformée en confirmation définitive.",
+          },
+          {
+            title: "Avant confirmation",
+            text: "L'utilisateur reçoit un retour sous 24h. UX recommandée : email automatique récapitulatif + statut “en attente de validation”.",
+          },
+        ].map((item) => (
+          <div
+            key={item.title}
+            className="rounded-2xl border border-white/10 bg-white/[0.03] p-5"
+          >
+            <h3 className="text-base font-semibold text-white">{item.title}</h3>
+            <p className="mt-3 text-sm leading-relaxed text-neutral-400">
+              {item.text}
+            </p>
+          </div>
+        ))}
+      </div>
+    </section>
   );
 }
 
@@ -472,57 +685,60 @@ export default function StudioPage() {
       <div className="mx-auto w-full ">
         <main className=" border border-white/10 rounded-2xl overflow-hidden text-white">
           {/* ── Hero ── */}
-          <section className="relative min-h-[420px]  flex justify-center items-end border-b border-white/10 overflow-hidden">
-            {/* Background image */}
-            <div
-              className="absolute  inset-0 bg-cover bg-center"
-              style={{ backgroundImage: `url('${HERO_IMAGE}')` }}
-            />
-            {/* Dark gradient overlay — top transparent, bottom solid */}
-            <div className="absolute inset-0 bg-gradient-to-t from-neutral-950 via-neutral-950/70 to-neutral-950" />
-            {/* Subtle vertical grid lines on top */}
-            <div
-              className="absolute inset-0 opacity-10 pointer-events-none"
-              style={{
-                backgroundImage:
-                  "repeating-linear-gradient(90deg, transparent, transparent 79px, rgba(255,255,255,0.3) 79px, rgba(255,255,255,0.3) 80px)",
-              }}
-            />
+          <section className="relative min-h-[420px] ">
+            <div className="max-w-[1920px] flex justify-center items-end border-b border-white/10 overflow-hidden m-auto">
+              {/* Dark gradient overlay — top transparent, bottom solid */}
+              <div className="absolute inset-0 bg-gradient-to-t from-neutral-950 via-neutral-950/70 to-neutral-950" />
+              {/* Subtle vertical grid lines on top */}
+              <div
+                className="absolute inset-0 opacity-10 pointer-events-none"
+                style={{
+                  backgroundImage:
+                    "repeating-linear-gradient(90deg, transparent, transparent 79px, rgba(255,255,255,0.3) 79px, rgba(255,255,255,0.3) 80px)",
+                }}
+              />
 
-            {/* Content */}
-            <div className="relative z-10 w-full px-6 sm:px-10 pt-16 pb-12 max-w-[1920px]">
-              <span className="inline-block text-[11px] font-medium tracking-[0.12em] uppercase text-indigo-400 border border-white/20 rounded-full px-3.5 py-1 mb-6 backdrop-blur-sm bg-white/5">
-                Studio de tournage
-              </span>
-
-              <h1 className="text-4xl sm:text-5xl font-bold leading-[1.1] tracking-tight max-w-lg mb-5 text-white">
-                Des espaces pensés
-                <br />
-                pour vos{" "}
-                <span className="font-normal italic text-indigo-300">
-                  productions
+              {/* Content */}
+              <div className="relative z-10 w-full px-6 sm:px-10 pt-16 pb-12 ">
+                <span className="inline-block text-[11px] font-medium tracking-[0.12em] uppercase text-indigo-400 border border-white/20 rounded-full px-3.5 py-1 mb-6 backdrop-blur-sm bg-white/5">
+                  Studio de tournage
                 </span>
-              </h1>
 
-              <p className="text-[15px] text-neutral-400 leading-relaxed max-w-xl mb-8">
-                Découvrez nos espaces, équipements et options de location pour
-                vos productions. Nous mettons à disposition un environnement
-                professionnel conçu pour maximiser la qualité de vos contenus
-                tout en simplifiant vos tournages.
-              </p>
+                <h1 className="text-4xl sm:text-5xl font-bold leading-[1.1] tracking-tight max-w-lg mb-5 text-white">
+                  Des espaces pensés
+                  <br />
+                  pour vos{" "}
+                  <span className="font-normal italic text-indigo-300">
+                    productions
+                  </span>
+                </h1>
 
-              <Button className="bg-white text-neutral-900 hover:bg-neutral-200 rounded-lg px-5 h-10 text-sm font-medium transition-colors">
-                Réserver le studio →
-              </Button>
+                <p className="text-[15px] text-neutral-400 leading-relaxed max-w-xl mb-8">
+                  Découvrez nos espaces, équipements et options de location pour
+                  vos productions. Nous mettons à disposition un environnement
+                  professionnel conçu pour maximiser la qualité de vos contenus
+                  tout en simplifiant vos tournages.
+                </p>
+
+                <Button
+                  asChild
+                  className="bg-white text-neutral-900 hover:bg-neutral-200 rounded-lg px-5 h-10 text-sm font-medium transition-colors"
+                >
+                  <a href="mailto:contact@krtstudios.fr?subject=Demande%20de%20visite%20studio">
+                    Prévoir une visite →
+                  </a>
+                </Button>
+              </div>
+              <div
+                className="shrink-0 w-full lg:w-[480px]"
+                style={{ height: "420px" }}
+              >
+                <GreenScreenModel />
+              </div>
             </div>
           </section>
 
-          {/* ── Features ── */}
-          <div className="flex flex-col m-auto md:flex-row border-b border-white/10 divide-y max-w-[1920px] md:divide-y-0 md:divide-x divide-white/10">
-            {FEATURES.map((feature) => (
-              <FeatureCard key={feature.num} feature={feature} />
-            ))}
-          </div>
+          <PricingSection />
 
           {/* ── Stats ── */}
           <div className="flex max-w-[1920px] m-auto flex-wrap border-b border-white/10 divide-x divide-white/10">
@@ -548,15 +764,41 @@ export default function StudioPage() {
                 formules s&apos;adaptent à vos besoins et à votre budget de
                 production.
               </p>
+              <div className="mb-7 grid gap-3">
+                {FEATURES.map((feature) => (
+                  <div
+                    key={feature.num}
+                    className="flex gap-3 rounded-2xl border border-white/10 bg-white/[0.03] p-4"
+                  >
+                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-indigo-300/20 text-indigo-300">
+                      {feature.icon}
+                    </div>
+                    <div>
+                      <p className="text-[11px] uppercase tracking-widest text-indigo-400">
+                        {feature.num}
+                      </p>
+                      <h3 className="text-sm font-semibold text-white">
+                        {feature.title}
+                      </h3>
+                      <p className="mt-1 text-xs leading-relaxed text-neutral-500">
+                        {feature.description}
+                      </p>
+                    </div>
+                  </div>
+                ))}
+              </div>
               <div className="flex flex-wrap gap-2.5">
                 <Button className="bg-white text-neutral-900 hover:bg-neutral-200 rounded-lg text-sm h-10 px-5 transition-colors">
                   Voir les tarifs
                 </Button>
                 <Button
+                  asChild
                   variant="outline"
                   className="rounded-lg border-white/10 text-neutral-300 bg-transparent text-sm h-10 px-5 hover:bg-white/5 hover:text-white"
                 >
-                  Demander une visite
+                  <a href="mailto:contact@krtstudios.fr?subject=Demande%20de%20visite%20studio">
+                    Demander une visite
+                  </a>
                 </Button>
               </div>
             </div>
@@ -573,6 +815,10 @@ export default function StudioPage() {
               </span>
             </div>
           </div>
+
+          <AccessibilitySection />
+
+          <ReservationUXSection />
 
           {/* ── Reservation with Calendar ── */}
           <ReservationSection />

@@ -3,7 +3,7 @@
 import React, { useRef } from "react";
 import { Canvas } from "@react-three/fiber";
 import { Environment, OrbitControls } from "@react-three/drei";
-import Model from "./models/Camera2";
+import Model from "./models/StoryBoard";
 import { Group } from "three";
 
 interface ThreeSceneProps {
@@ -24,7 +24,7 @@ export const ThreeScene: React.FC<ThreeSceneProps> = ({ groupRef }) => {
   );
 };
 
-export default function CameraModel() {
+export default function StoryBoardModel() {
   const groupRef = useRef<Group>(null);
 
   return <ThreeScene groupRef={groupRef} />;

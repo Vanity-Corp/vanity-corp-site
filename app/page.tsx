@@ -17,6 +17,7 @@ import VaniTeam from "@/components/VaniTeam";
 import { BrandSlider } from "@/components/BrandSlider";
 import { Footer } from "@/components/Footer";
 import Link from "next/link";
+import Image from "next/image";
 import { VaniteamGrid } from "@/components/VaniyTeamGrid";
 import { ClientSection } from "@/components/ClientSection";
 import { PricingWithSwitch } from "@/components/ui/pricing-with-switch";
@@ -82,25 +83,61 @@ export default function Home() {
       <BannerVideo
         src="/videos/SHOWREEL 2025_2026_V6SQ2.mp4"
         poster="/fallback.webp"
-      />{" "}
-      <div className="hidden max-w-[1920px] m-auto md:block">
-        <StackedCard />
-      </div>
-      <div className="flex flex-col justify-center items-center md:hidden">
-        {" "}
-        <h2 className="text-center text-xl md:text-5xl font-bold text-black dark:text-white pt-10">
-          {" "}
-          À PROPOS DE NOUS{" "}
-        </h2>{" "}
-        <p className="text-center text-[15px] my-4 px-5 max-w-lg text-black dark:text-white">
-          {" "}
-          Vanity Corp est le combo parfait d&apos;un génie du marketing,
-          d&apos;un créateur de contenu qui fait le buzz auprès de centaines de
-          milliers de followers, et d&apos;un réalisateur qui transforme vos
-          idées en chef-d&apos;oeuvre.{" "}
-        </p>{" "}
-        {/* <CarouselCard /> */}
-      </div>{" "}
+      />
+      <section className="w-full px-6 py-14 md:px-16 md:py-20">
+        <div className="mx-auto grid max-w-[1400px] grid-cols-1 items-center gap-10 rounded-[2rem] border border-white/10 bg-white/[0.04] p-6 shadow-[0_30px_100px_rgba(0,0,0,0.25)] md:grid-cols-[1.1fr_0.9fr] md:p-10">
+          <div>
+            <p className="mb-3 text-sm font-semibold uppercase tracking-[0.35em] text-violet-300">
+              À propos
+            </p>
+            <h2 className="text-3xl font-bold leading-tight text-white md:text-5xl">
+              Une équipe créative, stratégique et terrain.
+            </h2>
+            <p className="mt-6 max-w-2xl text-base leading-relaxed text-neutral-300 md:text-lg">
+              Vanity Corp réunit stratégie, production audiovisuelle, création
+              de contenu et studio de tournage pour transformer une idée en
+              contenu prêt à performer.
+            </p>
+            <div className="mt-8 grid grid-cols-1 gap-3 sm:grid-cols-3">
+              {[
+                "Brief clair",
+                "Production agile",
+                "Livraison multi-format",
+              ].map((item) => (
+                <div
+                  key={item}
+                  className="rounded-2xl border border-white/10 bg-black/20 px-4 py-3 text-sm font-medium text-white"
+                >
+                  {item}
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="grid grid-cols-3 gap-4">
+            {[
+              "camera.png",
+              "story board.png",
+              "director Chair.png",
+              "lighting.png",
+              "microphone.png",
+              "film reel.png",
+            ].map((icon) => (
+              <div
+                key={icon}
+                className="flex aspect-square items-center justify-center rounded-3xl border border-white/10 bg-black/25 p-4"
+              >
+                <Image
+                  src={`/newicones/${icon}`}
+                  alt="Icône production Vanity Corp"
+                  width={120}
+                  height={120}
+                  className="h-full w-full object-contain"
+                />
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
       <ServiceSection services={services} />
       <section
         /*  ref={targetRef} */
@@ -109,7 +146,7 @@ export default function Home() {
         {" "}
         <ExpertiseTabs onTabChange={handleTabChange} />{" "}
       </section>{" "}
-      <section className="w-full flex flex-col gap-10 justify-center items-center h-screen">
+      <section className="w-full flex flex-col gap-8 justify-center items-center py-16 md:py-24">
         {" "}
         <motion.h2
           initial={{ opacity: 0, y: 20 }}
@@ -119,7 +156,7 @@ export default function Home() {
           className="md:text-left text-center text-xl uppercase md:px-4 md:text-5xl font-bold text-black dark:text-white pt-10"
         >
           {" "}
-          IlS nous ont fait confiance{" "}
+          Ils nous ont fait confiance{" "}
         </motion.h2>{" "}
         <BrandSlider />{" "}
       </section>{" "}
@@ -133,7 +170,7 @@ export default function Home() {
           className="md:text-left text-center text-xl uppercase md:px-4 md:text-5xl font-bold text-black dark:text-white pt-10 mb-20"
         >
           {" "}
-          on a filmé ta star préférée !{" "}
+          Artistes & talents accompagnés{" "}
         </motion.h2>{" "}
         <ClientSection />{" "}
       </section>{" "}
@@ -191,7 +228,7 @@ export default function Home() {
           </Link>{" "}
         </div>{" "}
       </section>{" "}
-      <section className="flex flex-col px-6 gap-6 justify-center items-center h-screen w-full">
+      <section className="flex flex-col px-6 gap-6 justify-center items-center py-16 md:py-24 w-full">
         {" "}
         <div className=" w-auto relative ">
           {" "}

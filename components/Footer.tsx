@@ -84,7 +84,7 @@ export function Footer() {
             <li>À propos de nous</li>
             <li>Services</li>
             <li>
-              <Link href={"/realisations"}>Réalisations</Link>
+              <Link href={"/realisations"}>Portfolio</Link>
             </li>
             <li>Vaniteam</li>
             <li>Actualités</li>
