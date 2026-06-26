@@ -11,7 +11,7 @@ function Sidebar() {
     <div className="md:flex flex-col justify-around items-center font-medium z-20 absolute  py-3 bg-black absolute w-[3%]  h-dvh top-0 sticky hidden">
       <div className="flex justify-center items-center">
         {" "}
-        <ContactModal>
+        <ContactModal variant={"ghost"}>
           {" "}
           <svg
             width={20}

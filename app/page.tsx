@@ -1,18 +1,12 @@
 "use client";
-import dynamic from "next/dynamic";
-import { useEffect, useRef, useState } from "react";
 import { Carousel, CarouselContent } from "@/components/ui/carousel";
 import { Button } from "@/components/ui/button";
-import StackedCard from "@/components/ui/stacked";
 import { ExpertiseTabs } from "@/components/expertiseTabs";
 import { HighlightedTextHome } from "@/components/HiglightedTextHome";
 import { GeneratedText } from "@/components/GenerateTextSection";
 import { motion } from "framer-motion";
 import { AnimatedButton } from "@/components/ui/AnimatedButton";
 import { Meteors } from "@/components/ui/meteors";
-import { WorksGrid } from "@/components/WorksGrid";
-import VideoTabs from "@/components/VideoTabs";
-import { HoverBorderGradient } from "@/components/ui/hover-border-gradient";
 import VaniTeam from "@/components/VaniTeam";
 import { BrandSlider } from "@/components/BrandSlider";
 import { Footer } from "@/components/Footer";
@@ -24,58 +18,13 @@ import { PricingWithSwitch } from "@/components/ui/pricing-with-switch";
 import { services } from "@/lib/services";
 import BannerVideo from "@/components/ui/BannerVideo";
 import ServiceSection from "@/components/ServiceSection";
-const WorldMapSection = dynamic(
-  () => import("@/components/WordMap").then((mod) => mod.WorldMapSection),
-  {
-    ssr: false,
-    loading: () => (
-      <div className="w-full aspect-[2/1] rounded-lg bg-neutral-200/30 animate-pulse" />
-    ),
-  },
-);
-
-const tabColors = {
-  combo: "#493399",
-  creation: "#5A2848",
-  production: "#4B689F",
-  strategie: "#431F4B",
-  siteweb: "#A38141",
-  socialmedia: "#992D47",
-};
+import { WorldMapSection } from "@/components/WordMap";
 
 export default function Home() {
-  const [bgColor, setBgColor] = useState("#000000");
-  const [activeTab, setActiveTab] = useState("combo");
-  const targetRef = useRef(null);
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setBgColor(tabColors[activeTab as keyof typeof tabColors]);
-        } else {
-          setBgColor("#000000");
-        }
-      },
-      { threshold: 0.5 },
-    );
-    if (targetRef.current) {
-      observer.observe(targetRef.current);
-    }
-    const currentTarget = targetRef.current;
-    return () => {
-      if (currentTarget) {
-        observer.unobserve(currentTarget);
-      }
-    };
-  }, [activeTab]);
-  const handleTabChange = (value: string) => {
-    setActiveTab(value);
-  };
   return (
     <div
       className="md:w-[97%] w-full "
       style={{
-        backgroundColor: bgColor,
         transition: "background-color 0.5s ease",
       }}
     >
@@ -144,7 +93,7 @@ export default function Home() {
         className="flex flex-col justify-center items-center w-full "
       >
         {" "}
-        <ExpertiseTabs onTabChange={handleTabChange} />{" "}
+        <ExpertiseTabs />{" "}
       </section>{" "}
       <section className="w-full flex flex-col gap-8 justify-center items-center py-16 md:py-24">
         {" "}
@@ -353,9 +302,6 @@ export default function Home() {
           <VaniteamGrid />{" "}
         </div>{" "}
       </section>{" "}
-      <section id="nos-tarifs" className="w-full px-4 md:px-16 py-8">
-        <PricingWithSwitch />
-      </section>
       <Footer />
     </div>
   );

@@ -290,7 +290,9 @@ export default function Navbar(): JSX.Element {
           >
             Nos tarifs
           </Link>
-          <ContactModal>Contactez-nous</ContactModal>
+          <ContactModal variant={"ghost"} className="bg-none text-base">
+            Contactez-nous
+          </ContactModal>
         </div>
 
         {/* Right side - Estimation button */}
@@ -378,7 +380,7 @@ export default function Navbar(): JSX.Element {
             )}
 
             <div className="mt-3">
-              <ContactModal>
+              <ContactModal variant="ghost" className="bg-none">
                 <Button className="w-full rounded-full uppercase py-2">
                   Contact
                 </Button>

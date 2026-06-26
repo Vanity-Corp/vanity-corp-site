@@ -42,7 +42,23 @@ const formSchema = z.object({
     }),
 });
 
-export function ContactModal({ children }: PropsWithChildren<{}>) {
+export function ContactModal({
+  children,
+  className,
+  variant,
+}: PropsWithChildren<{
+  className?: string;
+  variant?:
+    | "default"
+    | "link"
+    | "destructive"
+    | "outline"
+    | "secondary"
+    | "ghost"
+    | "nobackground"
+    | null
+    | undefined;
+}>) {
   const [successMessage, setSuccessMessage] = useState(""); // State for success notification
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -74,10 +90,12 @@ export function ContactModal({ children }: PropsWithChildren<{}>) {
   };
 
   return (
-    <div className="flex items-center justify-center z-[100]">
+    <div>
       <Modal>
-        <ModalTrigger>{children}</ModalTrigger>
-        <ModalBody>
+        <ModalTrigger variant={variant} className={className}>
+          {children}
+        </ModalTrigger>
+        <ModalBody className="flex items-center justify-center z-[100]">
           <ModalContent>
             <h4 className="text-base md:text-lg  text-neutral-600 dark:text-neutral-100 font-bold text-center mb-8">
               ON EN PARLE AUTOUR D&apos;UN CAFÉ ?

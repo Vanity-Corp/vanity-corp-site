@@ -1,9 +1,30 @@
 "use client";
 
-import { useState, Suspense } from "react";
+import { useState, Suspense, useEffect } from "react";
+import Script from "next/script";
 import { Calendar } from "@/components/ui/calendar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import {
   LayoutDashboard,
   SunMedium,
@@ -15,6 +36,9 @@ import { Footer } from "@/components/Footer";
 import dynamic from "next/dynamic";
 import { Canvas } from "@react-three/fiber";
 import { Environment, OrbitControls } from "@react-three/drei";
+import { ContactModal } from "@/components/ContactModal";
+import { PricingWithSwitch } from "@/components/ui/pricing-with-switch";
+import Link from "next/link";
 
 const StudioModel = dynamic(() => import("@/components/StudioModel"), {
   ssr: false,
@@ -86,10 +110,9 @@ const STATS: Stat[] = [
 ];
 
 const TIME_SLOTS: TimeSlot[] = [
-  { id: "am", label: "Matinée — 08h à 12h", available: true },
-  { id: "pm", label: "Après-midi — 13h à 17h", available: true },
-  { id: "eve", label: "Soirée — 18h à 22h", available: false },
-  { id: "day", label: "Journée complète — 08h à 17h", available: true },
+  { id: "am", label: "Matinée - 8h à 13h", available: true },
+  { id: "pm", label: "Après midi - 14h à 18h", available: true },
+  { id: "eve", label: "Soirée - 18h à 22h", available: true },
 ];
 
 // ── Hero background (Unsplash, cinematic studio atmosphere) ───────────────────
@@ -364,40 +387,14 @@ function FloorPlanSVG() {
 
 function PricingSection() {
   return (
-    <section className="border-b border-white/10 max-w-[1920px] m-auto px-6 sm:px-10 py-12">
+    <section
+      id="pricing"
+      className="border-b border-white/10 max-w-[1920px] m-auto px-6 sm:px-10 py-12"
+    >
       <p className="text-[11px] uppercase tracking-widest text-indigo-400 mb-4">
         Offres studio
       </p>
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
-        {PRICING_OFFERS.map((offer) => (
-          <article
-            key={offer.name}
-            className="rounded-3xl border border-white/10 bg-white/[0.03] p-6 hover:border-indigo-400/40 transition-colors"
-          >
-            <h3 className="text-xl font-semibold text-white">{offer.name}</h3>
-            <p className="mt-2 text-3xl font-bold text-indigo-300">
-              {offer.price}
-            </p>
-            <p className="mt-3 text-sm text-neutral-400">{offer.description}</p>
-            <details className="mt-6 rounded-2xl border border-white/10 bg-black/20 p-4 open:border-indigo-400/30">
-              <summary className="cursor-pointer text-sm font-medium text-white">
-                Voir les détails
-              </summary>
-              <ul className="mt-4 space-y-3">
-                {offer.features.map((feature) => (
-                  <li
-                    key={feature}
-                    className="flex items-center gap-2 text-sm text-neutral-300"
-                  >
-                    <CheckCircle2 size={14} className="text-indigo-300" />
-                    {feature}
-                  </li>
-                ))}
-              </ul>
-            </details>
-          </article>
-        ))}
-      </div>
+      <PricingWithSwitch />
     </section>
   );
 }
@@ -453,16 +450,16 @@ function ReservationUXSection() {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {[
           {
-            title: "Marge avant validation",
-            text: "Le calendrier collecte une intention de réservation : date et créneau restent modifiables tant que la demande n'est pas confirmée par l'équipe.",
+            title: "1- Choisissez votre créneau",
+            text: "Sélectionnez la date et l'horaire qui vous conviennent pour votre réservation.",
           },
           {
-            title: "Pré-validation",
-            text: "Une demande complète peut être pré-validée côté équipe après vérification de disponibilité, puis transformée en confirmation définitive.",
+            title: "2- Validation de votre demande",
+            text: "Notre équipe vérifie la disponibilité et valide votre demande, ou vous contacte si quelques précisions sont nécessaires.",
           },
           {
-            title: "Avant confirmation",
-            text: "L'utilisateur reçoit un retour sous 24h. UX recommandée : email automatique récapitulatif + statut “en attente de validation”.",
+            title: "3- Confirmez votre réservation",
+            text: "Une fois votre demande validée, vous disposez de 4 heures pour effectuer le règlement et confirmer définitivement votre réservation.",
           },
         ].map((item) => (
           <div
@@ -484,11 +481,62 @@ function ReservationUXSection() {
 
 function ReservationSection() {
   const [date, setDate] = useState<Date | undefined>(undefined);
-  const [selectedSlot, setSelectedSlot] = useState<string | null>(null);
+  const [selectedHours, setSelectedHours] = useState<string[]>([]);
   const [submitted, setSubmitted] = useState(false);
 
-  const handleSubmit = () => {
-    if (date && selectedSlot) setSubmitted(true);
+  // Schéma de validation avec Zod
+  const formSchema = z.object({
+    fullName: z.string().min(1, "Nom et prénom requis"),
+    email: z.string().email("Email invalide").min(1, "Email requis"),
+    phone: z.string().min(10, "Numéro de téléphone invalide"),
+    clientType: z.enum(["particulier", "societe"]),
+  });
+
+  type FormValues = z.infer<typeof formSchema>;
+
+  const form = useForm<FormValues>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      fullName: "",
+      email: "",
+      phone: "",
+      clientType: "particulier",
+    },
+  });
+
+  // Plages horaires par créneau
+  const hourSlots = [
+    {
+      group: "Matinée",
+      hours: ["8h-9h", "9h-10h", "10h-11h", "11h-12h", "12h-13h"],
+    },
+    {
+      group: "Après‑midi",
+      hours: ["14h-15h", "15h-16h", "16h-17h", "17h-18h"],
+    },
+    { group: "Soirée", hours: ["18h-19h", "19h-20h", "20h-21h", "21h-22h"] },
+  ];
+
+  const toggleHour = (hour: string) => {
+    setSelectedHours((prev) =>
+      prev.includes(hour) ? prev.filter((h) => h !== hour) : [...prev, hour],
+    );
+  };
+
+  const onSubmit = (data: FormValues) => {
+    if (date && selectedHours.length > 0) {
+      setSubmitted(true);
+      // Ici, envoyez les données à votre API
+      console.log({
+        date,
+        hours: selectedHours,
+        ...data,
+      });
+      // Réinitialisation éventuelle
+      // form.reset();
+      // setSelectedHours([]);
+      // setDate(undefined);
+    }
   };
 
   const formattedDate = date
@@ -500,10 +548,17 @@ function ReservationSection() {
       })
     : null;
 
+  // Vérification globale pour activer le bouton
+  const isFormValid =
+    date &&
+    selectedHours.length > 0 &&
+    form.formState.isValid &&
+    form.formState.isDirty;
+
   return (
     <section
       id="reservation"
-      className="border-t border-white/10 m-auto  max-w-[1920px]"
+      className="border-t border-white/10 m-auto max-w-[1920px]"
     >
       {/* Header */}
       <div className="px-6 sm:px-10 py-10 border-b border-white/10 flex flex-col md:flex-row md:items-end md:justify-between gap-6">
@@ -520,29 +575,27 @@ function ReservationSection() {
           </h2>
         </div>
         <p className="text-sm text-neutral-500 max-w-xs leading-relaxed md:text-right">
-          Sélectionnez une date et un horaire. Notre équipe confirmera la
-          disponibilité sous 24h.
+          Sélectionnez une date et les heures souhaitées. Notre équipe
+          confirmera la disponibilité sous 24h.
         </p>
       </div>
 
-      {/* Calendar + Slots grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-white/10">
-        {/* Left — Calendar */}
+      {/* Trois colonnes : calendrier / heures / formulaire */}
+      <div className="grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-white/10">
+        {/* 01 — Calendrier */}
         <div className="px-6 sm:px-10 py-10">
           <p className="text-[11px] uppercase tracking-widest text-neutral-500 mb-6">
             01 — Choisir une date
           </p>
-
-          <div className="dark w-[70%] rounded-2xl border border-white/10 bg-neutral-950 shadow-xl shadow-black/40 p-3 m-auto">
+          <div className="dark w-full rounded-2xl border border-white/10 bg-neutral-950 shadow-xl shadow-black/40 p-3">
             <Calendar
               mode="single"
               selected={date}
               onSelect={setDate}
-              className="rounded-xl w-full "
+              className="rounded-xl w-full"
               disabled={{ before: new Date() }}
             />
           </div>
-
           {date && (
             <div className="mt-5 flex items-center gap-2">
               <div className="w-1.5 h-1.5 rounded-full bg-white shrink-0" />
@@ -553,124 +606,293 @@ function ReservationSection() {
           )}
         </div>
 
-        {/* Right — Slots + Summary */}
-        <div className="px-6 sm:px-10 py-10 flex flex-col gap-8">
-          {/* Time slots */}
-          <div>
-            <p className="text-[11px] uppercase tracking-widest text-neutral-500 mb-6">
-              02 — Choisir un créneau
-            </p>
-            <div className="flex flex-col gap-2.5">
-              {TIME_SLOTS.map((slot) => {
-                const isSelected = selectedSlot === slot.id;
-                return (
-                  <button
-                    key={slot.id}
-                    disabled={!slot.available}
-                    onClick={() => slot.available && setSelectedSlot(slot.id)}
-                    className={[
-                      "flex items-center justify-between w-full px-4 py-3.5 rounded-xl border text-sm font-medium transition-all duration-150 text-left",
-                      !slot.available
-                        ? "border-white/5 bg-white/[0.02] text-neutral-700 cursor-not-allowed"
-                        : isSelected
-                          ? "border-white bg-white text-neutral-900 shadow-lg shadow-white/10"
-                          : "border-white/10 bg-white/5 text-neutral-300 hover:border-white/30 hover:bg-white/10 cursor-pointer",
-                    ].join(" ")}
-                  >
-                    <div className="flex items-center gap-2.5">
-                      <Clock
-                        size={14}
-                        className={
-                          !slot.available
-                            ? "text-neutral-700"
-                            : isSelected
-                              ? "text-neutral-900"
-                              : "text-neutral-500"
-                        }
-                      />
-                      <span>{slot.label}</span>
-                    </div>
-
-                    {!slot.available && (
-                      <Badge
-                        variant="outline"
-                        className="text-[10px] text-neutral-700 border-white/10 font-normal bg-transparent"
+        {/* 02 — Sélection des heures */}
+        <div className="px-6 sm:px-10 py-10">
+          <p className="text-[11px] uppercase tracking-widest text-neutral-500 mb-6">
+            02 — Choisir vos heures
+          </p>
+          <div className="space-y-6">
+            {hourSlots.map((group) => (
+              <div key={group.group}>
+                <h4 className="text-sm font-medium text-neutral-300 mb-2">
+                  {group.group}
+                </h4>
+                <div className="flex flex-wrap gap-2">
+                  {group.hours.map((hour) => {
+                    const isSelected = selectedHours.includes(hour);
+                    return (
+                      <button
+                        key={hour}
+                        onClick={() => toggleHour(hour)}
+                        className={[
+                          "px-3 py-1.5 rounded-full border text-xs font-medium transition-all duration-150",
+                          isSelected
+                            ? "border-white bg-white text-neutral-900 shadow-lg shadow-white/10"
+                            : "border-white/10 bg-white/5 text-neutral-300 hover:border-white/30 hover:bg-white/10",
+                        ].join(" ")}
                       >
-                        Indisponible
-                      </Badge>
-                    )}
-
-                    {isSelected && (
-                      <CheckCircle2
-                        size={16}
-                        className="shrink-0 text-neutral-900"
-                      />
-                    )}
-                  </button>
-                );
-              })}
-            </div>
+                        {hour}
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+            ))}
           </div>
+          {selectedHours.length > 0 && (
+            <div className="mt-4 flex items-center gap-2 text-sm text-neutral-400">
+              <CheckCircle2 size={14} className="text-indigo-400" />
+              <span>{selectedHours.length} heure(s) sélectionnée(s)</span>
+            </div>
+          )}
+        </div>
 
-          {/* Summary + CTA */}
-          <div className="mt-auto">
-            <div
-              className={[
-                "rounded-2xl border p-5 mb-5 transition-all duration-200",
-                date && selectedSlot
-                  ? "border-white/10 bg-white/5"
-                  : "border-dashed border-white/10 bg-transparent",
-              ].join(" ")}
-            >
-              <p className="text-[11px] uppercase tracking-widest text-indigo-400 mb-3">
-                Récapitulatif
-              </p>
-              {!date && !selectedSlot ? (
-                <p className="text-sm text-indigo-400 italic">
-                  Aucune sélection pour le moment.
-                </p>
-              ) : (
-                <div className="flex flex-col gap-1.5">
-                  {date && (
-                    <div className="flex items-baseline gap-2 text-sm text-neutral-200">
-                      <span className="text-neutral-500 shrink-0">Date —</span>
-                      <span className="font-medium capitalize">
-                        {formattedDate}
-                      </span>
-                    </div>
-                  )}
-                  {selectedSlot && (
-                    <div className="flex items-baseline gap-2 text-sm text-neutral-200">
-                      <span className="text-neutral-500 shrink-0">
-                        Créneau —
-                      </span>
-                      <span className="font-medium">
-                        {TIME_SLOTS.find((s) => s.id === selectedSlot)?.label}
-                      </span>
+        {/* 03 — Formulaire projet (avec React Hook Form + Zod) */}
+        <div className="px-6 sm:px-10 py-10">
+          <p className="text-[11px] uppercase tracking-widest text-neutral-500 mb-6">
+            03 — Parlez‑nous de votre projet
+          </p>
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+              <FormField
+                control={form.control}
+                name="fullName"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-sm text-neutral-300">
+                      Nom et prénom *
+                    </FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="Jean Dupont"
+                        className="bg-white/5 border-white/10 text-white placeholder:text-neutral-600"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="email"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-sm text-neutral-300">
+                      Email *
+                    </FormLabel>
+                    <FormControl>
+                      <Input
+                        type="email"
+                        placeholder="jean@exemple.com"
+                        className="bg-white/5 border-white/10 text-white placeholder:text-neutral-600"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="phone"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-sm text-neutral-300">
+                      Numéro de téléphone *
+                    </FormLabel>
+                    <FormControl>
+                      <Input
+                        type="tel"
+                        placeholder="06 12 34 56 78"
+                        className="bg-white/5 border-white/10 text-white placeholder:text-neutral-600"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="clientType"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-sm text-neutral-300">
+                      Vous êtes *
+                    </FormLabel>
+                    <Select
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                    >
+                      <FormControl>
+                        <SelectTrigger className="bg-white/5 border-white/10 text-white">
+                          <SelectValue placeholder="Choisir..." />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent className="bg-neutral-900 border-white/10 text-white">
+                        <SelectItem value="particulier">Particulier</SelectItem>
+                        <SelectItem value="societe">
+                          Société / Professionnel
+                        </SelectItem>
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              {/* Récapitulatif + Bouton d’envoi */}
+              <div className="pt-4">
+                <div
+                  className={[
+                    "rounded-2xl border p-4 mb-4 transition-all duration-200",
+                    date && selectedHours.length > 0
+                      ? "border-white/10 bg-white/5"
+                      : "border-dashed border-white/10 bg-transparent",
+                  ].join(" ")}
+                >
+                  <p className="text-[11px] uppercase tracking-widest text-indigo-400 mb-2">
+                    Récapitulatif
+                  </p>
+                  {!date && selectedHours.length === 0 ? (
+                    <p className="text-sm text-indigo-400 italic">
+                      Aucune sélection pour le moment.
+                    </p>
+                  ) : (
+                    <div className="flex flex-col gap-1.5">
+                      {date && (
+                        <div className="flex items-baseline gap-2 text-sm text-neutral-200">
+                          <span className="text-neutral-500 shrink-0">
+                            Date —
+                          </span>
+                          <span className="font-medium capitalize">
+                            {formattedDate}
+                          </span>
+                        </div>
+                      )}
+                      {selectedHours.length > 0 && (
+                        <div className="flex items-baseline gap-2 text-sm text-neutral-200">
+                          <span className="text-neutral-500 shrink-0">
+                            Heures —
+                          </span>
+                          <span className="font-medium">
+                            {selectedHours.sort().join(", ")}
+                          </span>
+                        </div>
+                      )}
                     </div>
                   )}
                 </div>
-              )}
-            </div>
 
-            {submitted ? (
-              <div className="flex items-center gap-3 rounded-xl bg-white text-neutral-900 px-5 py-4">
-                <CheckCircle2 size={16} className="shrink-0 text-neutral-900" />
-                <p className="text-sm font-medium">
-                  Demande envoyée — nous confirmons sous 24h.
-                </p>
+                {submitted ? (
+                  <div className="flex items-center gap-3 rounded-xl bg-white text-neutral-900 px-5 py-4">
+                    <CheckCircle2
+                      size={16}
+                      className="shrink-0 text-neutral-900"
+                    />
+                    <p className="text-sm font-medium">
+                      Demande envoyée — nous confirmons sous 24h.
+                    </p>
+                  </div>
+                ) : (
+                  <Button
+                    type="submit"
+                    disabled={!isFormValid}
+                    className="w-full h-12 rounded-xl bg-white text-neutral-900 text-sm font-medium hover:bg-neutral-100 disabled:opacity-20 disabled:cursor-not-allowed transition-all"
+                  >
+                    Envoyer la demande →
+                  </Button>
+                )}
               </div>
-            ) : (
-              <Button
-                onClick={handleSubmit}
-                disabled={!date || !selectedSlot}
-                className="w-full h-12 rounded-xl bg-white text-neutral-900 text-sm font-medium hover:bg-neutral-100 disabled:opacity-20 disabled:cursor-not-allowed transition-all"
-              >
-                Envoyer la demande →
-              </Button>
-            )}
-          </div>
+            </form>
+          </Form>
         </div>
+      </div>
+    </section>
+  );
+}
+function InstagramFeed() {
+  // Charge le script Instagram une fois le composant monté
+  useEffect(() => {
+    // Vérifier si le script est déjà présent
+    if (!document.querySelector('script[src="//www.instagram.com/embed.js"]')) {
+      const script = document.createElement("script");
+      script.src = "//www.instagram.com/embed.js";
+      script.async = true;
+      document.body.appendChild(script);
+    } else {
+      // Si déjà présent, forcer le rechargement des embed
+      const instgrm = (window as any).instgrm;
+      if (instgrm?.Embeds) {
+        instgrm.Embeds.process();
+      }
+    }
+  }, []);
+
+  return (
+    <section className="border-b border-white/10 max-w-[1920px] m-auto px-6 sm:px-10 py-12">
+      <p className="text-[11px] uppercase tracking-widest text-indigo-400 mb-4">
+        Instagram
+      </p>
+      <h2 className="text-3xl md:text-4xl font-bold leading-tight text-white mb-6">
+        Nos dernières
+        <br />
+        <span className="font-normal text-indigo-400 italic">réalisations</span>
+      </h2>
+
+      <div className="flex justify-center">
+        <div className="w-full max-w-[1920px] rounded-2xl border border-white/10 bg-neutral-950/50 p-4 shadow-xl shadow-black/40">
+          <blockquote
+            className="instagram-media"
+            data-instgrm-permalink="https://www.instagram.com/vanihouse.studio/"
+            data-instgrm-version="14"
+            style={{
+              background: "transparent",
+              border: "0",
+              borderRadius: "12px",
+              maxWidth: "100%",
+              minWidth: "auto",
+              padding: "0",
+              width: "100%",
+            }}
+          >
+            <div style={{ padding: "16px" }}>
+              <a
+                href="https://www.instagram.com/vanihouse.studio/"
+                style={{ color: "#c084fc", textDecoration: "none" }}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                @vanihouse.studio
+              </a>
+              <p
+                style={{
+                  color: "#888",
+                  fontSize: "14px",
+                  marginTop: "8px",
+                  marginBottom: "0",
+                }}
+              >
+                Découvrez l’ambiance de notre studio en images.
+              </p>
+            </div>
+          </blockquote>
+        </div>
+      </div>
+
+      <div className="text-center mt-6">
+        <a
+          href="https://www.instagram.com/vanihouse.studio/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-2 text-sm text-indigo-400 hover:text-indigo-300 transition-colors border-b border-indigo-400/30 hover:border-indigo-300"
+        >
+          Voir plus sur Instagram →
+        </a>
       </div>
     </section>
   );
@@ -720,14 +942,9 @@ export default function StudioPage() {
                   tout en simplifiant vos tournages.
                 </p>
 
-                <Button
-                  asChild
-                  className="bg-white text-neutral-900 hover:bg-neutral-200 rounded-lg px-5 h-10 text-sm font-medium transition-colors"
-                >
-                  <a href="mailto:contact@krtstudios.fr?subject=Demande%20de%20visite%20studio">
-                    Prévoir une visite →
-                  </a>
-                </Button>
+                <ContactModal className="bg-white text-black rounded-lg px-5 h-10 text-sm font-medium transition-colors">
+                  Prévoir une visite →
+                </ContactModal>
               </div>
               <div
                 className="shrink-0 w-full lg:w-[480px]"
@@ -788,18 +1005,18 @@ export default function StudioPage() {
                 ))}
               </div>
               <div className="flex flex-wrap gap-2.5">
-                <Button className="bg-white text-neutral-900 hover:bg-neutral-200 rounded-lg text-sm h-10 px-5 transition-colors">
-                  Voir les tarifs
-                </Button>
-                <Button
-                  asChild
+                <Link href={"#pricing"}>
+                  <Button className="bg-white text-neutral-900 hover:bg-neutral-200 rounded-lg text-sm h-10 px-5 transition-colors">
+                    Voir les tarifs
+                  </Button>
+                </Link>
+
+                <ContactModal
                   variant="outline"
-                  className="rounded-lg border-white/10 text-neutral-300 bg-transparent text-sm h-10 px-5 hover:bg-white/5 hover:text-white"
+                  className="rounded-lg text-neutral-300 bg-transparent text-sm h-10 px-5 hover:bg-white/5 hover:text-white"
                 >
-                  <a href="mailto:contact@krtstudios.fr?subject=Demande%20de%20visite%20studio">
-                    Demander une visite
-                  </a>
-                </Button>
+                  Demander une visite
+                </ContactModal>
               </div>
             </div>
 
@@ -816,12 +1033,12 @@ export default function StudioPage() {
             </div>
           </div>
 
-          <AccessibilitySection />
-
           <ReservationUXSection />
 
+          <InstagramFeed />
           {/* ── Reservation with Calendar ── */}
           <ReservationSection />
+          <AccessibilitySection />
         </main>
       </div>
       <Footer />

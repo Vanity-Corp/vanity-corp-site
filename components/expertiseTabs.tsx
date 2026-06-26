@@ -6,46 +6,39 @@ import CollaborativeCursors from "@/components/CollaborativeCursors";
 import IPhoneIllustration from "@/components/IPhoneIllustration";
 import MacBookWithIcons from "@/components/MacBookWithIcons";
 import UptimeStatusIllustration from "@/components/UptimeStatusIllustration";
+import AvProduction from "@/components/AVProduction";
+import { Carousel } from "@/components/ui/apple-cards-carousel";
+import CreationIllustration from "./CreationIllustration";
 
+// Placeholder pour l'illustration "Création"
 const CreationPlaceholder = () => (
   <div className="flex h-full items-center justify-center text-white/40">
     Illustration à venir
   </div>
 );
 
+// Cadre d'illustration agrandi (h-64 au lieu de h-48)
 const IllustrationFrame = ({ children }: { children: ReactNode }) => (
-  <div className="flex h-48 w-full items-center justify-center overflow-hidden rounded-2xl bg-white/[0.03] p-4 ring-1 ring-white/10">
-    <div className="origin-center scale-[0.58] sm:scale-[0.62] md:scale-[0.5] lg:scale-[0.44] xl:scale-[0.48]">
+  <div className="flex h-64 w-full items-center justify-center overflow-hidden rounded-2xl bg-white/[0.03] p-4 ring-1 ring-white/10">
+    <div className="origin-center scale-[0.70] sm:scale-[0.75] md:scale-[0.60] lg:scale-[0.55] xl:scale-[0.60]">
       {children}
     </div>
   </div>
 );
 
-export function ExpertiseTabs({ onTabChange }: any) {
+export function ExpertiseTabs() {
   const [activeTab, setActiveTab] = useState("");
   const [hoveredCard, setHoveredCard] = useState<string | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  useEffect(() => {
-    onTabChange(activeTab);
-  }, [activeTab, onTabChange]);
-
-  useEffect(() => {
-    if (!isModalOpen) return;
-
-    const previousOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-
-    return () => {
-      document.body.style.overflow = previousOverflow;
-    };
-  }, [isModalOpen]);
-
+  // Contenu des onglets (inchangé)
   const tabsContent = [
     {
       title: "Création",
       value: "creation",
-      renderIllustration: () => <CreationPlaceholder />,
+      renderIllustration: (isHovered: boolean) => (
+        <CreationIllustration forceHovered={isHovered} />
+      ),
       description: (
         <>
           C’est en créant n’importe quoi... Qu’on se différencie de n’importe
@@ -160,92 +153,92 @@ export function ExpertiseTabs({ onTabChange }: any) {
     setIsModalOpen(true);
   };
 
+  // Construction des éléments du carrousel – cartes plus grandes (min-h-[440px])
+  const carouselItems = tabsContent.map((tab) => {
+    const isActive = activeTab === tab.value;
+    const isHovered = hoveredCard === tab.value;
+
+    return (
+      <button
+        key={tab.value}
+        type="button"
+        onClick={() => handleCardClick(tab.value)}
+        onMouseEnter={() => setHoveredCard(tab.value)}
+        onMouseLeave={() => setHoveredCard(null)}
+        onFocus={() => setHoveredCard(tab.value)}
+        onBlur={() => setHoveredCard(null)}
+        className={`group relative flex min-h-[440px] w-full flex-col overflow-hidden rounded-[2rem] border p-4 text-left transition-all duration-300 ease-out hover:-translate-y-2 hover:border-violet-300/50 hover:bg-white/[0.12] hover:shadow-[0_24px_80px_rgba(139,92,246,0.35)] focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-300 ${
+          isActive
+            ? "border-violet-300/60 bg-white/[0.14] shadow-[0_20px_70px_rgba(139,92,246,0.32)]"
+            : "border-white/10 bg-white/[0.07] shadow-[0_12px_40px_rgba(15,10,40,0.18)]"
+        }`}
+        aria-pressed={isActive}
+      >
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(168,85,247,0.28),transparent_45%)] opacity-0 transition-opacity duration-300 group-hover:opacity-100 group-focus-visible:opacity-100" />
+        <span className="pointer-events-none absolute left-1/2 top-[70%] z-20 -translate-x-1/2 rounded-full border border-white/10 bg-black/80 px-4 py-2 text-xs font-medium text-white opacity-0 shadow-xl backdrop-blur-md transition-all duration-200 group-hover:-translate-y-1 group-hover:opacity-100 group-focus-visible:-translate-y-1 group-focus-visible:opacity-100">
+          En savoir plus
+        </span>
+
+        <div className="relative z-10 flex h-full flex-1 flex-col">
+          <IllustrationFrame>
+            {tab.renderIllustration(isHovered)}
+          </IllustrationFrame>
+
+          <h3 className="mt-auto pt-7 text-center text-xl font-semibold text-white md:text-2xl">
+            {tab.title}
+          </h3>
+        </div>
+      </button>
+    );
+  });
+
   return (
     <section className="relative flex h-full w-full flex-col items-start gap-10 px-6 py-10 [perspective:1000px] sm:px-10 md:mx-32 lg:px-32">
       <h2 className="w-full text-center text-3xl font-bold text-black dark:text-white md:text-5xl">
         Expertise
       </h2>
 
-      <div className="grid w-full grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
-        {tabsContent.map((tab) => {
-          const isActive = activeTab === tab.value;
-          const isHovered = hoveredCard === tab.value;
-
-          return (
-            <button
-              key={tab.value}
-              type="button"
-              onClick={() => handleCardClick(tab.value)}
-              onMouseEnter={() => setHoveredCard(tab.value)}
-              onMouseLeave={() => setHoveredCard(null)}
-              onFocus={() => setHoveredCard(tab.value)}
-              onBlur={() => setHoveredCard(null)}
-              className={`group relative flex min-h-[340px] flex-col overflow-hidden rounded-[2rem] border p-4 text-left transition-all duration-300 ease-out hover:-translate-y-2 hover:border-violet-300/50 hover:bg-white/[0.12] hover:shadow-[0_24px_80px_rgba(139,92,246,0.35)] focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-300 ${
-                isActive
-                  ? "border-violet-300/60 bg-white/[0.14] shadow-[0_20px_70px_rgba(139,92,246,0.32)]"
-                  : "border-white/10 bg-white/[0.07] shadow-[0_12px_40px_rgba(15,10,40,0.18)]"
-              }`}
-              aria-pressed={isActive}
-            >
-              <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(168,85,247,0.28),transparent_45%)] opacity-0 transition-opacity duration-300 group-hover:opacity-100 group-focus-visible:opacity-100" />
-              <span className="pointer-events-none absolute left-1/2 top-[70%] z-20 -translate-x-1/2 rounded-full border border-white/10 bg-black/80 px-4 py-2 text-xs font-medium text-white opacity-0 shadow-xl backdrop-blur-md transition-all duration-200 group-hover:-translate-y-1 group-hover:opacity-100 group-focus-visible:-translate-y-1 group-focus-visible:opacity-100">
-                En savoir plus
-              </span>
-
-              <div className="relative z-10 flex h-full flex-1 flex-col">
-                <IllustrationFrame>
-                  {tab.renderIllustration(isHovered)}
-                </IllustrationFrame>
-
-                <h3 className="mt-auto pt-7 text-center text-xl font-semibold text-white md:text-2xl">
-                  {tab.title}
-                </h3>
-              </div>
-            </button>
-          );
-        })}
+      {/* Carrousel avec 3 éléments par vue et un gap de 20px */}
+      <div className="relative w-full overflow-hidden">
+        <Carousel
+          items={carouselItems}
+          initialScroll={0}
+          itemsPerView={3}
+          gap={20}
+        />
       </div>
 
+      {/* Modale (inchangée) */}
       {isModalOpen && (
         <div
-          className="fixed inset-0 z-[999] flex h-dvh w-screen items-stretch justify-center overflow-hidden bg-black/80 p-0 backdrop-blur-xl md:items-center md:p-8"
+          className="fixed inset-0 z-50 flex items-stretch justify-center bg-black/70 p-0 backdrop-blur-md md:items-center md:p-6"
           role="dialog"
           aria-modal="true"
           aria-labelledby="expertise-modal-title"
         >
-          <div className="relative flex h-dvh w-screen flex-col overflow-y-auto bg-[#160b2f] p-6 text-white shadow-[0_30px_120px_rgba(0,0,0,0.65)] md:h-auto md:max-h-[88vh] md:w-[min(1120px,calc(100vw-4rem))] md:rounded-[2rem] md:border md:border-white/10 md:p-10">
+          <div className="relative flex h-screen w-full flex-col overflow-y-auto border border-white/10 bg-[#160b2f] p-6 text-white shadow-[0_30px_120px_rgba(0,0,0,0.55)] md:h-auto md:max-h-[85vh] md:max-w-3xl md:rounded-[2rem] md:p-10">
             <button
               type="button"
               onClick={() => setIsModalOpen(false)}
-              className="sticky top-0 z-20 ml-auto flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-white/15 bg-white/10 text-2xl leading-none text-white transition hover:border-violet-200/70 hover:bg-violet-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-300"
+              className="sticky top-0 ml-auto flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-white/15 bg-white/10 text-2xl leading-none text-white transition hover:border-violet-200/70 hover:bg-violet-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-300"
               aria-label="Fermer le détail"
             >
               ×
             </button>
 
-            <div className="grid flex-1 items-center gap-8 md:grid-cols-[1fr_0.95fr]">
-              <div>
-                <p className="mb-3 text-sm font-semibold uppercase tracking-[0.35em] text-violet-200/70">
-                  Expertise
-                </p>
-                <h3
-                  id="expertise-modal-title"
-                  className="text-3xl font-bold md:text-5xl"
-                >
-                  {activeContent.title}
-                </h3>
-                <p className="mt-8 text-[16px] font-normal leading-relaxed text-white/80 md:text-xl">
-                  {activeContent.description}
-                </p>
-              </div>
-
-              <div className="min-h-[320px] rounded-[2rem] border border-white/10 bg-white/[0.04] p-4 md:min-h-[420px]">
-                <div className="flex h-full items-center justify-center overflow-hidden rounded-[1.5rem] bg-black/20">
-                  <div className="origin-center scale-[0.78] sm:scale-[0.86] md:scale-[0.72] lg:scale-[0.82]">
-                    {activeContent.renderIllustration(true)}
-                  </div>
-                </div>
-              </div>
+            <div className="mt-8 md:mt-0">
+              <p className="mb-3 text-sm font-semibold uppercase tracking-[0.35em] text-violet-200/70">
+                Expertise
+              </p>
+              <h3
+                id="expertise-modal-title"
+                className="text-3xl font-bold md:text-5xl"
+              >
+                {activeContent.title}
+              </h3>
+              <p className="mt-8 text-[16px] font-normal leading-relaxed text-white/80 md:text-xl">
+                {activeContent.description}
+              </p>
             </div>
           </div>
         </div>

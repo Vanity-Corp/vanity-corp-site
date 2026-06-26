@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useState, useEffect, useRef } from "react";
-
+import { InstagramLogoIcon } from "@radix-ui/react-icons";
 // Dynamic Island states
 const DI_IDLE = "idle";
 const DI_LOADING = "loading";
@@ -118,31 +118,40 @@ function DefaultScreenContent() {
     >
       <div
         style={{
-          width: 40,
-          height: 40,
-          background: "#7c6af7",
+          width: 60,
+          height: 60,
+          background:
+            "linear-gradient(45deg, #feda75, #fa7e1e, #d62976, #962fbf, #4f5bd5)",
           borderRadius: 10,
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
         }}
       >
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
-          <path
-            d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"
-            stroke="#fff"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
+        <svg
+          whileHover={{ scale: 1.2 }}
+          whileTap={{ scale: 0.9 }}
+          transition={{ type: "spring", stiffness: 400, damping: 17 }}
+          xmlns="http://www.w3.org/2000/svg"
+          width="40"
+          height="40"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          className="lucide lucide-instagram"
+        >
+          <rect width="20" height="20" x="2" y="2" rx="5" ry="5" />
+          <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+          <line x1="17.5" x2="17.51" y1="6.5" y2="6.5" />
         </svg>
       </div>
-      <p style={{ color: "#fff", fontSize: 10, fontWeight: 500, margin: 0 }}>
-        Dashboard
+      <p style={{ color: "#fff", fontSize: 15, fontWeight: 500, margin: 0 }}>
+        Social media
       </p>
-      <p style={{ color: "#6b7280", fontSize: 9, margin: 0 }}>
-        v2.4.1 · Production
-      </p>
+      <p style={{ color: "#fff", fontSize: 14, margin: 0 }}>#share</p>
     </div>
   );
 }

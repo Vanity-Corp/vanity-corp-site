@@ -2,213 +2,174 @@
 
 import { useState } from "react";
 
-// Default icons — replace via the `icons` prop
+// Default floating icons — replace via the `icons` prop
 const DEFAULT_ICONS = [
   {
-    name: "Perplexity",
+    id: "camera",
     rotation: -4,
     yOffset: -48,
     delay: "0s",
+    bg: "linear-gradient(135deg, #f97316, #ec4899)",
     icon: (
-      <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-        <circle cx="8" cy="8" r="7" fill="#000" />
-        <path
-          d="M11 5.5a3.5 3.5 0 0 0-6 2.5 3.5 3.5 0 0 0 6 2.5"
-          stroke="#fff"
-          strokeWidth="1.2"
-          strokeLinecap="round"
-          fill="none"
-        />
-        <circle cx="9.5" cy="5.5" r="0.5" fill="#fff" />
+      <svg
+        width="14"
+        height="14"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="#fff"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
+        <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" />
+        <circle cx="12" cy="13" r="3.5" />
       </svg>
     ),
   },
   {
-    name: "OpenAI",
-    rotation: 1,
-    yOffset: -56,
+    id: "megaphone",
+    rotation: 2,
+    yOffset: -57,
     delay: "0.07s",
+    bg: "linear-gradient(135deg, #8b5cf6, #ec4899 55%, #f59e0b)",
     icon: (
-      <svg width="16" height="16" viewBox="0 0 16 16">
-        <circle cx="8" cy="8" r="7" fill="#000" />
-        <path
-          d="M8 4.5a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7z"
-          fill="none"
-          stroke="#fff"
-          strokeWidth="1.5"
-        />
+      <svg
+        width="14"
+        height="14"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="#fff"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
+        <path d="M3 11l18-7v16z" />
+        <path d="M11.6 16.8a3 3 0 1 1-5.8-1.6" />
       </svg>
     ),
   },
   {
-    name: "Anthropic",
-    rotation: 3,
-    yOffset: -44,
+    id: "spark",
+    rotation: 4,
+    yOffset: -45,
     delay: "0.14s",
+    bg: "linear-gradient(135deg, #06b6d4, #3b82f6)",
     icon: (
-      <svg width="16" height="16" viewBox="0 0 16 16">
-        <rect width="16" height="16" rx="4" fill="#cc785c" />
-        <path d="M4 11l4-6 4 6H4z" fill="#fff" opacity="0.9" />
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="#fff">
+        <path d="M12 2l1.8 5.6L19 9l-5.2 1.4L12 16l-1.8-5.6L5 9l5.2-1.4z" />
       </svg>
     ),
   },
 ];
 
-// Screen content shown when lid is open & hovered
-function ScreenContent() {
+// Surface shown when the canvas stands upright — pure shapes, no copy
+function CanvasContent() {
   return (
     <div
       style={{
         width: "100%",
         height: "100%",
-        background: "#111",
+        background: "#fafaf8",
         display: "flex",
         flexDirection: "column",
+        padding: 7,
+        gap: 5,
       }}
     >
-      {/* traffic lights */}
-      <div
-        style={{
-          height: 20,
-          background: "#1a1a1a",
-          display: "flex",
-          alignItems: "center",
-          padding: "0 8px",
-          gap: 4,
-          flexShrink: 0,
-        }}
-      >
-        {["#ff5f57", "#febc2e", "#28c840"].map((c) => (
-          <div
-            key={c}
-            style={{ width: 6, height: 6, borderRadius: "50%", background: c }}
-          />
-        ))}
-      </div>
-      {/* pricing grid */}
-      <div
-        style={{
-          flex: 1,
-          display: "grid",
-          gridTemplateColumns: "1fr 1fr",
-          gap: 4,
-          padding: 6,
-        }}
-      >
-        <div
-          style={{ background: "#222", borderRadius: 3, padding: "4px 6px" }}
-        >
-          <div style={{ fontSize: 7, color: "#888", marginBottom: 3 }}>
-            Monthly
-          </div>
-          <div style={{ fontSize: 11, color: "#fff", fontWeight: 600 }}>
-            $49
-          </div>
-          <div style={{ fontSize: 6, color: "#555", marginTop: 2 }}>
-            per seat
-          </div>
-        </div>
-        <div
-          style={{ background: "#7c6af7", borderRadius: 3, padding: "4px 6px" }}
-        >
-          <div style={{ fontSize: 7, color: "#c8c4ff", marginBottom: 3 }}>
-            Annual
-          </div>
-          <div style={{ fontSize: 11, color: "#fff", fontWeight: 600 }}>
-            $39
-          </div>
-          <div style={{ fontSize: 6, color: "#c8c4ff", marginTop: 2 }}>
-            per seat
-          </div>
-        </div>
+      <div style={{ display: "flex", gap: 5, flex: 1 }}>
         <div
           style={{
-            background: "#222",
-            borderRadius: 3,
-            padding: "4px 6px",
-            gridColumn: "1 / -1",
+            flex: 1.3,
+            borderRadius: 6,
+            background: "linear-gradient(135deg,#fcd34d,#f97316,#ec4899)",
           }}
+        />
+        <div
+          style={{ flex: 1, display: "flex", flexDirection: "column", gap: 5 }}
         >
+          <div style={{ flex: 1, borderRadius: 6, background: "#161616" }} />
           <div
             style={{
-              fontSize: 6,
-              color: "#555",
-              marginBottom: 2,
-              letterSpacing: "0.05em",
+              flex: 1,
+              borderRadius: 6,
+              background: "linear-gradient(135deg,#8b5cf6,#3b82f6)",
             }}
-          >
-            ENTERPRISE
-          </div>
-          <div style={{ fontSize: 8, color: "#aaa" }}>Custom pricing</div>
+          />
         </div>
+      </div>
+      <div style={{ display: "flex", gap: 4, height: 13 }}>
+        {["#161616", "#f97316", "#ec4899", "#8b5cf6", "#06b6d4", "#fcd34d"].map(
+          (c) => (
+            <div key={c} style={{ flex: 1, borderRadius: 3, background: c }} />
+          ),
+        )}
       </div>
     </div>
   );
 }
 
 /**
- * MacBookWithIcons
+ * CreativeCanvasWithIcons
  *
- * Idle  : lid half-open (rotateX(-55deg)), screen is black
- * Hover : lid fully opens (rotateX(0deg)), screen turns on (content fades in)
- *         floating icon cards fly up
+ * Idle  : the canvas leans back on the easel (rotateX(-55deg)), surface is dark/blank
+ * Hover : the canvas tilts upright (rotateX(0deg)), the artwork lights up (fade in)
+ *         floating icon chips fly up around it
  *
  * Props:
- *   icons    — array of { name, icon (ReactNode), rotation, yOffset, delay }
- *   content  — ReactNode rendered inside the screen (defaults to pricing UI)
+ *   icons        — array of { id, icon (ReactNode), bg, rotation, yOffset, delay }
+ *   content      — ReactNode rendered on the canvas (defaults to CanvasContent)
+ *   forceHovered — bool, drive the animation externally instead of real hover
  */
-export default function MacBookWithIcons({ icons = DEFAULT_ICONS, content, forceHovered = false }) {
+export default function CreativeCanvasWithIcons({
+  icons = DEFAULT_ICONS,
+  content,
+  forceHovered = false,
+}) {
   const [hovered, setHovered] = useState(false);
-
-  // Lid angle: half-open = -55deg perspective tilt, open = 0 (flat)
   const isAnimated = hovered || forceHovered;
 
-  const lidTransform = isAnimated
+  const frameTransform = isAnimated
     ? "perspective(600px) rotateX(0deg)"
     : "perspective(600px) rotateX(-55deg)";
 
   return (
     <div
-      className="m-auto  flex flex-col  items-center"
+      className="m-auto flex flex-col items-center"
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       style={{
         position: "relative",
         width: 320,
         userSelect: "none",
-        // extra bottom padding so the half-open lid doesn't clip
         paddingBottom: 8,
       }}
     >
-      {/* Floating icon cards */}
+      {/* Floating icon chips */}
       <div
         style={{
           position: "absolute",
-          top: -16,
+          top: -14,
           left: 0,
           right: 0,
           display: "flex",
           justifyContent: "center",
-          gap: 10,
+          gap: 12,
           pointerEvents: "none",
           zIndex: 10,
         }}
       >
         {icons.map((icon) => (
           <div
-            key={icon.name}
+            key={icon.id}
             style={{
-              background: "var(--color-background-primary, #fff)",
-              border: "0.5px solid var(--color-border-tertiary, #e5e7eb)",
+              width: 30,
+              height: 30,
               borderRadius: 10,
-              padding: "6px 8px",
+              background: icon.bg,
               display: "flex",
               alignItems: "center",
-              gap: 5,
-              fontSize: 10,
-              fontWeight: 500,
-              whiteSpace: "nowrap",
-              boxShadow: "0 4px 12px rgba(0,0,0,0.08)",
+              justifyContent: "center",
+              boxShadow: "0 6px 14px rgba(0,0,0,0.16)",
               opacity: isAnimated ? 1 : 0,
               transform: isAnimated
                 ? `translateY(${icon.yOffset}px) rotate(${icon.rotation}deg)`
@@ -217,56 +178,57 @@ export default function MacBookWithIcons({ icons = DEFAULT_ICONS, content, force
             }}
           >
             {icon.icon}
-            <span>{icon.name}</span>
           </div>
         ))}
       </div>
 
-      {/* Lid wrapper — perspective + tilt */}
+      {/* Frame wrapper — perspective + tilt (the easel motion) */}
       <div
         className="w-full"
         style={{
           position: "relative",
           transformOrigin: "bottom center",
           transition: "transform 0.55s cubic-bezier(0.34,1.1,0.64,1)",
-          transform: lidTransform,
+          transform: frameTransform,
         }}
       >
-        {/* Lid shell */}
+        {/* Wooden frame shell */}
         <div
           style={{
-            background: "#e8e8e8",
-            borderRadius: "10px 10px 2px 2px",
-            border: "1.5px solid #ccc",
-            padding: 6,
+            position: "relative",
+            background: "#e7ddc9",
+            borderRadius: "8px 8px 2px 2px",
+            border: "1.5px solid #cfc1a3",
+            padding: 7,
           }}
         >
-          {/* Notch */}
+          {/* Easel clip / hinge */}
           <div
             style={{
               position: "absolute",
               top: 0,
               left: "50%",
               transform: "translateX(-50%)",
-              width: 40,
-              height: 8,
-              background: "#e8e8e8",
-              borderRadius: "0 0 6px 6px",
+              width: 0,
+              height: 0,
+              borderLeft: "6px solid transparent",
+              borderRight: "6px solid transparent",
+              borderTop: "7px solid #cfc1a3",
               zIndex: 5,
             }}
           />
 
-          {/* Screen bezel */}
+          {/* Canvas surface */}
           <div
             style={{
-              background: "#000",
-              borderRadius: 6,
+              background: "#161616",
+              borderRadius: 5,
               overflow: "hidden",
               height: 160,
               position: "relative",
             }}
           >
-            {/* Black screen when closed, content when open */}
+            {/* Dark/blank surface when leaning back, artwork when upright */}
             <div
               style={{
                 position: "absolute",
@@ -275,29 +237,34 @@ export default function MacBookWithIcons({ icons = DEFAULT_ICONS, content, force
                 transition: "opacity 0.45s ease 0.1s",
               }}
             >
-              {content ?? <ScreenContent />}
+              {content ?? <CanvasContent />}
             </div>
           </div>
         </div>
       </div>
 
-      {/* Base / trackpad */}
+      {/* Easel tray / base */}
       <div
         style={{
-          background: "linear-gradient(180deg, #d0d0d0 0%, #bebebe 100%)",
+          position: "relative",
+          background: "linear-gradient(180deg, #e7ddc9 0%, #d8cbac 100%)",
           height: 12,
           borderRadius: "0 0 4px 4px",
-          border: "1.5px solid #bbb",
+          border: "1.5px solid #cfc1a3",
           borderTop: "none",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          width: 400,
+          gap: 6,
+          width: 360,
         }}
       >
-        <div
-          style={{ width: 60, height: 3, background: "#aaa", borderRadius: 2 }}
-        />
+        {["#f97316", "#8b5cf6", "#06b6d4"].map((c) => (
+          <div
+            key={c}
+            style={{ width: 6, height: 6, borderRadius: "50%", background: c }}
+          />
+        ))}
       </div>
     </div>
   );
