@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useCallback, useState, useEffect, useRef } from "react";
 
 // Dynamic Island states
 const DI_IDLE = "idle";
@@ -153,7 +153,7 @@ function DefaultScreenContent() {
  * Props:
  *   content  — React node rendered inside the screen (defaults to a demo UI)
  */
-export default function IPhoneIllustration({ content }) {
+export default function IPhoneIllustration({ content, forceHovered = false }) {
   const [hovered, setHovered] = useState(false);
   const [diState, setDiState] = useState(DI_IDLE);
   const timers = useRef([]);
@@ -168,11 +168,16 @@ export default function IPhoneIllustration({ content }) {
     timers.current.push(id);
   }
 
-  function handleEnter() {
-    setHovered(true);
+  const startAnimation = useCallback(() => {
+    clearTimers();
     setDiState(DI_IDLE);
     schedule(() => setDiState(DI_LOADING), 200);
     schedule(() => setDiState(DI_EXPANDED), 700);
+  }, []);
+
+  function handleEnter() {
+    setHovered(true);
+    startAnimation();
   }
 
   function handleLeave() {
@@ -181,7 +186,18 @@ export default function IPhoneIllustration({ content }) {
     setDiState(DI_IDLE);
   }
 
-  useEffect(() => () => clearTimers(), []);
+  useEffect(() => {
+    if (forceHovered) {
+      startAnimation();
+    } else if (!hovered) {
+      clearTimers();
+      setDiState(DI_IDLE);
+    }
+
+    return () => clearTimers();
+  }, [forceHovered, hovered, startAnimation]);
+
+  const isAnimated = hovered || forceHovered;
 
   return (
     <div
@@ -224,8 +240,8 @@ export default function IPhoneIllustration({ content }) {
             style={{
               width: "100%",
               height: "100%",
-              opacity: hovered ? 1 : 0,
-              filter: hovered ? "none" : "blur(4px)",
+              opacity: isAnimated ? 1 : 0,
+              filter: isAnimated ? "none" : "blur(4px)",
               transition: "opacity 0.5s, filter 0.5s",
             }}
           >
