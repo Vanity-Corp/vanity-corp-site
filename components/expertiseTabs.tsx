@@ -6,16 +6,19 @@ import CollaborativeCursors from "@/components/CollaborativeCursors";
 import IPhoneIllustration from "@/components/IPhoneIllustration";
 import MacBookWithIcons from "@/components/MacBookWithIcons";
 import UptimeStatusIllustration from "@/components/UptimeStatusIllustration";
+import { Carousel } from "@/components/ui/apple-cards-carousel";
 
+// Placeholder pour l'illustration "Création"
 const CreationPlaceholder = () => (
   <div className="flex h-full items-center justify-center text-white/40">
     Illustration à venir
   </div>
 );
 
+// Cadre d'illustration agrandi (h-64 au lieu de h-48)
 const IllustrationFrame = ({ children }: { children: ReactNode }) => (
-  <div className="flex h-48 w-full items-center justify-center overflow-hidden rounded-2xl bg-white/[0.03] p-4 ring-1 ring-white/10">
-    <div className="origin-center scale-[0.58] sm:scale-[0.62] md:scale-[0.5] lg:scale-[0.44] xl:scale-[0.48]">
+  <div className="flex h-64 w-full items-center justify-center overflow-hidden rounded-2xl bg-white/[0.03] p-4 ring-1 ring-white/10">
+    <div className="origin-center scale-[0.70] sm:scale-[0.75] md:scale-[0.60] lg:scale-[0.55] xl:scale-[0.60]">
       {children}
     </div>
   </div>
@@ -30,6 +33,7 @@ export function ExpertiseTabs({ onTabChange }: any) {
     onTabChange(activeTab);
   }, [activeTab, onTabChange]);
 
+  // Contenu des onglets (inchangé)
   const tabsContent = [
     {
       title: "Création",
@@ -149,52 +153,62 @@ export function ExpertiseTabs({ onTabChange }: any) {
     setIsModalOpen(true);
   };
 
+  // Construction des éléments du carrousel – cartes plus grandes (min-h-[440px])
+  const carouselItems = tabsContent.map((tab) => {
+    const isActive = activeTab === tab.value;
+    const isHovered = hoveredCard === tab.value;
+
+    return (
+      <button
+        key={tab.value}
+        type="button"
+        onClick={() => handleCardClick(tab.value)}
+        onMouseEnter={() => setHoveredCard(tab.value)}
+        onMouseLeave={() => setHoveredCard(null)}
+        onFocus={() => setHoveredCard(tab.value)}
+        onBlur={() => setHoveredCard(null)}
+        className={`group relative flex min-h-[440px] w-full flex-col overflow-hidden rounded-[2rem] border p-4 text-left transition-all duration-300 ease-out hover:-translate-y-2 hover:border-violet-300/50 hover:bg-white/[0.12] hover:shadow-[0_24px_80px_rgba(139,92,246,0.35)] focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-300 ${
+          isActive
+            ? "border-violet-300/60 bg-white/[0.14] shadow-[0_20px_70px_rgba(139,92,246,0.32)]"
+            : "border-white/10 bg-white/[0.07] shadow-[0_12px_40px_rgba(15,10,40,0.18)]"
+        }`}
+        aria-pressed={isActive}
+      >
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(168,85,247,0.28),transparent_45%)] opacity-0 transition-opacity duration-300 group-hover:opacity-100 group-focus-visible:opacity-100" />
+        <span className="pointer-events-none absolute left-1/2 top-[70%] z-20 -translate-x-1/2 rounded-full border border-white/10 bg-black/80 px-4 py-2 text-xs font-medium text-white opacity-0 shadow-xl backdrop-blur-md transition-all duration-200 group-hover:-translate-y-1 group-hover:opacity-100 group-focus-visible:-translate-y-1 group-focus-visible:opacity-100">
+          En savoir plus
+        </span>
+
+        <div className="relative z-10 flex h-full flex-1 flex-col">
+          <IllustrationFrame>
+            {tab.renderIllustration(isHovered)}
+          </IllustrationFrame>
+
+          <h3 className="mt-auto pt-7 text-center text-xl font-semibold text-white md:text-2xl">
+            {tab.title}
+          </h3>
+        </div>
+      </button>
+    );
+  });
+
   return (
     <section className="relative flex h-full w-full flex-col items-start gap-10 px-6 py-10 [perspective:1000px] sm:px-10 md:mx-32 lg:px-32">
       <h2 className="w-full text-center text-3xl font-bold text-black dark:text-white md:text-5xl">
         Expertise
       </h2>
 
-      <div className="grid w-full grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
-        {tabsContent.map((tab) => {
-          const isActive = activeTab === tab.value;
-          const isHovered = hoveredCard === tab.value;
-
-          return (
-            <button
-              key={tab.value}
-              type="button"
-              onClick={() => handleCardClick(tab.value)}
-              onMouseEnter={() => setHoveredCard(tab.value)}
-              onMouseLeave={() => setHoveredCard(null)}
-              onFocus={() => setHoveredCard(tab.value)}
-              onBlur={() => setHoveredCard(null)}
-              className={`group relative flex min-h-[340px] flex-col overflow-hidden rounded-[2rem] border p-4 text-left transition-all duration-300 ease-out hover:-translate-y-2 hover:border-violet-300/50 hover:bg-white/[0.12] hover:shadow-[0_24px_80px_rgba(139,92,246,0.35)] focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-300 ${
-                isActive
-                  ? "border-violet-300/60 bg-white/[0.14] shadow-[0_20px_70px_rgba(139,92,246,0.32)]"
-                  : "border-white/10 bg-white/[0.07] shadow-[0_12px_40px_rgba(15,10,40,0.18)]"
-              }`}
-              aria-pressed={isActive}
-            >
-              <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(168,85,247,0.28),transparent_45%)] opacity-0 transition-opacity duration-300 group-hover:opacity-100 group-focus-visible:opacity-100" />
-              <span className="pointer-events-none absolute left-1/2 top-[70%] z-20 -translate-x-1/2 rounded-full border border-white/10 bg-black/80 px-4 py-2 text-xs font-medium text-white opacity-0 shadow-xl backdrop-blur-md transition-all duration-200 group-hover:-translate-y-1 group-hover:opacity-100 group-focus-visible:-translate-y-1 group-focus-visible:opacity-100">
-                En savoir plus
-              </span>
-
-              <div className="relative z-10 flex h-full flex-1 flex-col">
-                <IllustrationFrame>
-                  {tab.renderIllustration(isHovered)}
-                </IllustrationFrame>
-
-                <h3 className="mt-auto pt-7 text-center text-xl font-semibold text-white md:text-2xl">
-                  {tab.title}
-                </h3>
-              </div>
-            </button>
-          );
-        })}
+      {/* Carrousel avec 3 éléments par vue et un gap de 20px */}
+      <div className="relative w-full overflow-hidden">
+        <Carousel
+          items={carouselItems}
+          initialScroll={0}
+          itemsPerView={3}
+          gap={20}
+        />
       </div>
 
+      {/* Modale (inchangée) */}
       {isModalOpen && (
         <div
           className="fixed inset-0 z-50 flex items-stretch justify-center bg-black/70 p-0 backdrop-blur-md md:items-center md:p-6"

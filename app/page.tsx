@@ -231,8 +231,9 @@ export default function Home() {
           </div>{" "}
         </div>{" "}
       </section>{" "}
-      <HighlightedTextHome /> <WorksGrid />{" "}
-      <section className="w-full flex flex-col gap-10 justify-center items-center ">
+      <HighlightedTextHome />{" "}
+      {/*<WorksGrid /> {" "}
+     <section className="w-full flex flex-col gap-10 justify-center items-center ">
         {" "}
         <motion.h2
           initial={{ opacity: 0, y: 20 }}
@@ -266,7 +267,7 @@ export default function Home() {
             </svg>{" "}
           </HoverBorderGradient>{" "}
         </Link>{" "}
-      </section>{" "}
+      </section>*/}{" "}
       <section className="w-full flex flex-col gap-10 justify-center items-center mb-20">
         {" "}
         <motion.h2
