@@ -18,14 +18,11 @@ import { BrandSlider } from "@/components/BrandSlider";
 import { Footer } from "@/components/Footer";
 import Link from "next/link";
 import { VaniteamGrid } from "@/components/VaniyTeamGrid";
-import { CarouselCard } from "@/components/CarouselCards";
 import { ClientSection } from "@/components/ClientSection";
-import { StickyScroll } from "@/components/ui/sticky-scroll-reveal";
 import { PricingWithSwitch } from "@/components/ui/pricing-with-switch";
 import { services } from "@/lib/services";
 import BannerVideo from "@/components/ui/BannerVideo";
 import ServiceSection from "@/components/ServiceSection";
-import MagicBento from "@/components/MagicBento";
 const WorldMapSection = dynamic(
   () => import("@/components/WordMap").then((mod) => mod.WorldMapSection),
   {
@@ -232,8 +229,13 @@ export default function Home() {
         </div>{" "}
       </section>{" "}
       <HighlightedTextHome />{" "}
+<<<<<<< HEAD
       {/*<WorksGrid /> {" "}
      <section className="w-full flex flex-col gap-10 justify-center items-center ">
+=======
+      {/*<WorksGrid />
+      <section className="w-full flex flex-col gap-10 justify-center items-center ">
+>>>>>>> 157eb5199c20dd6fe1547f837214457c450d8f86
         {" "}
         <motion.h2
           initial={{ opacity: 0, y: 20 }}
@@ -267,7 +269,11 @@ export default function Home() {
             </svg>{" "}
           </HoverBorderGradient>{" "}
         </Link>{" "}
+<<<<<<< HEAD
       </section>*/}{" "}
+=======
+      </section>*/}
+>>>>>>> 157eb5199c20dd6fe1547f837214457c450d8f86
       <section className="w-full flex flex-col gap-10 justify-center items-center mb-20">
         {" "}
         <motion.h2
