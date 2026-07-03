@@ -51,7 +51,7 @@ export default function Home() {
       },
       {
         threshold: 0.5,
-      }
+      },
     );
 
     if (targetRef.current) {
@@ -89,7 +89,7 @@ export default function Home() {
           Vanity Corp est le combo parfait d&apos;un génie du marketing,
           d&apos;un créateur de contenu qui fait le buzz auprès de centaines de
           milliers de followers, et d&apos;un réalisateur qui transforme vos
-          idées en chef-d&apos;oeuvre.
+          idées en chef-d&lsquo;oeuvre.
         </p>
         <CarouselCard />
       </div>
