@@ -238,12 +238,19 @@ function FeatureCard({ feature }: { feature: Feature }) {
   );
 }
 
-function StatCard({ stat, last }: { stat: Stat; last?: boolean }) {
+function StatCard({ stat, index }: { stat: Stat; index: number }) {
+  const borderClass = [
+    index % 2 === 0 ? "border-r" : "",
+    index < STATS.length - 2 ? "border-b" : "",
+    "sm:border-b-0",
+    index < STATS.length - 1 ? "sm:border-r" : "sm:border-r-0",
+  ]
+    .filter(Boolean)
+    .join(" ");
+
   return (
     <div
-      className={`flex-1 px-8 py-7 min-w-[120px] ${
-        !last ? "border-r border-white/10" : ""
-      }`}
+      className={`min-w-[120px] px-4 py-6 border-white/10 sm:px-8 sm:py-7 ${borderClass}`}
     >
       <div className="text-4xl font-bold leading-none mb-1.5 text-white tracking-tight">
         {stat.value}
@@ -392,7 +399,7 @@ function PricingSection() {
   return (
     <section
       id="pricing"
-      className="border-b border-white/10 max-w-[1920px] m-auto px-6 sm:px-10 py-12"
+      className="border-b border-white/10 max-w-[1920px] m-auto px-4 sm:px-6 lg:px-10 py-10 sm:py-12"
     >
       <p className="text-[11px] uppercase tracking-widest text-indigo-400 mb-4">
         Offres studio
@@ -408,11 +415,11 @@ function PricingSection() {
 
 function AccessibilitySection() {
   return (
-    <section className="border-b border-white/10 max-w-[1920px] m-auto px-6 sm:px-10 py-12">
+    <section className="border-b border-white/10 max-w-[1920px] m-auto px-4 sm:px-6 lg:px-10 py-10 sm:py-12">
       <p className="text-[11px] uppercase tracking-widest text-indigo-400 mb-4">
         Accessibilité
       </p>
-      <div className="overflow-x-auto rounded-2xl border border-white/10">
+      <div className="overflow-x-auto rounded-2xl border border-white/10 [-webkit-overflow-scrolling:touch]">
         <table className="w-full min-w-[760px] text-sm">
           <thead className="bg-white/[0.06] text-left text-neutral-300">
             <tr>
@@ -450,7 +457,7 @@ function AccessibilitySection() {
 
 function ReservationUXSection() {
   return (
-    <section className="border-b border-white/10 max-w-[1920px] m-auto px-6 sm:px-10 py-12">
+    <section className="border-b border-white/10 max-w-[1920px] m-auto px-4 sm:px-6 lg:px-10 py-10 sm:py-12">
       <p className="text-[11px] uppercase tracking-widest text-indigo-400 mb-4">
         Fonctionnement réservation
       </p>
@@ -603,7 +610,7 @@ function ReservationSection() {
       className="border-t border-white/10 m-auto max-w-[1920px]"
     >
       {/* Header */}
-      <div className="px-6 sm:px-10 py-10 border-b border-white/10 flex flex-col md:flex-row md:items-end md:justify-between gap-6">
+      <div className="px-4 sm:px-6 lg:px-10 py-8 sm:py-10 border-b border-white/10 flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6">
         <div>
           <span className="inline-block text-[11px] font-medium tracking-[0.12em] uppercase text-indigo-400 border border-indigo/40 rounded-full px-3.5 py-1 mb-4">
             Réservation
@@ -624,13 +631,13 @@ function ReservationSection() {
       </div>
 
       {/* Trois colonnes : calendrier / heures / formulaire */}
-      <div className="grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-white/10">
+      <div className="grid grid-cols-1 lg:grid-cols-3 divide-y lg:divide-y-0 lg:divide-x divide-white/10">
         {/* 01 — Calendrier */}
-        <div className="px-6 sm:px-10 py-10">
+        <div className="px-4 sm:px-6 lg:px-10 py-8 sm:py-10">
           <p className="text-[11px] uppercase tracking-widest text-neutral-500 mb-6">
             01 — Choisir une date
           </p>
-          <div className="dark w-full rounded-2xl border border-white/10 bg-neutral-950 shadow-xl shadow-black/40 p-3">
+          <div className="dark w-full overflow-x-auto rounded-2xl border border-white/10 bg-neutral-950 p-2 shadow-xl shadow-black/40 sm:p-3">
             <Calendar
               mode="single"
               locale={fr}
@@ -651,7 +658,7 @@ function ReservationSection() {
         </div>
 
         {/* 02 — Sélection des heures */}
-        <div className="px-6 sm:px-10 py-10">
+        <div className="px-4 sm:px-6 lg:px-10 py-8 sm:py-10">
           <p className="text-[11px] uppercase tracking-widest text-neutral-500 mb-6">
             02 — Choisir vos heures
           </p>
@@ -692,7 +699,7 @@ function ReservationSection() {
         </div>
 
         {/* 03 — Formulaire projet (avec React Hook Form + Zod) */}
-        <div className="px-6 sm:px-10 py-10">
+        <div className="px-4 sm:px-6 lg:px-10 py-8 sm:py-10">
           <p className="text-[11px] uppercase tracking-widest text-neutral-500 mb-6">
             03 — Parlez‑nous de votre projet
           </p>
@@ -905,7 +912,7 @@ function InstagramFeed() {
   }, []);
 
   return (
-    <section className="border-b border-white/10 max-w-[1920px] m-auto px-6 sm:px-10 py-12">
+    <section className="border-b border-white/10 max-w-[1920px] m-auto px-4 sm:px-6 lg:px-10 py-10 sm:py-12">
       <p className="text-[11px] uppercase tracking-widest text-indigo-400 mb-4">
         Instagram
       </p>
@@ -974,12 +981,12 @@ function InstagramFeed() {
 export default function StudioPage() {
   return (
     // Full-bleed dark wrapper — centers content with max-width
-    <div className="dark min-h-screen w-full pt-10 ">
-      <div className="mx-auto w-full ">
-        <main className=" border border-white/10 rounded-2xl overflow-hidden text-white">
+    <div className="dark min-h-screen w-full overflow-x-hidden pt-4 sm:pt-8 lg:pt-10">
+      <div className="mx-auto w-full px-0 sm:px-4">
+        <main className="overflow-hidden border-y border-white/10 text-white sm:rounded-2xl sm:border">
           {/* ── Hero ── */}
-          <section className="relative min-h-[420px] ">
-            <div className="max-w-[1920px] flex justify-center items-end border-b border-white/10 overflow-hidden m-auto">
+          <section className="relative min-h-[auto] lg:min-h-[420px]">
+            <div className="relative m-auto flex max-w-[1920px] flex-col items-stretch justify-end overflow-hidden border-b border-white/10 lg:flex-row lg:items-end">
               {/* Dark gradient overlay — top transparent, bottom solid */}
               <div className="absolute inset-0 bg-gradient-to-t from-neutral-950 via-neutral-950/70 to-neutral-950" />
               {/* Subtle vertical grid lines on top */}
@@ -992,12 +999,12 @@ export default function StudioPage() {
               />
 
               {/* Content */}
-              <div className="relative z-10 w-full px-6 sm:px-10 pt-16 pb-12 ">
+              <div className="relative z-10 w-full px-4 pb-10 pt-12 sm:px-6 sm:pb-12 sm:pt-16 lg:px-10">
                 <span className="inline-block text-[11px] font-medium tracking-[0.12em] uppercase text-indigo-400 border border-white/20 rounded-full px-3.5 py-1 mb-6 backdrop-blur-sm bg-white/5">
                   Studio de tournage à Massy
                 </span>
 
-                <h1 className="text-4xl sm:text-5xl font-bold leading-[1.1] tracking-tight max-w-lg mb-5 text-white">
+                <h1 className="max-w-lg text-3xl font-bold leading-[1.1] tracking-tight text-white sm:text-5xl mb-5">
                   Des espaces pensés
                   <br />
                   pour vos{" "}
@@ -1015,14 +1022,11 @@ export default function StudioPage() {
                   proximité de Paris.
                 </p>
 
-                <ContactModal className="bg-white text-black rounded-lg px-5 h-10 text-sm font-medium transition-colors">
+                <ContactModal className="bg-white text-black rounded-lg px-5 h-10  text-sm font-medium transition-colors">
                   Prévoir une visite →
                 </ContactModal>
               </div>
-              <div
-                className="shrink-0 w-full lg:w-[480px]"
-                style={{ height: "420px" }}
-              >
+              <div className="relative z-10 h-[300px] w-full shrink-0 sm:h-[360px] lg:h-[420px] lg:w-[480px]">
                 <GreenScreenModel />
               </div>
             </div>
@@ -1031,19 +1035,15 @@ export default function StudioPage() {
           <PricingSection />
 
           {/* ── Stats ── */}
-          <div className="flex max-w-[1920px] m-auto flex-wrap border-b border-white/10 divide-x divide-white/10">
+          <div className="m-auto grid max-w-[1920px] grid-cols-2 border-b border-white/10 sm:grid-cols-4">
             {STATS.map((stat, i) => (
-              <StatCard
-                key={stat.label}
-                stat={stat}
-                last={i === STATS.length - 1}
-              />
+              <StatCard key={stat.label} stat={stat} index={i} />
             ))}
           </div>
 
           {/* ── Booking info + floor plan ── */}
-          <div className="flex m-auto  max-w-[1920px] flex-col md:flex-row divide-y md:divide-y-0 md:divide-x divide-white/10 border-b border-white/10">
-            <div className="flex-1 px-6 sm:px-10 py-10">
+          <div className="m-auto flex max-w-[1920px] flex-col divide-y divide-white/10 border-b border-white/10 lg:flex-row lg:divide-x lg:divide-y-0">
+            <div className="flex-1 px-4 sm:px-6 lg:px-10 py-8 sm:py-10">
               <h2 className="text-2xl font-semibold leading-snug mb-3 text-white">
                 Réservez votre
                 <br />
@@ -1078,16 +1078,16 @@ export default function StudioPage() {
                 ))}
               </div>
               <div className="flex flex-wrap gap-2.5">
-                <Link href={"#pricing"}>
-                  <Button className="bg-white text-neutral-900 hover:bg-neutral-200 rounded-lg text-sm h-10 px-5 transition-colors">
+                <Link href={"#pricing"} className="w-full sm:w-auto">
+                  <Button className="h-10 w-full rounded-lg bg-white px-5 text-sm text-neutral-900 transition-colors hover:bg-neutral-200 sm:w-auto">
                     Voir les tarifs
                   </Button>
                 </Link>
 
-                <Link href={"#reservation"}>
+                <Link href={"#reservation"} className="w-full sm:w-auto">
                   <Button
                     variant="outline"
-                    className="rounded-lg text-neutral-300 bg-transparent text-sm h-10 px-5 hover:bg-white/5 hover:text-white"
+                    className="h-10 w-full rounded-lg bg-transparent px-5 text-sm text-neutral-300 hover:bg-white/5 hover:text-white sm:w-auto"
                   >
                     Réserver
                   </Button>
@@ -1095,11 +1095,11 @@ export default function StudioPage() {
               </div>
             </div>
 
-            <div className="flex-1 px-6 sm:px-10 py-10 bg-white/[0.02] flex flex-col justify-between min-h-[220px] md:h-[500px]">
+            <div className="flex min-h-[320px] flex-1 flex-col justify-between bg-white/[0.02] px-4 py-8 sm:px-6 sm:py-10 lg:h-[500px] lg:px-10">
               <p className="text-[11px] uppercase tracking-widest text-indigo-400 mb-4">
                 Aperçu de l&apos;espace
               </p>
-              <div className="flex-1 flex items-center justify-center md:h-[500px]">
+              <div className="flex min-h-[240px] flex-1 items-center justify-center lg:h-[500px]">
                 <StudioModel />
               </div>
             </div>
