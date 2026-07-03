@@ -1020,13 +1020,11 @@ export default function StudioPage() {
                   proximité de Paris.
                 </p>
 
-                <ContactModal className="bg-white text-black rounded-lg px-5 h-10 text-sm font-medium transition-colors">
+                <ContactModal className="bg-white text-black rounded-lg px-5 h-10  text-sm font-medium transition-colors">
                   Prévoir une visite →
                 </ContactModal>
               </div>
-              <div
-                className="relative z-10 h-[300px] w-full shrink-0 sm:h-[360px] lg:h-[420px] lg:w-[480px]"
-              >
+              <div className="relative z-10 h-[300px] w-full shrink-0 sm:h-[360px] lg:h-[420px] lg:w-[480px]">
                 <GreenScreenModel />
               </div>
             </div>
@@ -1037,11 +1035,7 @@ export default function StudioPage() {
           {/* ── Stats ── */}
           <div className="m-auto grid max-w-[1920px] grid-cols-2 border-b border-white/10 sm:grid-cols-4">
             {STATS.map((stat, i) => (
-              <StatCard
-                key={stat.label}
-                stat={stat}
-                index={i}
-              />
+              <StatCard key={stat.label} stat={stat} index={i} />
             ))}
           </div>
 
