@@ -83,21 +83,21 @@ const FEATURES: Feature[] = [
     num: "01",
     title: "Espace modulable",
     description:
-      "Un studio adaptable pour différents formats de tournage, du contenu social media aux productions plus ambitieuses.",
+      "Un studio adaptable pour vos shootings photo, podcasts, interviews, vidéos corporate, contenus TikTok, Reels Instagram, YouTube et productions pour les réseaux sociaux.",
     icon: <LayoutDashboard size={18} />,
   },
   {
     num: "02",
     title: "Éclairage professionnel",
     description:
-      "Des solutions d'éclairage optimisées pour garantir un rendu visuel cohérent et esthétique sur tous vos formats.",
+      "Des solutions d'éclairage optimisées pour garantir un rendu visuel propre, cohérent et esthétique sur tous vos formats.",
     icon: <SunMedium size={18} />,
   },
   {
     num: "03",
     title: "Matériel disponible",
     description:
-      "Accédez à l'équipement essentiel pour produire efficacement sans contraintes techniques lors de vos tournages.",
+      "Accédez à l'équipement essentiel pour produire efficacement : fonds, lumière, micros, caméras et accompagnement technique selon votre formule.",
     icon: <Video size={18} />,
   },
 ];
@@ -394,6 +394,10 @@ function PricingSection() {
       <p className="text-[11px] uppercase tracking-widest text-indigo-400 mb-4">
         Offres studio
       </p>
+      <p className="mb-8 max-w-2xl text-sm leading-relaxed text-neutral-400">
+        Choisissez la formule adaptée à votre production : location audio,
+        tournage équipé ou accompagnement clé en main.
+      </p>
       <PricingWithSwitch />
     </section>
   );
@@ -451,15 +455,15 @@ function ReservationUXSection() {
         {[
           {
             title: "1- Choisissez votre créneau",
-            text: "Sélectionnez la date et l'horaire qui vous conviennent pour votre réservation.",
+            text: "Sélectionnez la date et l’horaire qui correspondent à votre projet de shooting, de podcast ou de tournage.",
           },
           {
             title: "2- Validation de votre demande",
-            text: "Notre équipe vérifie la disponibilité et valide votre demande, ou vous contacte si quelques précisions sont nécessaires.",
+            text: "Notre équipe vérifie la disponibilité du studio et vous confirme votre réservation, ou vous contacte si des précisions sont nécessaires.",
           },
           {
             title: "3- Confirmez votre réservation",
-            text: "Une fois votre demande validée, vous disposez de 4 heures pour effectuer le règlement et confirmer définitivement votre réservation.",
+            text: "Une fois votre demande validée, vous disposez de 4 heures pour effectuer le règlement et confirmer définitivement votre créneau.",
           },
         ].map((item) => (
           <div
@@ -575,8 +579,9 @@ function ReservationSection() {
           </h2>
         </div>
         <p className="text-sm text-neutral-500 max-w-xs leading-relaxed md:text-right">
-          Sélectionnez une date et les heures souhaitées. Notre équipe
-          confirmera la disponibilité sous 24h.
+          Que ce soit pour une heure, une demi-journée ou une journée complète,
+          nos formules s’adaptent à vos besoins, à votre budget et au format de
+          votre production.
         </p>
       </div>
 
@@ -923,7 +928,7 @@ export default function StudioPage() {
               {/* Content */}
               <div className="relative z-10 w-full px-6 sm:px-10 pt-16 pb-12 ">
                 <span className="inline-block text-[11px] font-medium tracking-[0.12em] uppercase text-indigo-400 border border-white/20 rounded-full px-3.5 py-1 mb-6 backdrop-blur-sm bg-white/5">
-                  Studio de tournage
+                  Studio de tournage à Massy
                 </span>
 
                 <h1 className="text-4xl sm:text-5xl font-bold leading-[1.1] tracking-tight max-w-lg mb-5 text-white">
@@ -936,10 +941,12 @@ export default function StudioPage() {
                 </h1>
 
                 <p className="text-[15px] text-neutral-400 leading-relaxed max-w-xl mb-8">
-                  Découvrez nos espaces, équipements et options de location pour
-                  vos productions. Nous mettons à disposition un environnement
-                  professionnel conçu pour maximiser la qualité de vos contenus
-                  tout en simplifiant vos tournages.
+                  Louez un studio photo, vidéo et podcast à Massy, dans
+                  l’Essonne, pour réaliser vos shootings, interviews, contenus
+                  social media, podcasts filmés et tournages professionnels.
+                  Vanihouse vous accueille dans un espace équipé, modulable et
+                  facile d’accès, pensé pour produire du contenu de qualité à
+                  proximité de Paris.
                 </p>
 
                 <ContactModal className="bg-white text-black rounded-lg px-5 h-10 text-sm font-medium transition-colors">
@@ -977,9 +984,9 @@ export default function StudioPage() {
                 créneau de tournage
               </h2>
               <p className="text-sm text-neutral-500 leading-relaxed max-w-xs mb-7">
-                Que ce soit pour une demi-journée ou une semaine complète, nos
-                formules s&apos;adaptent à vos besoins et à votre budget de
-                production.
+                Que ce soit pour une heure, une demi-journée ou une journée
+                complète, nos formules s&apos;adaptent à vos besoins, à votre
+                budget et au format de votre production.
               </p>
               <div className="mb-7 grid gap-3">
                 {FEATURES.map((feature) => (
@@ -1011,12 +1018,14 @@ export default function StudioPage() {
                   </Button>
                 </Link>
 
-                <ContactModal
-                  variant="outline"
-                  className="rounded-lg text-neutral-300 bg-transparent text-sm h-10 px-5 hover:bg-white/5 hover:text-white"
-                >
-                  Demander une visite
-                </ContactModal>
+                <Link href={"#reservation"}>
+                  <Button
+                    variant="outline"
+                    className="rounded-lg text-neutral-300 bg-transparent text-sm h-10 px-5 hover:bg-white/5 hover:text-white"
+                  >
+                    Réserver
+                  </Button>
+                </Link>
               </div>
             </div>
 
@@ -1027,9 +1036,6 @@ export default function StudioPage() {
               <div className="flex-1 flex items-center justify-center md:h-[500px]">
                 <StudioModel />
               </div>
-              <span className="inline-block text-[11px] text-indigo-400 border border-white/10 rounded-full px-3 py-1 mt-4 w-fit">
-                Plan interactif disponible sur demande
-              </span>
             </div>
           </div>
 
