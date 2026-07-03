@@ -13,29 +13,29 @@ import {
 } from "@react-email/components";
 import { Tailwind } from "@react-email/tailwind";
 import * as React from "react";
-import Image from "next/image";
-interface QuoteRequestEmailProps {
-  clientType: string;
-  budget: string;
-  services: string;
-  features: string;
-  name: string;
+
+interface ReservationEmailProps {
+  fullName: string;
   email: string;
   phone: string;
+  clientType: string;
+  projectDescription: string;
+  date: string; // formatted date string
+  hours: string; // comma-separated hours
 }
 
-export const QuoteRequestEmail = ({
-  clientType,
-  budget,
-  services,
-  features,
-  name,
+export const ReservationEmail = ({
+  fullName,
   email,
   phone,
-}: QuoteRequestEmailProps) => (
+  clientType,
+  projectDescription,
+  date,
+  hours,
+}: ReservationEmailProps) => (
   <Html>
     <Head />
-    <Preview>Nouvelle demande de devis de {name}</Preview>
+    <Preview>Nouvelle réservation studio - {fullName}</Preview>
     <Tailwind>
       <Body className="bg-gray-100 p-6">
         <Container className="border border-solid border-[#eaeaea] rounded my-[40px] mx-auto p-[20px] max-w-[465px]">
@@ -44,38 +44,39 @@ export const QuoteRequestEmail = ({
               width={1000}
               height={1000}
               src="https://firebasestorage.googleapis.com/v0/b/pokemoh-ad0fa.appspot.com/o/vanity_corp_Icon_color.png?alt=media&token=d032c028-f706-44e7-9ce7-344be758e94d"
-              alt="logo"
+              alt="Vanity Corp"
               className="my-0 mx-auto"
             />
           </Section>
           <Heading className="text-black text-[24px] font-normal text-center p-0 my-[30px] mx-0">
-            Nouvelle demande de devis
+            Nouvelle demande de réservation
           </Heading>
-
-          <Text className="text-base mb-4">
-            Vous avez reçu une nouvelle demande de devis de{" "}
-            <strong>{name}</strong>. Voici les détails :
-          </Text>
-
           <Section className="p-4 border border-gray-300 rounded mb-4">
             <Text className="text-base">
-              <strong>1. Qui êtes-vous ?</strong> {clientType}
+              <strong>Nom :</strong> {fullName}
             </Text>
             <Text className="text-base">
-              <strong>2. Qu’est-ce qu’on peut faire pour vous ?</strong>{" "}
-              {services}
+              <strong>Email :</strong> {email}
             </Text>
             <Text className="text-base">
-              <strong>3. Racontez-nous votre projet en quelques mots...</strong>{" "}
-              {features}
+              <strong>Téléphone :</strong> {phone}
             </Text>
             <Text className="text-base">
-              <strong>4. Quel est votre budget ?</strong> {budget}
+              <strong>Type de client :</strong>{" "}
+              {clientType === "particulier"
+                ? "Particulier"
+                : "Société / Professionnel"}
             </Text>
             <Text className="text-base">
-              <strong>5. Comment vous contacter ?</strong> Email : {email},
-              Téléphone : {phone}
+              <strong>Date choisie :</strong> {date}
             </Text>
+            <Text className="text-base">
+              <strong>Créneaux horaires :</strong> {hours}
+            </Text>
+            <Text className="text-base">
+              <strong>Description du projet :</strong>
+            </Text>
+            <Text className="text-base">{projectDescription}</Text>
           </Section>
         </Container>
       </Body>
@@ -83,4 +84,4 @@ export const QuoteRequestEmail = ({
   </Html>
 );
 
-export default QuoteRequestEmail;
+export default ReservationEmail;

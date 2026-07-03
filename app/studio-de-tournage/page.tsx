@@ -25,6 +25,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Textarea } from "@/components/ui/textarea";
 import {
   LayoutDashboard,
   SunMedium,
@@ -39,6 +40,7 @@ import { Environment, OrbitControls } from "@react-three/drei";
 import { ContactModal } from "@/components/ContactModal";
 import { PricingWithSwitch } from "@/components/ui/pricing-with-switch";
 import Link from "next/link";
+import { InstagramGallery } from "@/components/InstagramGallery";
 
 const StudioModel = dynamic(() => import("@/components/StudioModel"), {
   ssr: false,
@@ -487,6 +489,8 @@ function ReservationSection() {
   const [date, setDate] = useState<Date | undefined>(undefined);
   const [selectedHours, setSelectedHours] = useState<string[]>([]);
   const [submitted, setSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
 
   // Schéma de validation avec Zod
   const formSchema = z.object({
@@ -494,8 +498,8 @@ function ReservationSection() {
     email: z.string().email("Email invalide").min(1, "Email requis"),
     phone: z.string().min(10, "Numéro de téléphone invalide"),
     clientType: z.enum(["particulier", "societe"]),
+    projectDescription: z.string().min(1, "Veuillez décrire votre projet"),
   });
-
   type FormValues = z.infer<typeof formSchema>;
 
   const form = useForm<FormValues>({
@@ -527,19 +531,53 @@ function ReservationSection() {
     );
   };
 
-  const onSubmit = (data: FormValues) => {
-    if (date && selectedHours.length > 0) {
-      setSubmitted(true);
-      // Ici, envoyez les données à votre API
-      console.log({
-        date,
-        hours: selectedHours,
-        ...data,
+  const onSubmit = async (data: FormValues) => {
+    if (!date || selectedHours.length === 0) {
+      return;
+    }
+
+    setIsSubmitting(true);
+    setSubmitError(null);
+
+    const formattedDate = date.toLocaleDateString("fr-FR", {
+      weekday: "long",
+      day: "numeric",
+      month: "long",
+      year: "numeric",
+    });
+    const hoursString = selectedHours.sort().join(", ");
+
+    try {
+      const response = await fetch("/api/emails/reservation", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          ...data,
+          date: formattedDate,
+          hours: hoursString,
+        }),
       });
-      // Réinitialisation éventuelle
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        throw new Error(result.error || "Erreur lors de l'envoi");
+      }
+
+      setSubmitted(true);
+      // Optionnel : réinitialiser le formulaire et les sélections
       // form.reset();
       // setSelectedHours([]);
       // setDate(undefined);
+    } catch (error) {
+      console.error("Submission error:", error);
+      setSubmitError(
+        error instanceof Error ? error.message : "Une erreur est survenue.",
+      );
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -552,7 +590,6 @@ function ReservationSection() {
       })
     : null;
 
-  // Vérification globale pour activer le bouton
   const isFormValid =
     date &&
     selectedHours.length > 0 &&
@@ -634,7 +671,7 @@ function ReservationSection() {
                           isSelected
                             ? "border-white bg-white text-neutral-900 shadow-lg shadow-white/10"
                             : "border-white/10 bg-white/5 text-neutral-300 hover:border-white/30 hover:bg-white/10",
-                        ].join(" ")}
+                        ].join("  ")}
                       >
                         {hour}
                       </button>
@@ -750,6 +787,26 @@ function ReservationSection() {
                 )}
               />
 
+              <FormField
+                control={form.control}
+                name="projectDescription"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-sm text-neutral-300">
+                      Décrivez votre projet *
+                    </FormLabel>
+                    <FormControl>
+                      <Textarea
+                        placeholder="Shooting photo, podcast, vidéo corporate, etc. – précisez vos besoins"
+                        className="bg-white/5 border-white/10 text-white placeholder:text-neutral-600 resize-y min-h-[80px]"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
               {/* Récapitulatif + Bouton d’envoi */}
               <div className="pt-4">
                 <div
@@ -758,7 +815,7 @@ function ReservationSection() {
                     date && selectedHours.length > 0
                       ? "border-white/10 bg-white/5"
                       : "border-dashed border-white/10 bg-transparent",
-                  ].join(" ")}
+                  ].join("  ")}
                 >
                   <p className="text-[11px] uppercase tracking-widest text-indigo-400 mb-2">
                     Récapitulatif
@@ -804,13 +861,20 @@ function ReservationSection() {
                     </p>
                   </div>
                 ) : (
-                  <Button
-                    type="submit"
-                    disabled={!isFormValid}
-                    className="w-full h-12 rounded-xl bg-white text-neutral-900 text-sm font-medium hover:bg-neutral-100 disabled:opacity-20 disabled:cursor-not-allowed transition-all"
-                  >
-                    Envoyer la demande →
-                  </Button>
+                  <>
+                    <Button
+                      type="submit"
+                      disabled={!isFormValid || isSubmitting}
+                      className="w-full h-12 rounded-xl bg-white text-neutral-900 text-sm font-medium hover:bg-neutral-100 disabled:opacity-20 disabled:cursor-not-allowed transition-all"
+                    >
+                      {isSubmitting
+                        ? "Envoi en cours..."
+                        : "Envoyer la demande →"}
+                    </Button>
+                    {submitError && (
+                      <p className="text-red-400 text-sm mt-2">{submitError}</p>
+                    )}
+                  </>
                 )}
               </div>
             </form>
@@ -1041,7 +1105,7 @@ export default function StudioPage() {
 
           <ReservationUXSection />
 
-          <InstagramFeed />
+          <InstagramGallery />
           {/* ── Reservation with Calendar ── */}
           <ReservationSection />
           <AccessibilitySection />

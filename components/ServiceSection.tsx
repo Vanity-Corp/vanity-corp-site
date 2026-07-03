@@ -218,7 +218,8 @@ const Card: React.FC<CardProps> = ({ service, index }) => {
   const rotationAnim = useRef<gsap.core.Tween | null>(null);
   const [hovered, setHovered] = useState(false);
   const [modelStatus, setModelStatus] = useState<ModelStatus>("pending");
-
+  const disabledIds = ["accompagnement-strategique", "audiovisuel"];
+  const isDisabled = disabledIds.includes(service.id);
   const isMobile = useIsMobile();
   const webglSupported = useWebGLSupport();
   const { ref: viewportRef, inView } = useInView<HTMLDivElement>({
@@ -246,7 +247,7 @@ const Card: React.FC<CardProps> = ({ service, index }) => {
   let modelImage;
   switch (service.id) {
     case "studio-de-tournage":
-      modelImage = "director Chair.png";
+      modelImage = "green screend.png";
       break;
     case "accompagnement-strategique":
       modelImage = "story board.png";
@@ -273,6 +274,7 @@ const Card: React.FC<CardProps> = ({ service, index }) => {
 
   // Gestion du survol (only runs once the model is actually showing)
   useEffect(() => {
+    if (isDisabled) return;
     if (!showModel) return;
 
     if (hovered) {
@@ -312,7 +314,7 @@ const Card: React.FC<CardProps> = ({ service, index }) => {
         });
       }
     }
-  }, [hovered, showModel]);
+  }, [hovered, showModel, isDisabled]);
   const colorStyles = {
     "--service-color": service.color,
     "--service-color-rgb": service.color, // For rgba if needed
@@ -323,6 +325,9 @@ const Card: React.FC<CardProps> = ({ service, index }) => {
     "relative flex flex-col justify-between overflow-hidden rounded-2xl bg-neutral-900 backdrop-blur-sm",
     "border border-gray-700/50 transition-all duration-300",
     "hover:border-[var(--service-color)] hover:shadow-[0_0_30px_var(--service-color)]/20",
+    {
+      "opacity-60 grayscale cursor-not-allowed": isDisabled,
+    },
   );
 
   const badgeClassName = clsx(
@@ -362,7 +367,7 @@ const Card: React.FC<CardProps> = ({ service, index }) => {
   return (
     <div
       ref={cardRef}
-      className={cardClassName}
+      className={clsx(cardClassName, "group")}
       style={colorStyles}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
@@ -429,14 +434,27 @@ const Card: React.FC<CardProps> = ({ service, index }) => {
             );
           })}
         </ul>
-        <Link href={`/${service.link}`}>
-          <Button
-            className="mt-6 w-full text-sm uppercase rounded-full"
-            variant="default"
-          >
-            Voir plus
-          </Button>
-        </Link>
+        {isDisabled && (
+          <div className="absolute inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
+            <span className="text-white text-lg font-semibold px-4 py-2 border border-white/30 rounded-lg bg-black/40">
+              En cours de création
+            </span>
+          </div>
+        )}
+        {isDisabled ? (
+          <span className="mt-6 w-full text-sm uppercase rounded-full bg-gray-600 text-gray-400 cursor-not-allowed py-2 text-center block">
+            En cours de création
+          </span>
+        ) : (
+          <Link href={`/${service.link}`}>
+            <Button
+              className="mt-6 w-full text-sm uppercase rounded-full"
+              variant="default"
+            >
+              Voir plus
+            </Button>
+          </Link>
+        )}
       </div>
     </div>
   );
