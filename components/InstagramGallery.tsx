@@ -2,8 +2,13 @@
 
 import { memo, useCallback, useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
-import { Loader2 } from "lucide-react";
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { Loader2, X } from "lucide-react";
 import Image from "next/image";
 
 // ── Data ──────────────────────────────────────────────────────────────────────
@@ -228,13 +233,20 @@ function InstagramModal({ post, onClose }: InstagramModalProps) {
 
   return (
     <Dialog open={!!post} onOpenChange={(open) => !open && onClose()}>
-      <DialogContent className="w-full max-w-[500px] overflow-hidden border-white/10 bg-neutral-950 p-0">
-        {/* Titre accessible pour les lecteurs d'écran (non affiché visuellement) */}
-        <DialogTitle className="sr-only">
-          Publication Instagram Vanihouse Studio
-        </DialogTitle>
+      <DialogContent className="max-h-[calc(100dvh-2rem)] w-[calc(100vw-1rem)] max-w-[500px] overflow-hidden border-white/10 bg-neutral-950 p-0 text-white sm:w-full [&>button]:hidden">
+        <div className="flex items-center justify-between border-b border-white/10 bg-neutral-950/95 px-4 py-3">
+          <DialogTitle className="text-sm font-semibold text-white">
+            Publication Instagram
+          </DialogTitle>
+          <DialogClose
+            className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-white/15 bg-white/10 text-white transition-colors hover:bg-white/20 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400"
+            aria-label="Fermer la publication Instagram"
+          >
+            <X className="h-4 w-4" aria-hidden="true" />
+          </DialogClose>
+        </div>
 
-        <div className="relative flex min-h-[420px] items-center justify-center p-4">
+        <div className="relative flex min-h-[360px] items-center justify-center overflow-y-auto p-4 sm:min-h-[420px]">
           {!embedReady && (
             <div className="absolute flex flex-col items-center gap-3 text-neutral-500">
               <Loader2 size={22} className="animate-spin" />
