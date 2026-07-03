@@ -25,6 +25,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Textarea } from "@/components/ui/textarea";
 import {
   LayoutDashboard,
   SunMedium,
@@ -39,6 +40,7 @@ import { Environment, OrbitControls } from "@react-three/drei";
 import { ContactModal } from "@/components/ContactModal";
 import { PricingWithSwitch } from "@/components/ui/pricing-with-switch";
 import Link from "next/link";
+import { InstagramGallery } from "@/components/InstagramGallery";
 
 const StudioModel = dynamic(() => import("@/components/StudioModel"), {
   ssr: false,
@@ -83,21 +85,21 @@ const FEATURES: Feature[] = [
     num: "01",
     title: "Espace modulable",
     description:
-      "Un studio adaptable pour différents formats de tournage, du contenu social media aux productions plus ambitieuses.",
+      "Un studio adaptable pour vos shootings photo, podcasts, interviews, vidéos corporate, contenus TikTok, Reels Instagram, YouTube et productions pour les réseaux sociaux.",
     icon: <LayoutDashboard size={18} />,
   },
   {
     num: "02",
     title: "Éclairage professionnel",
     description:
-      "Des solutions d'éclairage optimisées pour garantir un rendu visuel cohérent et esthétique sur tous vos formats.",
+      "Des solutions d'éclairage optimisées pour garantir un rendu visuel propre, cohérent et esthétique sur tous vos formats.",
     icon: <SunMedium size={18} />,
   },
   {
     num: "03",
     title: "Matériel disponible",
     description:
-      "Accédez à l'équipement essentiel pour produire efficacement sans contraintes techniques lors de vos tournages.",
+      "Accédez à l'équipement essentiel pour produire efficacement : fonds, lumière, micros, caméras et accompagnement technique selon votre formule.",
     icon: <Video size={18} />,
   },
 ];
@@ -394,6 +396,10 @@ function PricingSection() {
       <p className="text-[11px] uppercase tracking-widest text-indigo-400 mb-4">
         Offres studio
       </p>
+      <p className="mb-8 max-w-2xl text-sm leading-relaxed text-neutral-400">
+        Choisissez la formule adaptée à votre production : location audio,
+        tournage équipé ou accompagnement clé en main.
+      </p>
       <PricingWithSwitch />
     </section>
   );
@@ -451,15 +457,15 @@ function ReservationUXSection() {
         {[
           {
             title: "1- Choisissez votre créneau",
-            text: "Sélectionnez la date et l'horaire qui vous conviennent pour votre réservation.",
+            text: "Sélectionnez la date et l’horaire qui correspondent à votre projet de shooting, de podcast ou de tournage.",
           },
           {
             title: "2- Validation de votre demande",
-            text: "Notre équipe vérifie la disponibilité et valide votre demande, ou vous contacte si quelques précisions sont nécessaires.",
+            text: "Notre équipe vérifie la disponibilité du studio et vous confirme votre réservation, ou vous contacte si des précisions sont nécessaires.",
           },
           {
             title: "3- Confirmez votre réservation",
-            text: "Une fois votre demande validée, vous disposez de 4 heures pour effectuer le règlement et confirmer définitivement votre réservation.",
+            text: "Une fois votre demande validée, vous disposez de 4 heures pour effectuer le règlement et confirmer définitivement votre créneau.",
           },
         ].map((item) => (
           <div
@@ -483,6 +489,8 @@ function ReservationSection() {
   const [date, setDate] = useState<Date | undefined>(undefined);
   const [selectedHours, setSelectedHours] = useState<string[]>([]);
   const [submitted, setSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
 
   // Schéma de validation avec Zod
   const formSchema = z.object({
@@ -490,8 +498,8 @@ function ReservationSection() {
     email: z.string().email("Email invalide").min(1, "Email requis"),
     phone: z.string().min(10, "Numéro de téléphone invalide"),
     clientType: z.enum(["particulier", "societe"]),
+    projectDescription: z.string().min(1, "Veuillez décrire votre projet"),
   });
-
   type FormValues = z.infer<typeof formSchema>;
 
   const form = useForm<FormValues>({
@@ -523,19 +531,53 @@ function ReservationSection() {
     );
   };
 
-  const onSubmit = (data: FormValues) => {
-    if (date && selectedHours.length > 0) {
-      setSubmitted(true);
-      // Ici, envoyez les données à votre API
-      console.log({
-        date,
-        hours: selectedHours,
-        ...data,
+  const onSubmit = async (data: FormValues) => {
+    if (!date || selectedHours.length === 0) {
+      return;
+    }
+
+    setIsSubmitting(true);
+    setSubmitError(null);
+
+    const formattedDate = date.toLocaleDateString("fr-FR", {
+      weekday: "long",
+      day: "numeric",
+      month: "long",
+      year: "numeric",
+    });
+    const hoursString = selectedHours.sort().join(", ");
+
+    try {
+      const response = await fetch("/api/emails/reservation", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          ...data,
+          date: formattedDate,
+          hours: hoursString,
+        }),
       });
-      // Réinitialisation éventuelle
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        throw new Error(result.error || "Erreur lors de l'envoi");
+      }
+
+      setSubmitted(true);
+      // Optionnel : réinitialiser le formulaire et les sélections
       // form.reset();
       // setSelectedHours([]);
       // setDate(undefined);
+    } catch (error) {
+      console.error("Submission error:", error);
+      setSubmitError(
+        error instanceof Error ? error.message : "Une erreur est survenue.",
+      );
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -548,7 +590,6 @@ function ReservationSection() {
       })
     : null;
 
-  // Vérification globale pour activer le bouton
   const isFormValid =
     date &&
     selectedHours.length > 0 &&
@@ -575,8 +616,9 @@ function ReservationSection() {
           </h2>
         </div>
         <p className="text-sm text-neutral-500 max-w-xs leading-relaxed md:text-right">
-          Sélectionnez une date et les heures souhaitées. Notre équipe
-          confirmera la disponibilité sous 24h.
+          Que ce soit pour une heure, une demi-journée ou une journée complète,
+          nos formules s’adaptent à vos besoins, à votre budget et au format de
+          votre production.
         </p>
       </div>
 
@@ -629,7 +671,7 @@ function ReservationSection() {
                           isSelected
                             ? "border-white bg-white text-neutral-900 shadow-lg shadow-white/10"
                             : "border-white/10 bg-white/5 text-neutral-300 hover:border-white/30 hover:bg-white/10",
-                        ].join(" ")}
+                        ].join("  ")}
                       >
                         {hour}
                       </button>
@@ -745,6 +787,26 @@ function ReservationSection() {
                 )}
               />
 
+              <FormField
+                control={form.control}
+                name="projectDescription"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-sm text-neutral-300">
+                      Décrivez votre projet *
+                    </FormLabel>
+                    <FormControl>
+                      <Textarea
+                        placeholder="Shooting photo, podcast, vidéo corporate, etc. – précisez vos besoins"
+                        className="bg-white/5 border-white/10 text-white placeholder:text-neutral-600 resize-y min-h-[80px]"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
               {/* Récapitulatif + Bouton d’envoi */}
               <div className="pt-4">
                 <div
@@ -753,7 +815,7 @@ function ReservationSection() {
                     date && selectedHours.length > 0
                       ? "border-white/10 bg-white/5"
                       : "border-dashed border-white/10 bg-transparent",
-                  ].join(" ")}
+                  ].join("  ")}
                 >
                   <p className="text-[11px] uppercase tracking-widest text-indigo-400 mb-2">
                     Récapitulatif
@@ -799,13 +861,20 @@ function ReservationSection() {
                     </p>
                   </div>
                 ) : (
-                  <Button
-                    type="submit"
-                    disabled={!isFormValid}
-                    className="w-full h-12 rounded-xl bg-white text-neutral-900 text-sm font-medium hover:bg-neutral-100 disabled:opacity-20 disabled:cursor-not-allowed transition-all"
-                  >
-                    Envoyer la demande →
-                  </Button>
+                  <>
+                    <Button
+                      type="submit"
+                      disabled={!isFormValid || isSubmitting}
+                      className="w-full h-12 rounded-xl bg-white text-neutral-900 text-sm font-medium hover:bg-neutral-100 disabled:opacity-20 disabled:cursor-not-allowed transition-all"
+                    >
+                      {isSubmitting
+                        ? "Envoi en cours..."
+                        : "Envoyer la demande →"}
+                    </Button>
+                    {submitError && (
+                      <p className="text-red-400 text-sm mt-2">{submitError}</p>
+                    )}
+                  </>
                 )}
               </div>
             </form>
@@ -923,7 +992,7 @@ export default function StudioPage() {
               {/* Content */}
               <div className="relative z-10 w-full px-6 sm:px-10 pt-16 pb-12 ">
                 <span className="inline-block text-[11px] font-medium tracking-[0.12em] uppercase text-indigo-400 border border-white/20 rounded-full px-3.5 py-1 mb-6 backdrop-blur-sm bg-white/5">
-                  Studio de tournage
+                  Studio de tournage à Massy
                 </span>
 
                 <h1 className="text-4xl sm:text-5xl font-bold leading-[1.1] tracking-tight max-w-lg mb-5 text-white">
@@ -936,10 +1005,12 @@ export default function StudioPage() {
                 </h1>
 
                 <p className="text-[15px] text-neutral-400 leading-relaxed max-w-xl mb-8">
-                  Découvrez nos espaces, équipements et options de location pour
-                  vos productions. Nous mettons à disposition un environnement
-                  professionnel conçu pour maximiser la qualité de vos contenus
-                  tout en simplifiant vos tournages.
+                  Louez un studio photo, vidéo et podcast à Massy, dans
+                  l’Essonne, pour réaliser vos shootings, interviews, contenus
+                  social media, podcasts filmés et tournages professionnels.
+                  Vanihouse vous accueille dans un espace équipé, modulable et
+                  facile d’accès, pensé pour produire du contenu de qualité à
+                  proximité de Paris.
                 </p>
 
                 <ContactModal className="bg-white text-black rounded-lg px-5 h-10 text-sm font-medium transition-colors">
@@ -977,9 +1048,9 @@ export default function StudioPage() {
                 créneau de tournage
               </h2>
               <p className="text-sm text-neutral-500 leading-relaxed max-w-xs mb-7">
-                Que ce soit pour une demi-journée ou une semaine complète, nos
-                formules s&apos;adaptent à vos besoins et à votre budget de
-                production.
+                Que ce soit pour une heure, une demi-journée ou une journée
+                complète, nos formules s&apos;adaptent à vos besoins, à votre
+                budget et au format de votre production.
               </p>
               <div className="mb-7 grid gap-3">
                 {FEATURES.map((feature) => (
@@ -1011,12 +1082,14 @@ export default function StudioPage() {
                   </Button>
                 </Link>
 
-                <ContactModal
-                  variant="outline"
-                  className="rounded-lg text-neutral-300 bg-transparent text-sm h-10 px-5 hover:bg-white/5 hover:text-white"
-                >
-                  Demander une visite
-                </ContactModal>
+                <Link href={"#reservation"}>
+                  <Button
+                    variant="outline"
+                    className="rounded-lg text-neutral-300 bg-transparent text-sm h-10 px-5 hover:bg-white/5 hover:text-white"
+                  >
+                    Réserver
+                  </Button>
+                </Link>
               </div>
             </div>
 
@@ -1027,15 +1100,12 @@ export default function StudioPage() {
               <div className="flex-1 flex items-center justify-center md:h-[500px]">
                 <StudioModel />
               </div>
-              <span className="inline-block text-[11px] text-indigo-400 border border-white/10 rounded-full px-3 py-1 mt-4 w-fit">
-                Plan interactif disponible sur demande
-              </span>
             </div>
           </div>
 
           <ReservationUXSection />
 
-          <InstagramFeed />
+          <InstagramGallery />
           {/* ── Reservation with Calendar ── */}
           <ReservationSection />
           <AccessibilitySection />

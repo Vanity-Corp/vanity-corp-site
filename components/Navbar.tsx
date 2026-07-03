@@ -8,6 +8,7 @@ import { Button } from "./ui/button";
 import { ContactModal } from "./ContactModal";
 import { Menu as MenuIcon, X as CloseIcon, ChevronDown } from "lucide-react";
 import { usePathname } from "next/navigation";
+
 type Service = {
   image: string;
   title: string;
@@ -17,33 +18,27 @@ type Service = {
 
 const SERVICES: Service[] = [
   {
-    image: "/img/studio.jpg",
+    image: "/newicones/green screend.png",
     title: "STUDIO DE TOURNAGE",
     description: "De l’idéation à la publication",
     link: "studio-de-tournage",
   },
   {
-    image: "/img/Portfolio Accompagnement Stratégique Vanity.webp",
+    image: "/newicones/story board.png",
     title: "Accompagnement stratégique",
     description: "Community management & audit digital",
     link: "accompagnement-strategique",
   },
   {
-    image: "/img/Production.webp",
+    image: "/newicones/camera.png",
     title: "Audiovisuel",
     description: "Production vidéo / photo",
     link: "audiovisuel",
   },
 ];
 
-function slugify(str: string) {
-  return str
-    .toLowerCase()
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/(^-|-$)/g, "");
-}
+// Identifiants des services à désactiver
+const DISABLED_SERVICE_IDS = ["accompagnement-strategique", "audiovisuel"];
 
 export default function Navbar(): JSX.Element {
   const [isOpen, setIsOpen] = useState(false); // mobile menu
@@ -56,14 +51,13 @@ export default function Navbar(): JSX.Element {
   const closeTimerRef = useRef<number | null>(null);
   const pathname = usePathname();
   const isHomPage = pathname === "/";
+
   // Decide full-screen breakpoint and compute top offset
   useEffect(() => {
     function update() {
       const vw = window.innerWidth;
-      // when viewport <= 1152px, we use full-width panel
       setIsFullScreen(vw <= 1152);
 
-      // measure navbar bottom (relative to viewport top)
       if (navRef.current) {
         const rect = navRef.current.getBoundingClientRect();
         setMegaTop(Math.ceil(rect.bottom));
@@ -72,7 +66,7 @@ export default function Navbar(): JSX.Element {
 
     update();
     window.addEventListener("resize", update);
-    window.addEventListener("scroll", update); // keep position accurate on scroll
+    window.addEventListener("scroll", update);
     return () => {
       window.removeEventListener("resize", update);
       window.removeEventListener("scroll", update);
@@ -96,7 +90,7 @@ export default function Navbar(): JSX.Element {
     return;
   }, [megaOpen, isFullScreen]);
 
-  // Clear any pending close timer on unmount
+  // Clear timer on unmount
   useEffect(() => {
     return () => {
       if (closeTimerRef.current) {
@@ -106,7 +100,6 @@ export default function Navbar(): JSX.Element {
     };
   }, []);
 
-  // open immediately, cancel any close timer
   const openMega = () => {
     if (closeTimerRef.current) {
       window.clearTimeout(closeTimerRef.current);
@@ -115,7 +108,6 @@ export default function Navbar(): JSX.Element {
     setMegaOpen(true);
   };
 
-  // schedule close with a tiny delay so user can move pointer from button -> panel
   const scheduleCloseMega = (delay = 150) => {
     if (closeTimerRef.current) {
       window.clearTimeout(closeTimerRef.current);
@@ -126,13 +118,11 @@ export default function Navbar(): JSX.Element {
     }, delay);
   };
 
-  // classes
   const basePanelStyles =
     "transition-all duration-180 ease-in-out bg-black/60 border border-gray-700 p-6 backdrop-blur-lg shadow-2xl";
   const visible = "opacity-100 translate-y-0 scale-100 pointer-events-auto";
   const hidden = "opacity-0 translate-y-2 scale-95 pointer-events-none";
 
-  // Inline style to center independent of the trigger:
   const panelStyle: React.CSSProperties = isFullScreen
     ? {
         position: "fixed",
@@ -154,9 +144,10 @@ export default function Navbar(): JSX.Element {
       };
 
   return (
-    <nav ref={navRef} className="fixed  font-medium  z-50 w-full top-0">
+    <nav ref={navRef} className="fixed font-medium z-50 w-full top-0">
+      {/* Barre principale */}
       <div className="flex items-center justify-between px-3 md:px-32 py-3 bg-black text-white">
-        {/* Logo */}
+        {/* Logo desktop */}
         <div className="hidden md:block">
           <Link href="/">
             <Image
@@ -168,11 +159,11 @@ export default function Navbar(): JSX.Element {
           </Link>
         </div>
 
-        {/* Desktop center links */}
+        {/* Liens centraux desktop */}
         <div className="hidden md:flex items-center gap-6">
+          {/* Méga-menu Services */}
           <div
             className="relative"
-            // use robust handlers (open immediately, close with delay)
             onMouseEnter={openMega}
             onMouseLeave={() => scheduleCloseMega(180)}
           >
@@ -184,8 +175,7 @@ export default function Navbar(): JSX.Element {
               <ChevronDown size={16} />
             </button>
 
-            {/* Panel - fixed & centered (independent from button)
-                Attach same mouse handlers to panel so moving pointer into it cancels close */}
+            {/* Panneau du méga-menu */}
             <div
               className={`${basePanelStyles} ${megaOpen ? visible : hidden}`}
               style={panelStyle}
@@ -193,21 +183,17 @@ export default function Navbar(): JSX.Element {
               onMouseLeave={() => scheduleCloseMega(180)}
             >
               <div className="flex flex-col lg:flex-row gap-6 items-start z-50">
-                {/* Featured first service */}
-                <div className="hidden lg:flex  items-center justify-center">
+                {/* Premier service mis en avant (studio) – toujours actif */}
+                <div className="hidden lg:flex items-center justify-center">
                   <div className="w-fit">
-                    <Link
-                      href={
-                        isHomPage ? `#${SERVICES[0].link}` : SERVICES[0].link
-                      }
-                    >
+                    <Link href={SERVICES[0].link}>
                       <div className="aspect-[4/3] rounded-xl overflow-hidden shadow-lg bg-gray-900">
                         <Image
                           src={SERVICES[0].image}
                           alt={SERVICES[0].title}
                           width={220}
                           height={120}
-                          className="object-cover w-full h-full"
+                          className="object-contain w-full h-full"
                         />
                       </div>
                     </Link>
@@ -231,40 +217,77 @@ export default function Navbar(): JSX.Element {
                   </div>
                 </div>
 
-                {/* Right side grid 2x2 (exclude the featured first service) */}
+                {/* Grille des autres services (avec désactivation) */}
                 <div className="flex-1 grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-1 xl:grid-cols-1 gap-6 items-start w-fit">
-                  {SERVICES.slice(1, 5).map((s) => (
-                    <Link
-                      key={s.title}
-                      href={isHomPage ? `#${s.link}` : s.link}
-                      className="group block rounded-xl p-4 bg-black/50 border border-gray-800 hover:bg-white/5 transition-colors shadow-md hover:shadow-xl"
-                    >
-                      <div className="flex items-start gap-3">
-                        <div className="flex-shrink-0 w-32 h-32 rounded-lg overflow-hidden bg-gray-900">
-                          <Image
-                            src={s.image}
-                            alt={s.title}
-                            width={200}
-                            height={200}
-                            className="object-cover w-32 h-32"
-                          />
+                  {SERVICES.slice(1, 5).map((s) => {
+                    const isDisabled = DISABLED_SERVICE_IDS.includes(s.link);
+                    if (isDisabled) {
+                      return (
+                        <div
+                          key={s.title}
+                          className="group block rounded-xl p-4 bg-black/50 border border-gray-800 opacity-60 grayscale cursor-not-allowed relative hover:border-gray-600 transition-colors"
+                        >
+                          <div className="flex items-start gap-3">
+                            <div className="flex-shrink-0 w-32 h-32 rounded-lg overflow-hidden bg-gray-900">
+                              <Image
+                                src={s.image}
+                                alt={s.title}
+                                width={200}
+                                height={200}
+                                className="object-contain w-32 h-32"
+                              />
+                            </div>
+                            <div className="flex-1 h-full flex flex-col justify-center">
+                              <h3 className="text-base tracking-wider font-semibold text-gray-400">
+                                {s.title}
+                              </h3>
+                              <p className="mt-2 text-sm text-gray-500">
+                                {s.description}
+                              </p>
+                            </div>
+                          </div>
+                          {/* Overlay au survol */}
+                          <div className="absolute inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none rounded-xl">
+                            <span className="text-white text-sm font-semibold px-3 py-1 border border-white/30 rounded-lg bg-black/40">
+                              En cours de création
+                            </span>
+                          </div>
                         </div>
-
-                        <div className="flex-1 h-full flex flex-col justify-center">
-                          <h3 className="text-base tracking-wider font-semibold">
-                            {s.title}
-                          </h3>
-                          <p className="mt-2 text-sm text-gray-300">
-                            {s.description}
-                          </p>
+                      );
+                    }
+                    // Service actif
+                    return (
+                      <Link
+                        key={s.title}
+                        href={isHomPage ? `#${s.link}` : s.link}
+                        className="group block rounded-xl p-4 bg-black/50 border border-gray-800 hover:bg-white/5 transition-colors shadow-md hover:shadow-xl"
+                      >
+                        <div className="flex items-start gap-3">
+                          <div className="flex-shrink-0 w-32 h-32 rounded-lg overflow-hidden bg-gray-900">
+                            <Image
+                              src={s.image}
+                              alt={s.title}
+                              width={200}
+                              height={200}
+                              className="object-cover w-32 h-32"
+                            />
+                          </div>
+                          <div className="flex-1 h-full flex flex-col justify-center">
+                            <h3 className="text-base tracking-wider font-semibold">
+                              {s.title}
+                            </h3>
+                            <p className="mt-2 text-sm text-gray-300">
+                              {s.description}
+                            </p>
+                          </div>
                         </div>
-                      </div>
-                    </Link>
-                  ))}
+                      </Link>
+                    );
+                  })}
                 </div>
               </div>
 
-              {/* Footer row with CTA */}
+              {/* Pied du méga-menu */}
               <div className="mt-6 pt-4 border-t border-gray-800 flex items-center justify-between gap-4">
                 <div className="text-sm text-gray-300">
                   Vous ne trouvez pas ce que vous cherchez ?
@@ -295,14 +318,14 @@ export default function Navbar(): JSX.Element {
           </ContactModal>
         </div>
 
-        {/* Right side - Estimation button */}
+        {/* Bouton Estimation à droite */}
         <div className="hidden md:block">
           <Button className="rounded-full uppercase text-base py-1 px-4">
             <Link href="/estimation">Estimation gratuite</Link>
           </Button>
         </div>
 
-        {/* Mobile icons */}
+        {/* En-tête mobile */}
         <div className="md:hidden flex items-center w-full justify-between gap-2">
           <div>
             <Link href="/">
@@ -319,7 +342,6 @@ export default function Navbar(): JSX.Element {
               Estimation
             </Button>
           </Link>
-
           <button
             className="focus:outline-none"
             onClick={() => setIsOpen(!isOpen)}
@@ -330,7 +352,7 @@ export default function Navbar(): JSX.Element {
         </div>
       </div>
 
-      {/* Mobile dropdown */}
+      {/* Menu déroulant mobile */}
       {isOpen && (
         <div className="md:hidden bg-black border-t border-gray-800">
           <div className="px-4 py-3">
@@ -349,33 +371,65 @@ export default function Navbar(): JSX.Element {
 
             {mobileServicesOpen && (
               <div className="mt-2 space-y-2">
-                {SERVICES.map((s) => (
-                  <div
-                    key={s.title}
-                    className="border border-gray-800 rounded-md overflow-hidden"
-                  >
-                    <Link
-                      href={`/${s.link}`}
-                      className="flex items-center gap-3 px-3 py-2 hover:bg-gray-900"
-                    >
-                      <div className="w-12 h-12 flex-shrink-0 rounded-md overflow-hidden">
-                        <Image
-                          src={s.image}
-                          alt={s.title}
-                          width={48}
-                          height={48}
-                          className="object-cover w-12 h-12"
-                        />
+                {SERVICES.map((s) => {
+                  const isDisabled = DISABLED_SERVICE_IDS.includes(s.link);
+                  if (isDisabled) {
+                    return (
+                      <div
+                        key={s.title}
+                        className="border border-gray-800 rounded-md overflow-hidden opacity-60 grayscale cursor-not-allowed relative"
+                      >
+                        <div className="flex items-center gap-3 px-3 py-2">
+                          <div className="w-12 h-12 flex-shrink-0 rounded-md overflow-hidden">
+                            <Image
+                              src={s.image}
+                              alt={s.title}
+                              width={48}
+                              height={48}
+                              className="object-cover w-12 h-12"
+                            />
+                          </div>
+                          <div className="flex-1">
+                            <div className="text-sm font-semibold text-gray-400">
+                              {s.title}
+                            </div>
+                            <div className="text-xs text-gray-500">
+                              {s.description}
+                            </div>
+                          </div>
+                          <span className="text-[10px] uppercase bg-gray-700 text-gray-300 px-2 py-0.5 rounded-full">
+                            Bientôt
+                          </span>
+                        </div>
                       </div>
-                      <div className="flex-1">
-                        <div className="text-sm font-semibold">{s.title}</div>
-                        <div className="text-xs text-gray-300">
-                          {s.description}
+                    );
+                  }
+                  return (
+                    <Link
+                      key={s.title}
+                      href={`/${s.link}`}
+                      className="border border-gray-800 rounded-md overflow-hidden block hover:bg-gray-900"
+                    >
+                      <div className="flex items-center gap-3 px-3 py-2">
+                        <div className="w-12 h-12 flex-shrink-0 rounded-md overflow-hidden">
+                          <Image
+                            src={s.image}
+                            alt={s.title}
+                            width={48}
+                            height={48}
+                            className="object-cover w-12 h-12"
+                          />
+                        </div>
+                        <div className="flex-1">
+                          <div className="text-sm font-semibold">{s.title}</div>
+                          <div className="text-xs text-gray-300">
+                            {s.description}
+                          </div>
                         </div>
                       </div>
                     </Link>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
             )}
 

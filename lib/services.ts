@@ -37,7 +37,7 @@ export const services: Service[] = [
     id: "studio-de-tournage",
     description:
       "Découvrez nos espaces, équipements et options de location pour vos productions. Nous mettons à disposition un environnement professionnel conçu pour maximiser la qualité de vos contenus tout en simplifiant vos tournages.",
-    image: "/img/studio.jpg",
+    image: "/newicones/green screend.png",
     features: [
       {
         name: "Espace modulable.",

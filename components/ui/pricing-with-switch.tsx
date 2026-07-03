@@ -4,14 +4,20 @@ import { useState } from "react";
 import { CheckCircle2 } from "lucide-react";
 
 // Descriptions partagées pour le sous-titre de l'onglet (affiché en haut)
-const studioDescription =
-  "Studio équipé (lumière, fonds, micros, 2 caméras), 1 technicien présent, fichiers bruts fournis.";
+const studioDescriptions = {
+  audio:
+    "Studio calme et équipé pour enregistrer vos podcasts, voix off, interviews et formats audio professionnels.",
+  filming:
+    "Studio équipé : lumière, fonds, micros, 2 caméras, 1 technicien présent, fichiers bruts fournis.",
+  turnkey:
+    "Notre équipe prend en charge votre production, du tournage au montage final.",
+};
 
 // Données : chaque onglet possède 3 offres avec description et features
 const plans = {
   audio: {
     title: "Audio",
-    description: studioDescription,
+    description: studioDescriptions.audio,
     offers: [
       {
         name: "Heure",
@@ -51,7 +57,7 @@ const plans = {
 
   filming: {
     title: "Tournage",
-    description: studioDescription,
+    description: studioDescriptions.filming,
     offers: [
       {
         name: "Heure",
@@ -87,7 +93,7 @@ const plans = {
 
   turnkey: {
     title: "Clé en main",
-    // pas de description globale (on affiche celle de chaque offre)
+    description: studioDescriptions.turnkey,
     offers: [
       {
         name: "Demi-journée (4h)",
