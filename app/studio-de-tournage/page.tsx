@@ -37,6 +37,7 @@ import { Footer } from "@/components/Footer";
 import dynamic from "next/dynamic";
 import { Canvas } from "@react-three/fiber";
 import { Environment, OrbitControls } from "@react-three/drei";
+import { fr } from "date-fns/locale";
 import { ContactModal } from "@/components/ContactModal";
 import { PricingWithSwitch } from "@/components/ui/pricing-with-switch";
 import Link from "next/link";
@@ -632,10 +633,11 @@ function ReservationSection() {
           <div className="dark w-full rounded-2xl border border-white/10 bg-neutral-950 shadow-xl shadow-black/40 p-3">
             <Calendar
               mode="single"
+              locale={fr}
               selected={date}
               onSelect={setDate}
               className="rounded-xl w-full"
-              disabled={{ before: new Date() }}
+              disabled={[{ dayOfWeek: [0] }, { before: new Date() }]}
             />
           </div>
           {date && (

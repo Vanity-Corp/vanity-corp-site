@@ -21,7 +21,7 @@ export const ThreeScene: React.FC<ThreeSceneProps> = ({ groupRef }) => {
         <Model />
       </group>
 
-      <OrbitControls enableZoom={false} />
+      <OrbitControls enableZoom={false} autoRotate autoRotateSpeed={4} />
     </Canvas>
   );
 };

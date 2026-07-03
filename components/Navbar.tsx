@@ -308,7 +308,7 @@ export default function Navbar(): JSX.Element {
             Portfolio
           </Link>
           <Link
-            href="/#nos-tarifs"
+            href="/studio-de-tournage#pricing"
             className="px-4 py-2 hover:bg-gray-800 rounded-md"
           >
             Nos tarifs
