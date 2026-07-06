@@ -13,3 +13,5 @@ const transporter = nodemailer.createTransport({
 });
 
 export default transporter;
+await transporter.verify();
+console.log("SMTP connection successful!");
