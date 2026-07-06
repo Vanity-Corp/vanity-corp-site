@@ -1,8 +1,7 @@
-import { Resend } from "resend";
+import { render } from "@react-email/render";
 import ReservationEmail from "@/components/emails/reservationEmail";
+import transporter from "@/lib/mail";
 import { NextResponse } from "next/server";
-
-const resend = new Resend(process.env.RESEND_API_KEY);
 
 export async function POST(request: Request) {
   try {
@@ -34,12 +33,8 @@ export async function POST(request: Request) {
       );
     }
 
-    // Send email via Resend
-    const { data, error } = await resend.emails.send({
-      from: "contact@vanitycorp.fr",
-      to: "Corp.vanity@gmail.com",
-      subject: "Nouvelle réservation studio",
-      react: ReservationEmail({
+    const html = await render(
+      ReservationEmail({
         fullName,
         email,
         phone,
@@ -48,15 +43,16 @@ export async function POST(request: Request) {
         date,
         hours,
       }),
-    });
+    );
 
-    if (error) {
-      console.error("Resend error:", error);
-      return NextResponse.json(
-        { error: "Erreur lors de l'envoi de l'email." },
-        { status: 500 },
-      );
-    }
+    // Send email via SMTP
+    await transporter.sendMail({
+      from: process.env.SMTP_FROM,
+      to: "Corp.vanity@gmail.com",
+      subject: "Nouvelle réservation studio",
+      html,
+      replyTo: email,
+    });
 
     return NextResponse.json(
       { message: "Réservation envoyée avec succès !" },

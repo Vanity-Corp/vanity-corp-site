@@ -1,18 +1,20 @@
-import { Resend } from "resend";
+import { render } from "@react-email/render";
 import ContactEmail from "@/components/emails/contactEmail";
+import transporter from "@/lib/mail";
 import { NextResponse } from "next/server"; // Import NextResponse
-
-const resend = new Resend(process.env.RESEND_API_KEY);
 
 export async function POST(request: Request) {
   const { email, name, message, phone } = await request.json();
 
-  // Send the email using Resend
-  await resend.emails.send({
-    from: "contact@vanitycorp.fr",
+  const html = await render(ContactEmail({ name, email, message, phone }));
+
+  // Send the email using SMTP
+  await transporter.sendMail({
+    from: process.env.SMTP_FROM,
     to: "Corp.vanity@gmail.com",
     subject: "Contact",
-    react: ContactEmail({ name, email, message, phone }),
+    html,
+    replyTo: email,
   });
 
   // Return a success response

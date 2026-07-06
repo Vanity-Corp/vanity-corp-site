@@ -1,8 +1,7 @@
 import { NextResponse } from "next/server";
-import { Resend } from "resend";
+import { render } from "@react-email/render";
 import QuoteRequestEmail from "@/components/emails/quote-request-email";
-
-const resend = new Resend(process.env.RESEND_API_KEY);
+import transporter from "@/lib/mail";
 
 export async function POST(request: Request) {
   try {
@@ -13,15 +12,18 @@ export async function POST(request: Request) {
       ? body.features
       : [body.features].filter(Boolean);
 
-    const data = await resend.emails.send({
-      from: "contact@vanitycorp.fr",
+    const html = await render(QuoteRequestEmail({ ...body, features }));
+
+    const data = await transporter.sendMail({
+      from: process.env.SMTP_FROM,
       to: "Corp.vanity@gmail.com",
       subject: "Nouvelle demande de devis",
-      react: QuoteRequestEmail({ ...body, features }),
+      html,
     });
 
     return NextResponse.json(data);
   } catch (error) {
+    console.error("Email send error:", error);
     return NextResponse.json(
       { error: "Failed to send email" },
       { status: 500 },
