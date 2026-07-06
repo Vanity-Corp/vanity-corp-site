@@ -3,7 +3,7 @@ import nodemailer from "nodemailer";
 const smtpPort = Number(process.env.SMTP_PORT ?? 587);
 
 const transporter = nodemailer.createTransport({
-  host: process.env.SMTP_HOST,
+  host: "smtp.ionos.fr",
   port: smtpPort,
   secure: smtpPort === 465,
   auth: {
