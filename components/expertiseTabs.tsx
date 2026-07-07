@@ -199,7 +199,8 @@ export function ExpertiseTabs() {
       </h2>
 
       {/* Carrousel avec 3 éléments par vue et un gap de 20px */}
-      <div className="relative w-full overflow-hidden">
+
+      <div className="relative w-full overflow-hidden hidden md:block">
         <Carousel
           items={carouselItems}
           initialScroll={0}
@@ -207,7 +208,14 @@ export function ExpertiseTabs() {
           gap={20}
         />
       </div>
-
+      <div className="relative w-full overflow-hidden md:hidden">
+        <Carousel
+          items={carouselItems}
+          initialScroll={0}
+          itemsPerView={1}
+          gap={20}
+        />
+      </div>
       {/* Modale (inchangée) */}
       {isModalOpen && (
         <div
