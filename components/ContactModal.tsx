@@ -66,7 +66,7 @@ export function ContactModal({
 
   const onSubmit = async (data: z.infer<typeof formSchema>) => {
     try {
-      const response = await fetch("/api/emails/contact", {
+      const response = await fetch("/api/forms/contact", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

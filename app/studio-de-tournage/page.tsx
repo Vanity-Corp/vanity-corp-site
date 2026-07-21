@@ -547,24 +547,16 @@ function ReservationSection() {
     setIsSubmitting(true);
     setSubmitError(null);
 
-    const formattedDate = date.toLocaleDateString("fr-FR", {
-      weekday: "long",
-      day: "numeric",
-      month: "long",
-      year: "numeric",
-    });
-    const hoursString = selectedHours.sort().join(", ");
-
     try {
-      const response = await fetch("/api/emails/reservation", {
+      const response = await fetch("/api/forms/reservation", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
           ...data,
-          date: formattedDate,
-          hours: hoursString,
+          date: date.toISOString(), // ISO for Payload's date field
+          hours: [...selectedHours].sort(), // array of slots
         }),
       });
 

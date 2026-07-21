@@ -105,10 +105,18 @@ export default function Component() {
   // ✅ Submit
   const onSubmit: SubmitHandler<FormData> = async (data) => {
     try {
-      const res = await fetch("/api/emails/estimation", {
+      const res = await fetch("/api/forms/quote", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
+        body: JSON.stringify({
+          name: data.name,
+          email: data.email,
+          phone: data.phone,
+          clientType: data.clientType, // "Qui êtes-vous ?"
+          budget: data.budget,
+          projectType: data.services, // service sélectionné
+          message: data.features, // description libre du projet
+        }),
       });
 
       if (!res.ok) throw new Error();
