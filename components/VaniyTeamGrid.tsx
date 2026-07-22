@@ -4,10 +4,19 @@ import React, { useEffect, useId, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useOutsideClick } from "@/hooks/use-outside-click";
 
-export function VaniteamGrid() {
-  const [active, setActive] = useState<(typeof cards)[number] | boolean | null>(
-    null
-  );
+type TeamCard = {
+  title: string;
+  src: string;
+  content: React.ReactNode | (() => React.ReactNode);
+};
+
+export function VaniteamGrid({
+  members,
+}: {
+  members?: { title: string; src: string; content: string }[];
+} = {}) {
+  const data: TeamCard[] = members && members.length ? members : cards;
+  const [active, setActive] = useState<TeamCard | boolean | null>(null);
   const id = useId();
   const ref = useRef<HTMLDivElement>(null);
 
@@ -111,7 +120,7 @@ export function VaniteamGrid() {
         ) : null}
       </AnimatePresence>
       <ul className="max-w-2xl md:max-w-full mx-auto w-full grid grid-cols-2 md:grid-cols-4 items-start gap-4">
-        {cards.map((card, index) => (
+        {data.map((card, index) => (
           <motion.div
             layoutId={`card-${card.title}-${id}`}
             key={card.title}

@@ -1,19 +1,8 @@
-import {
-  Camera,
-  Lightbulb,
-  Clapperboard,
-  BarChart,
-  Target,
-  Users,
-  Video,
-  ImageIcon,
-  Film,
-  LucideIcon,
-} from "lucide-react";
 type Feature = {
   name: string;
   description: string;
-  icon: LucideIcon;
+  /** Lucide icon name (mapped to a component in ServiceSection). */
+  icon: string;
 };
 
 export type Service = {
@@ -43,19 +32,19 @@ export const services: Service[] = [
         name: "Espace modulable.",
         description:
           "Un studio adaptable pour différents formats de tournage, du contenu social media aux productions plus ambitieuses.",
-        icon: Camera,
+        icon: "Camera",
       },
       {
         name: "Éclairage professionnel.",
         description:
           "Des solutions d’éclairage optimisées pour garantir un rendu visuel cohérent et esthétique.",
-        icon: Lightbulb,
+        icon: "Lightbulb",
       },
       {
         name: "Matériel disponible.",
         description:
           "Accédez à l’équipement essentiel pour produire efficacement sans contraintes techniques.",
-        icon: Clapperboard,
+        icon: "Clapperboard",
       },
     ],
   },
@@ -74,19 +63,19 @@ export const services: Service[] = [
         name: "Audit digital.",
         description:
           "Analyse complète de votre présence en ligne pour identifier les opportunités d’amélioration.",
-        icon: BarChart,
+        icon: "BarChart",
       },
       {
         name: "Stratégie sur mesure.",
         description:
           "Des recommandations adaptées à votre marché et à vos objectifs business.",
-        icon: Target,
+        icon: "Target",
       },
       {
         name: "Community management.",
         description:
           "Gestion et animation de vos réseaux sociaux pour créer une audience engagée.",
-        icon: Users,
+        icon: "Users",
       },
     ],
   },
@@ -104,19 +93,19 @@ export const services: Service[] = [
         name: "Production vidéo.",
         description:
           "Tournage professionnel pour vos contenus marketing, corporate ou réseaux sociaux.",
-        icon: Video,
+        icon: "Video",
       },
       {
         name: "Photographie.",
         description:
           "Des visuels de qualité pour valoriser votre marque et vos produits.",
-        icon: ImageIcon,
+        icon: "ImageIcon",
       },
       {
         name: "Montage & formats.",
         description:
           "Optimisation et déclinaison de vos contenus pour toutes les plateformes.",
-        icon: Film,
+        icon: "Film",
       },
     ],
   },

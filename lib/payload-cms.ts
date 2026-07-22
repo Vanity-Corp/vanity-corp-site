@@ -50,6 +50,51 @@ export interface CmsSiteSettings {
     tiktok?: string | null
     youtube?: string | null
   } | null
+  showreel?: {
+    video?: CmsMedia | null
+    poster?: CmsMedia | null
+    videoUrl?: string | null
+    posterUrl?: string | null
+  } | null
+}
+
+export interface CmsServiceFeature {
+  name?: string | null
+  description?: string | null
+  icon?: string | null
+}
+
+export interface CmsService {
+  id: number
+  slug: string
+  eyebrow?: string | null
+  title: string
+  color?: string | null
+  link?: string | null
+  reverse?: boolean | null
+  description?: string | null
+  image?: CmsMedia | null
+  imageUrl?: string | null
+  features?: CmsServiceFeature[] | null
+}
+
+export interface CmsTeamMember {
+  id: number
+  name: string
+  position?: string | null
+  photo?: CmsMedia | null
+  imageUrl?: string | null
+  bio?: string | null
+}
+
+/** Resolve a team member's photo: uploaded first, else the imageUrl bridge. */
+export function teamMemberImage(member: CmsTeamMember): string | undefined {
+  return mediaUrl(member.photo?.url) ?? member.imageUrl ?? undefined
+}
+
+/** Resolve a service's image: uploaded first, else the imageUrl bridge. */
+export function serviceImage(service: CmsService): string | undefined {
+  return mediaUrl(service.image?.url) ?? service.imageUrl ?? undefined
 }
 
 /** Prefix a relative Payload media path with the backend origin. */
@@ -78,6 +123,22 @@ export async function getSiteSettings(): Promise<CmsSiteSettings | null> {
   return cmsFetch<CmsSiteSettings>('/api/globals/site-settings?depth=1', 'site-settings')
 }
 
+export async function getServices(): Promise<CmsService[]> {
+  const data = await cmsFetch<{ docs?: CmsService[] }>(
+    '/api/services?sort=sortOrder&depth=1&limit=50',
+    'services',
+  )
+  return data?.docs ?? []
+}
+
+export async function getTeamMembers(): Promise<CmsTeamMember[]> {
+  const data = await cmsFetch<{ docs?: CmsTeamMember[] }>(
+    '/api/team-members?sort=sortOrder&depth=1&limit=50',
+    'team-members',
+  )
+  return data?.docs ?? []
+}
+
 export interface CmsPageSection {
   blockType: string
   key?: string | null
@@ -87,6 +148,9 @@ export interface CmsPageSection {
   category?: ClientCategory | null
   maxItems?: number | null
   image?: CmsMedia | null
+  items?: { value?: string | null }[] | null
+  ctaLabel?: string | null
+  ctaHref?: string | null
   [key: string]: unknown
 }
 

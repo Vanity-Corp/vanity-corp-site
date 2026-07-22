@@ -15,7 +15,7 @@ import Image from "next/image";
 import { VaniteamGrid } from "@/components/VaniyTeamGrid";
 import { ClientSection } from "@/components/ClientSection";
 import { PricingWithSwitch } from "@/components/ui/pricing-with-switch";
-import { services } from "@/lib/services";
+import { services as fallbackServices, type Service } from "@/lib/services";
 import BannerVideo from "@/components/ui/BannerVideo";
 import ServiceSection from "@/components/ServiceSection";
 import { WorldMapSection } from "@/components/WordMap";
@@ -23,12 +23,30 @@ import { WorldMapSection } from "@/components/WordMap";
 type Brand = { image: string; name: string };
 type Artist = { id: number; name: string; image: string; link: string };
 
+type TeamMember = { title: string; src: string; content: string };
+type Section = {
+  eyebrow?: string;
+  heading?: string;
+  body?: string;
+  chips?: string[];
+  ctaLabel?: string;
+  ctaHref?: string;
+};
+
 type HomeViewProps = {
   brands1?: Brand[];
   brands2?: Brand[];
   artists?: Artist[];
   brandsHeading?: string;
   artistsHeading?: string;
+  showreelSrc?: string;
+  showreelPoster?: string;
+  about?: Section;
+  worldmap?: Section;
+  cta?: Section;
+  teamHeading?: string;
+  services?: Service[];
+  teamMembers?: TeamMember[];
 };
 
 export default function HomeView({
@@ -37,7 +55,21 @@ export default function HomeView({
   artists,
   brandsHeading,
   artistsHeading,
+  showreelSrc,
+  showreelPoster,
+  about,
+  worldmap,
+  cta,
+  teamHeading,
+  services,
+  teamMembers,
 }: HomeViewProps) {
+  const aboutChips =
+    about?.chips && about.chips.length
+      ? about.chips
+      : ["Brief clair", "Production agile", "Livraison multi-format"];
+  const serviceList = services && services.length ? services : fallbackServices;
+
   return (
     <div
       className="md:w-[97%] w-full "
@@ -47,29 +79,24 @@ export default function HomeView({
     >
       {" "}
       <BannerVideo
-        src="/videos/SHOWREEL 2025_2026_V6SQ2.mp4"
-        poster="/fallback.webp"
+        src={showreelSrc ?? "/videos/SHOWREEL 2025_2026_V6SQ2.mp4"}
+        poster={showreelPoster ?? "/fallback.webp"}
       />
       <section className="w-full px-6 py-14 md:px-16 md:py-20">
         <div className="mx-auto grid max-w-[1400px] grid-cols-1 items-center gap-10 rounded-[2rem] border border-white/10 bg-white/[0.04] p-6 shadow-[0_30px_100px_rgba(0,0,0,0.25)] md:grid-cols-[1.1fr_0.9fr] md:p-10">
           <div>
             <p className="mb-3 text-sm font-semibold uppercase tracking-[0.35em] text-violet-300">
-              À propos
+              {about?.eyebrow ?? "À propos"}
             </p>
             <h2 className="text-3xl font-bold leading-tight text-white md:text-5xl">
-              Une équipe créative, stratégique et terrain.
+              {about?.heading ?? "Une équipe créative, stratégique et terrain."}
             </h2>
             <p className="mt-6 max-w-2xl text-base leading-relaxed text-neutral-300 md:text-lg">
-              Vanity Corp réunit stratégie, production audiovisuelle, création
-              de contenu et studio de tournage pour transformer une idée en
-              contenu prêt à performer.
+              {about?.body ??
+                "Vanity Corp réunit stratégie, production audiovisuelle, création de contenu et studio de tournage pour transformer une idée en contenu prêt à performer."}
             </p>
             <div className="mt-8 grid grid-cols-1 gap-3 sm:grid-cols-3">
-              {[
-                "Brief clair",
-                "Production agile",
-                "Livraison multi-format",
-              ].map((item) => (
+              {aboutChips.map((item) => (
                 <div
                   key={item}
                   className="rounded-2xl border border-white/10 bg-black/20 px-4 py-3 text-sm font-medium text-white"
@@ -104,7 +131,7 @@ export default function HomeView({
           </div>
         </div>
       </section>
-      <ServiceSection services={services} />
+      <ServiceSection services={serviceList} />
       <section
         /*  ref={targetRef} */
         className="flex flex-col justify-center items-center w-full "
@@ -150,7 +177,7 @@ export default function HomeView({
           className="text-center text-xl md:text-5xl font-bold text-black dark:text-white pt-10"
         >
           {" "}
-          LE MONDE EST DANS NOS CARTES SD{" "}
+          {worldmap?.heading ?? "LE MONDE EST DANS NOS CARTES SD"}{" "}
         </motion.h2>{" "}
         <WorldMapSection />
         <div className="flex flex-col md:flex-row items-center justify-center w-full">
@@ -165,9 +192,8 @@ export default function HomeView({
               className="text-base md:text-2xl text-center font-normal text-neutral-700 dark:text-neutral-200 mt-2 p-5"
             >
               {" "}
-              On ne sait pas si l’herbe est plus verte ailleurs mais nos caméras
-              la filmeront !<br /> <br /> nous intervenons dans toute l’Europe
-              et là ou vos projets nous emmènent{" "}
+              {worldmap?.body ??
+                "On ne sait pas si l’herbe est plus verte ailleurs mais nos caméras la filmeront ! Nous intervenons dans toute l’Europe et là où vos projets nous emmènent."}{" "}
             </motion.p>{" "}
             <motion.div
               initial={{ x: "-100%" }}
@@ -176,20 +202,20 @@ export default function HomeView({
               viewport={{ once: true }}
             >
               {" "}
-              <Link href={"/estimation"}>
+              <Link href={worldmap?.ctaHref ?? "/estimation"}>
                 {" "}
                 <Button className="rounded-full hidden md:block uppercase">
                   {" "}
-                  J’ai un projet À L’ÉTRANGER{" "}
+                  {worldmap?.ctaLabel ?? "J’ai un projet À L’ÉTRANGER"}{" "}
                 </Button>{" "}
               </Link>{" "}
             </motion.div>{" "}
           </div>{" "}
-          <Link href={"/estimation"}>
+          <Link href={worldmap?.ctaHref ?? "/estimation"}>
             {" "}
             <Button className="rounded-full md:hidden uppercase">
               {" "}
-              J’ai un projet À L’ÉTRANGER{" "}
+              {worldmap?.ctaLabel ?? "J’ai un projet À L’ÉTRANGER"}{" "}
             </Button>{" "}
           </Link>{" "}
         </div>{" "}
@@ -209,11 +235,14 @@ export default function HomeView({
               className="text-center text-xl md:text-5xl font-bold text-black dark:text-white z-10"
             >
               {" "}
-              Prêt à nous parler de <br /> votre projet ?{" "}
+              {cta?.heading ?? "Prêt à nous parler de votre projet ?"}{" "}
             </motion.h1>{" "}
             <GeneratedText
               className="text-[14px] text-gray-400 text-center z-50"
-              text="Notre équipe est à votre disposition, pour faire le point sur vos besoins et sur vos enjeux !"
+              text={
+                cta?.body ??
+                "Notre équipe est à votre disposition, pour faire le point sur vos besoins et sur vos enjeux !"
+              }
             />{" "}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -222,7 +251,7 @@ export default function HomeView({
               className="z-50"
             >
               {" "}
-              <Link href="tel:0634368418">
+              <Link href={cta?.ctaHref ?? "tel:0634368418"}>
                 {" "}
                 <AnimatedButton />{" "}
               </Link>{" "}
@@ -278,7 +307,7 @@ export default function HomeView({
           className="text-left text-xl md:text-5xl font-bold text-black dark:text-white pt-10"
         >
           {" "}
-          LA VANITEAM{" "}
+          {teamHeading ?? "LA VANITEAM"}{" "}
         </motion.h2>{" "}
         <Carousel
           opts={{ align: "start", loop: true }}
@@ -316,7 +345,7 @@ export default function HomeView({
         </Carousel>{" "}
         <div>
           {" "}
-          <VaniteamGrid />{" "}
+          <VaniteamGrid members={teamMembers} />{" "}
         </div>{" "}
       </section>{" "}
       <Footer />

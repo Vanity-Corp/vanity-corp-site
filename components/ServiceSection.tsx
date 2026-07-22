@@ -13,7 +13,20 @@ import gsap from "gsap";
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "./ui/button";
-import { Camera, Compass, Theater, LucideIcon } from "lucide-react";
+import {
+  Camera,
+  Compass,
+  Theater,
+  Lightbulb,
+  Clapperboard,
+  BarChart,
+  Target,
+  Users,
+  Video,
+  ImageIcon,
+  Film,
+  LucideIcon,
+} from "lucide-react";
 import { Group } from "three";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { Environment } from "@react-three/drei";
@@ -32,8 +45,22 @@ const ModelStoryBoard = dynamic(() => import("./models/StoryBoard"), {
 export interface ServiceFeature {
   name: string;
   description: string;
-  icon: LucideIcon;
+  /** Lucide icon name (mapped below). */
+  icon: string;
 }
+
+// Maps the icon names stored in the CMS / lib/services to Lucide components.
+const FEATURE_ICONS: Record<string, LucideIcon> = {
+  Camera,
+  Lightbulb,
+  Clapperboard,
+  BarChart,
+  Target,
+  Users,
+  Video,
+  ImageIcon,
+  Film,
+};
 
 export interface Service {
   eyebrow: string;
@@ -418,7 +445,7 @@ const Card: React.FC<CardProps> = ({ service, index }) => {
         {/* Features */}
         <ul className="mt-4 space-y-4 text-sm text-gray-400">
           {service.features.map((feature, idx) => {
-            const FeatureIcon = feature.icon;
+            const FeatureIcon = FEATURE_ICONS[feature.icon] || Camera;
             return (
               <li key={idx} className="flex items-start gap-3">
                 <FeatureIcon
