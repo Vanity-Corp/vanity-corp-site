@@ -60,10 +60,13 @@ export function mediaUrl(url?: string | null): string | undefined {
   return `${PAYLOAD_URL}${url}`
 }
 
-async function cmsFetch<T>(path: string, tag: string): Promise<T | null> {
+async function cmsFetch<T>(path: string, _tag: string): Promise<T | null> {
   if (!PAYLOAD_URL) return null
   try {
-    const res = await fetch(`${PAYLOAD_URL}${path}`, { next: { tags: [tag] } })
+    // Dynamic read: always fetch fresh so CMS edits reflect immediately.
+    // (Phase 5 can switch back to `next: { tags: [_tag] }` + on-demand
+    // revalidation for static caching, once revalidation env is wired.)
+    const res = await fetch(`${PAYLOAD_URL}${path}`, { cache: 'no-store' })
     if (!res.ok) return null
     return (await res.json()) as T
   } catch {
