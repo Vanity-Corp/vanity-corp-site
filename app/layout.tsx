@@ -5,6 +5,7 @@ import Navbar from "@/components/Navbar";
 import Sidebar from "@/components/Sidebar";
 import { Footer } from "@/components/Footer";
 import GoogleAnalytics from "@/components/GoogleAnalytics";
+import { getSiteSettings } from "@/lib/payload-cms";
 
 const montserrat = Montserrat({
   subsets: ["latin"],
@@ -18,14 +19,18 @@ export const metadata: Metadata = {
     "Tout buzzer pour donner de la visibilité à votre projet est un savoir faire. Vanity Corp est une agence de communication créative 360.",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const settings = await getSiteSettings();
+  const gaId =
+    settings?.analytics?.gaMeasurementId || process.env.GOOGLE_ANALYTICS || "";
+
   return (
-    <html lang="en" className="dark">
-      <GoogleAnalytics GA_MEASUREMENT_ID={`${process.env.GOOGLE_ANALYTICS}`} />
+    <html lang="fr" className="dark">
+      <GoogleAnalytics GA_MEASUREMENT_ID={gaId} />
 
       <body className={montserrat.className}>
         {/* Provide modal context globally */}

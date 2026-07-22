@@ -1,13 +1,29 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { InfiniteMovingCards } from "@/components/ui/infinite-moving-cards";
 
-export function BrandSlider() {
+type BrandItem = { image: string; name: string };
+
+// `row1`/`row2` are optional CMS-driven overrides; falls back to the built-in
+// lists so behavior is unchanged until the home page passes real data (4c).
+export function BrandSlider({
+  row1,
+  row2,
+}: {
+  row1?: BrandItem[];
+  row2?: BrandItem[];
+}) {
   return (
     <>
-      <InfiniteMovingCards direction="right" items={testimonials} />
-      <InfiniteMovingCards direction="left" items={testimonials2} />
+      <InfiniteMovingCards
+        direction="right"
+        items={row1 && row1.length ? row1 : testimonials}
+      />
+      <InfiniteMovingCards
+        direction="left"
+        items={row2 && row2.length ? row2 : testimonials2}
+      />
     </>
   );
 }

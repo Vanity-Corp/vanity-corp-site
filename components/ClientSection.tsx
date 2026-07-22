@@ -110,9 +110,16 @@ function ArtistMarquee({
   );
 }
 
-export function ClientSection() {
-  const firstRow = artistClients.slice(0, 7);
-  const secondRow = artistClients.slice(7);
+// `clients` is an optional CMS-driven override; falls back to the built-in
+// list so behavior is unchanged until the home page passes real data (4c).
+export function ClientSection({
+  clients,
+}: {
+  clients?: typeof artistClients;
+}) {
+  const data = clients && clients.length ? clients : artistClients;
+  const firstRow = data.slice(0, 7);
+  const secondRow = data.slice(7);
 
   return (
     <div className="w-full space-y-2 overflow-visible">
