@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 
 import HomeView from "@/components/home/HomeView";
+import { cmsMetadata } from "@/lib/cmsMetadata";
 import {
   getClients,
   getPage,
@@ -8,14 +9,13 @@ import {
   clientImage,
 } from "@/lib/payload-cms";
 
-// SEO metadata from the 'home' Page (falls back to the layout defaults).
-export async function generateMetadata(): Promise<Metadata> {
-  const page = await getPage("home");
-  const seo = page?.seo;
-  return {
-    ...(seo?.metaTitle ? { title: seo.metaTitle } : {}),
-    ...(seo?.metaDescription ? { description: seo.metaDescription } : {}),
-  };
+// SEO metadata from the 'home' Page (falls back to the site defaults).
+export function generateMetadata(): Promise<Metadata> {
+  return cmsMetadata("home", {
+    title: "Vanity corp | Agence de communication créative 360",
+    description:
+      "Tout buzzer pour donner de la visibilité à votre projet est un savoir faire. Vanity Corp est une agence de communication créative 360.",
+  });
 }
 
 // Server wrapper: fetches CMS content and passes it to the (client) HomeView.
