@@ -27,9 +27,17 @@ type HomeViewProps = {
   brands1?: Brand[];
   brands2?: Brand[];
   artists?: Artist[];
+  brandsHeading?: string;
+  artistsHeading?: string;
 };
 
-export default function HomeView({ brands1, brands2, artists }: HomeViewProps) {
+export default function HomeView({
+  brands1,
+  brands2,
+  artists,
+  brandsHeading,
+  artistsHeading,
+}: HomeViewProps) {
   return (
     <div
       className="md:w-[97%] w-full "
@@ -114,7 +122,7 @@ export default function HomeView({ brands1, brands2, artists }: HomeViewProps) {
           className="md:text-left text-center text-xl uppercase md:px-4 md:text-5xl font-bold text-black dark:text-white pt-10"
         >
           {" "}
-          Ils nous ont fait confiance{" "}
+          {brandsHeading ?? "Ils nous ont fait confiance"}{" "}
         </motion.h2>{" "}
         <BrandSlider row1={brands1} row2={brands2} />{" "}
       </section>{" "}
@@ -128,7 +136,7 @@ export default function HomeView({ brands1, brands2, artists }: HomeViewProps) {
           className="md:text-left text-center text-xl uppercase md:px-4 md:text-5xl font-bold text-black dark:text-white pt-10 mb-20"
         >
           {" "}
-          Artistes & talents accompagnés{" "}
+          {artistsHeading ?? "Artistes & talents accompagnés"}{" "}
         </motion.h2>{" "}
         <ClientSection clients={artists} />{" "}
       </section>{" "}

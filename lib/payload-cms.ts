@@ -78,6 +78,47 @@ export async function getSiteSettings(): Promise<CmsSiteSettings | null> {
   return cmsFetch<CmsSiteSettings>('/api/globals/site-settings?depth=1', 'site-settings')
 }
 
+export interface CmsPageSection {
+  blockType: string
+  key?: string | null
+  eyebrow?: string | null
+  heading?: string | null
+  body?: string | null
+  category?: ClientCategory | null
+  maxItems?: number | null
+  image?: CmsMedia | null
+  [key: string]: unknown
+}
+
+export interface CmsPage {
+  title?: string | null
+  seo?: {
+    metaTitle?: string | null
+    metaDescription?: string | null
+    ogImage?: CmsMedia | null
+  } | null
+  sections?: CmsPageSection[] | null
+}
+
+export async function getPage(slug: string): Promise<CmsPage | null> {
+  const data = await cmsFetch<{ docs?: CmsPage[] }>(
+    `/api/pages?where[slug][equals]=${encodeURIComponent(slug)}&depth=1&limit=1`,
+    `page:${slug}`,
+  )
+  return data?.docs?.[0] ?? null
+}
+
+/** Find the first section of a given block type (optionally matching a category). */
+export function findSection(
+  page: CmsPage | null,
+  blockType: string,
+  category?: ClientCategory,
+): CmsPageSection | undefined {
+  return (page?.sections ?? []).find(
+    (s) => s.blockType === blockType && (category ? s.category === category : true),
+  )
+}
+
 export async function getClients(category?: ClientCategory): Promise<CmsClient[]> {
   const params = new URLSearchParams({
     'where[active][equals]': 'true',
