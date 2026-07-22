@@ -26,6 +26,11 @@ export default async function Home() {
     }))
     .filter((a) => a.image);
 
+  // TEMP debug — remove after diagnosis
+  console.log(
+    `[home] fetched brands=${brands.length} artists=${artists.length} | usable brandItems=${brandItems.length} artistItems=${artistItems.length}`,
+  );
+
   return (
     <HomeView
       brands1={brands1.length ? brands1 : undefined}
