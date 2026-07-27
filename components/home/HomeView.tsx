@@ -180,7 +180,7 @@ export default function HomeView({
           {worldmap?.heading ?? "LE MONDE EST DANS NOS CARTES SD"}{" "}
         </motion.h2>{" "}
         <WorldMapSection />
-        <div className="flex flex-col md:flex-row items-center justify-center w-full">
+        <div className="flex flex-col md:flex-row items-center justify-center w-full max-w-[1080px]">
           {" "}
           <div className="flex flex-col items-center justify-center">
             {" "}
@@ -189,7 +189,7 @@ export default function HomeView({
               animate={{ x: "0%" }}
               transition={{ duration: 0.9, ease: "easeInOut" }}
               viewport={{ once: true }}
-              className="text-base md:text-2xl text-center font-normal text-neutral-700 dark:text-neutral-200 mt-2 p-5"
+              className="text-base md:text-2xl text-center max font-normal text-neutral-700 dark:text-neutral-200 mt-2 p-5"
             >
               {" "}
               {worldmap?.body ??
@@ -232,7 +232,7 @@ export default function HomeView({
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
               viewport={{ once: true }}
-              className="text-center text-xl md:text-5xl font-bold text-black dark:text-white z-10"
+              className="text-center text-xl md:text-5xl max-w-lg m-auto font-bold text-black dark:text-white z-10"
             >
               {" "}
               {cta?.heading ?? "Prêt à nous parler de votre projet ?"}{" "}
