@@ -1,20 +1,36 @@
 import { Footer } from "@/components/Footer";
 import QuoteEstimator from "@/components/QuoteEstimator";
 import { Sparkles, ShieldCheck, Clock3, ArrowRight } from "lucide-react";
+import { getPage, findSection } from "@/lib/payload-cms";
+import { AnimatedIn } from "@/components/ui/animated-in";
 
-const TRUST_ITEMS = [
-  { icon: <Sparkles size={14} />, label: "100% gratuit, sans engagement" },
-  { icon: <Clock3 size={14} />, label: "Réponse sous 24h" },
-  { icon: <ShieldCheck size={14} />, label: "Données confidentielles" },
+// Icons are presentational, not admin-editable text — matched by position
+// once CMS trust-item text replaces this hardcoded array.
+const TRUST_ICONS = [<Sparkles size={14} />, <Clock3 size={14} />, <ShieldCheck size={14} />];
+
+const DEFAULT_TRUST_ITEMS = [
+  { label: "100% gratuit, sans engagement" },
+  { label: "Réponse sous 24h" },
+  { label: "Données confidentielles" },
 ];
 
-const STEPS = [
+const DEFAULT_STEPS = [
   { num: "01", label: "Décrivez votre projet" },
   { num: "02", label: "Obtenez une estimation" },
   { num: "03", label: "On vous recontacte" },
 ];
 
-export default function Estimation() {
+export default async function Estimation() {
+  const page = await getPage("estimation");
+  const hero = findSection(page, "hero");
+  const heroBody =
+    (hero?.body as string) ??
+    "Renseignez vos besoins et obtenez une estimation personnalisée en quelques minutes. Notre équipe vous recontacte rapidement pour affiner le devis.";
+  const trustItems = ((hero?.trustItems as { label: string }[]) ?? DEFAULT_TRUST_ITEMS).map(
+    (item, i) => ({ ...item, icon: TRUST_ICONS[i] ?? <Sparkles size={14} /> }),
+  );
+  const steps = (hero?.steps as { num: string; label: string }[]) ?? DEFAULT_STEPS;
+
   return (
     <div className="dark min-h-screen  m-auto  text-white flex flex-col">
       {/* ── Main split layout ── */}
@@ -22,16 +38,15 @@ export default function Estimation() {
         <div className="flex flex-col lg:flex-row lg:gap-16 py-16 sm:py-20">
           {/* ── LEFT — text content, sticky on desktop ── */}
           <aside className=" w-1/3 shrink-0 lg:sticky lg:top-10 lg:self-start flex flex-col gap-10 mb-12 lg:mb-0">
-            {/* Label */}
-            <div className="flex items-center gap-2">
+            <AnimatedIn className="flex items-center gap-2">
               <div className="w-1.5 h-1.5 rounded-full bg-indigo-400" />
               <span className="text-[11px] font-medium tracking-[0.14em] uppercase text-indigo-400">
                 Estimation gratuite
               </span>
-            </div>
+            </AnimatedIn>
 
             {/* Headline */}
-            <div>
+            <AnimatedIn delay={0.08}>
               <h1 className="text-4xl sm:text-[2.75rem] font-bold leading-[1.08] tracking-tight mb-4 text-white">
                 Combien coûte
                 <br />
@@ -40,19 +55,17 @@ export default function Estimation() {
                 </span>
               </h1>
               <p className="text-sm text-neutral-400 leading-relaxed">
-                Renseignez vos besoins et obtenez une estimation personnalisée
-                en quelques minutes. Notre équipe vous recontacte rapidement
-                pour affiner le devis.
+                {heroBody}
               </p>
-            </div>
+            </AnimatedIn>
 
             {/* Steps */}
-            <div>
+            <AnimatedIn delay={0.16}>
               <p className="text-[11px] uppercase tracking-widest text-neutral-600 mb-4">
                 Comment ça marche
               </p>
               <div className="flex flex-col gap-3">
-                {STEPS.map((step, i) => (
+                {steps.map((step, i) => (
                   <div key={step.num} className="flex items-center gap-3">
                     <div className="w-7 h-7 rounded-full border border-indigo-500/30 bg-indigo-500/10 flex items-center justify-center text-[11px] font-bold text-indigo-400 shrink-0">
                       {step.num}
@@ -63,15 +76,15 @@ export default function Estimation() {
                   </div>
                 ))}
               </div>
-            </div>
+            </AnimatedIn>
 
             {/* Trust badges */}
-            <div>
+            <AnimatedIn delay={0.24}>
               <p className="text-[11px] uppercase tracking-widest text-neutral-600 mb-4">
                 Nos engagements
               </p>
               <div className="flex flex-col gap-2">
-                {TRUST_ITEMS.map((item) => (
+                {trustItems.map((item) => (
                   <div
                     key={item.label}
                     className="flex items-center gap-2.5 text-[12px] text-neutral-400 border border-white/10 rounded-xl px-3.5 py-2.5 bg-white/[0.02]"
@@ -83,7 +96,7 @@ export default function Estimation() {
                   </div>
                 ))}
               </div>
-            </div>
+            </AnimatedIn>
           </aside>
 
           {/* ── RIGHT — estimator form ── */}

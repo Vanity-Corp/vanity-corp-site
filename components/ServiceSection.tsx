@@ -31,6 +31,8 @@ import { Group } from "three";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { Environment } from "@react-three/drei";
 import clsx from "clsx";
+import { motion } from "framer-motion";
+import { fadeUpInView } from "@/lib/motion";
 // 3D models are now code-split + client-only. They touch WebGL/window,
 // so ssr:false is mandatory here (this would otherwise crash on the server).
 const ModelCamera = dynamic(() => import("./models/Camera2"), { ssr: false });
@@ -500,7 +502,9 @@ export default function ServiceSection({ services }: ServicesMosaicProps) {
       </div>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
         {services.map((service, index) => (
-          <Card key={service.id} service={service} index={index} />
+          <motion.div key={service.id} {...fadeUpInView(index)}>
+            <Card service={service} index={index} />
+          </motion.div>
         ))}
       </div>
     </section>

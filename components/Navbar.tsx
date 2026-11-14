@@ -40,7 +40,11 @@ const SERVICES: Service[] = [
 // Identifiants des services à désactiver
 const DISABLED_SERVICE_IDS = ["accompagnement-strategique", "audiovisuel"];
 
-export default function Navbar(): JSX.Element {
+export default function Navbar({
+  hasArticles = false,
+}: {
+  hasArticles?: boolean;
+}): JSX.Element {
   const [isOpen, setIsOpen] = useState(false); // mobile menu
   const [megaOpen, setMegaOpen] = useState(false); // desktop mega open
   const [mobileServicesOpen, setMobileServicesOpen] = useState(false);
@@ -313,6 +317,11 @@ export default function Navbar(): JSX.Element {
           >
             Nos tarifs
           </Link>
+          {hasArticles && (
+            <Link href="/blog" className="px-4 py-2 hover:bg-gray-800 rounded-md">
+              Actualités
+            </Link>
+          )}
           <ContactModal variant={"ghost"} className="bg-none text-base">
             Contactez-nous
           </ContactModal>
@@ -447,6 +456,14 @@ export default function Navbar(): JSX.Element {
             >
               Portfolio
             </Link>
+            {hasArticles && (
+              <Link
+                href="/blog"
+                className="block mt-1 px-3 py-2 hover:bg-gray-900 rounded-md"
+              >
+                Actualités
+              </Link>
+            )}
           </div>
         </div>
       )}

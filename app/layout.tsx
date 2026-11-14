@@ -5,7 +5,7 @@ import Navbar from "@/components/Navbar";
 import Sidebar from "@/components/Sidebar";
 import { Footer } from "@/components/Footer";
 import GoogleAnalytics from "@/components/GoogleAnalytics";
-import { getSiteSettings } from "@/lib/payload-cms";
+import { getSiteSettings, getArticles } from "@/lib/payload-cms";
 
 const montserrat = Montserrat({
   subsets: ["latin"],
@@ -24,9 +24,10 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const settings = await getSiteSettings();
+  const [settings, articles] = await Promise.all([getSiteSettings(), getArticles()]);
   const gaId =
     settings?.analytics?.gaMeasurementId || process.env.GOOGLE_ANALYTICS || "";
+  const hasArticles = articles.length > 0;
 
   return (
     <html lang="fr" className="dark">
@@ -35,7 +36,7 @@ export default async function RootLayout({
       <body className={montserrat.className}>
         {/* Provide modal context globally */}
 
-        <Navbar />
+        <Navbar hasArticles={hasArticles} />
         <div className="flex flex-row">
           <Sidebar />
           {children}

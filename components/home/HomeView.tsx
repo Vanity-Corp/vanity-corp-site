@@ -19,6 +19,7 @@ import { services as fallbackServices, type Service } from "@/lib/services";
 import BannerVideo from "@/components/ui/BannerVideo";
 import ServiceSection from "@/components/ServiceSection";
 import { WorldMapSection } from "@/components/WordMap";
+import type { CmsWorldMapDot } from "@/lib/payload-cms";
 
 type Brand = { image: string; name: string };
 type Artist = { id: string | number; name: string; image: string; link: string };
@@ -43,6 +44,7 @@ type HomeViewProps = {
   showreelPoster?: string;
   about?: Section;
   worldmap?: Section;
+  worldMapDots?: CmsWorldMapDot[];
   cta?: Section;
   teamHeading?: string;
   services?: Service[];
@@ -59,6 +61,7 @@ export default function HomeView({
   showreelPoster,
   about,
   worldmap,
+  worldMapDots,
   cta,
   teamHeading,
   services,
@@ -179,7 +182,7 @@ export default function HomeView({
           {" "}
           {worldmap?.heading ?? "LE MONDE EST DANS NOS CARTES SD"}{" "}
         </motion.h2>{" "}
-        <WorldMapSection />
+        <WorldMapSection dots={worldMapDots} />
         <div className="flex flex-col md:flex-row items-center justify-center w-full max-w-[1080px]">
           {" "}
           <div className="flex flex-col items-center justify-center">

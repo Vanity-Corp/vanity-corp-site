@@ -27,12 +27,22 @@ export function clientImage(client: CmsClient): string | undefined {
   return mediaUrl(client.imageUrl) ?? undefined
 }
 
+export interface CmsWorldMapDot {
+  startLat: number
+  startLng: number
+  startLabel?: string | null
+  endLat: number
+  endLng: number
+  endLabel?: string | null
+}
+
 export interface CmsSiteSettings {
   analytics?: { gaMeasurementId?: string | null } | null
   showreel?: {
     videoUrl?: string | null
     posterUrl?: string | null
   } | null
+  worldMapDots?: CmsWorldMapDot[] | null
 }
 
 export interface CmsServiceFeature {
@@ -220,4 +230,32 @@ export async function getPortfolio(category?: PortfolioCategory): Promise<CmsPor
   const params = category ? `?category=${category}` : ''
   const data = await cmsFetch<CmsPortfolioProject[]>(`/api/public/portfolio${params}`, 'portfolio')
   return data ?? []
+}
+
+export interface CmsArticle {
+  id: string
+  title: string
+  slug: string
+  excerpt?: string | null
+  coverImageUrl?: string | null
+  content?: string | null
+  publishedAt?: string | null
+  seoMetaTitle?: string | null
+  seoMetaDescription?: string | null
+  seoOgImageUrl?: string | null
+}
+
+/** Only ever PUBLISHED articles — the backend's /api/public/articles already filters this. */
+export async function getArticles(): Promise<CmsArticle[]> {
+  const data = await cmsFetch<CmsArticle[]>('/api/public/articles', 'articles')
+  return data ?? []
+}
+
+export async function getArticle(slug: string): Promise<CmsArticle | null> {
+  return cmsFetch<CmsArticle>(`/api/public/articles/${encodeURIComponent(slug)}`, `article:${slug}`)
+}
+
+/** Resolve an article's cover image (same dual uploaded/url-media pattern as elsewhere). */
+export function articleCoverImage(article: CmsArticle): string | undefined {
+  return mediaUrl(article.coverImageUrl) ?? undefined
 }

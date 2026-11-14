@@ -130,6 +130,7 @@ export default async function Home() {
             }
           : undefined
       }
+      worldMapDots={settings?.worldMapDots ?? undefined}
       cta={
         ctaSec
           ? {
