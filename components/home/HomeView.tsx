@@ -21,7 +21,7 @@ import ServiceSection from "@/components/ServiceSection";
 import { WorldMapSection } from "@/components/WordMap";
 
 type Brand = { image: string; name: string };
-type Artist = { id: number; name: string; image: string; link: string };
+type Artist = { id: string | number; name: string; image: string; link: string };
 
 type TeamMember = { title: string; src: string; content: string };
 type Section = {

@@ -88,11 +88,13 @@ export const artistClients = [
   },
 ];
 
+type MarqueeItem = { id: string | number; name: string; image: string; link: string };
+
 function ArtistMarquee({
   items,
   reverse = false,
 }: {
-  items: typeof artistClients;
+  items: MarqueeItem[];
   reverse?: boolean;
 }) {
   return (
@@ -103,7 +105,7 @@ function ArtistMarquee({
       >
         <AnimatedTooltip items={items} />
         <AnimatedTooltip
-          items={items.map((item) => ({ ...item, id: item.id + 100 }))}
+          items={items.map((item) => ({ ...item, id: `${item.id}-dup` }))}
         />
       </div>
     </div>
@@ -115,7 +117,7 @@ function ArtistMarquee({
 export function ClientSection({
   clients,
 }: {
-  clients?: typeof artistClients;
+  clients?: MarqueeItem[];
 }) {
   const data = clients && clients.length ? clients : artistClients;
   const firstRow = data.slice(0, 7);

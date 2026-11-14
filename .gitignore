@@ -53,3 +53,6 @@ public/_next-video
 
 #vscode
 .vscode
+
+# claude plans (local working docs, not part of the repo)
+.claude/

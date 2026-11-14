@@ -1,11 +1,11 @@
 import { NextResponse } from 'next/server'
 
-import { isFormType, submitToPayload } from '@/lib/payload-client'
+import { isFormType, submitForm } from '@/lib/payload-client'
 
 /**
- * Thin same-origin proxy: forwards a public form submission to the Payload
- * backend (which owns persistence + email). Keeps the Payload URL + token
- * server-side and avoids cross-origin CORS from the browser.
+ * Thin same-origin proxy: forwards a public form submission to vanity-backend
+ * (which owns persistence + email). Keeps the backend URL + token server-side
+ * and avoids cross-origin CORS from the browser.
  */
 export async function POST(
   request: Request,
@@ -20,7 +20,7 @@ export async function POST(
   const body = await request.json().catch(() => ({}))
 
   try {
-    const { ok, status, data } = await submitToPayload(type, body)
+    const { ok, status, data } = await submitForm(type, body)
     return NextResponse.json(data, { status: ok ? 200 : status })
   } catch (error) {
     console.error('Form proxy error:', error)

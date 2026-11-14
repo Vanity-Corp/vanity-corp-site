@@ -68,14 +68,12 @@ export default async function Home() {
   const teamSec = richSection("team");
 
   const toChips = (sec?: CmsPageSection) =>
-    (sec?.items ?? [])
-      .map((i) => i?.value)
-      .filter((v): v is string => Boolean(v));
+    (sec?.items ?? []).filter((v): v is string => Boolean(v));
 
   // --- Showreel (Site Settings) ---
   const sr = settings?.showreel;
-  const showreelSrc = mediaUrl(sr?.video?.url) ?? sr?.videoUrl ?? undefined;
-  const showreelPoster = mediaUrl(sr?.poster?.url) ?? sr?.posterUrl ?? undefined;
+  const showreelSrc = mediaUrl(sr?.videoUrl) ?? undefined;
+  const showreelPoster = mediaUrl(sr?.posterUrl) ?? undefined;
 
   // --- Services ---
   const services: Service[] = cmsServices.map((s) => ({

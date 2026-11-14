@@ -8,7 +8,7 @@ export const AnimatedTooltip = ({
   items,
 }: {
   items: {
-    id: number;
+    id: string | number;
     name: string;
 
     image: string;

@@ -16,7 +16,7 @@ export async function cmsMetadata(
 
   const title = seo?.metaTitle || fallback.title;
   const description = seo?.metaDescription || fallback.description;
-  const ogImage = mediaUrl(seo?.ogImage?.url);
+  const ogImage = mediaUrl(seo?.ogImage);
 
   return {
     ...fallback,
