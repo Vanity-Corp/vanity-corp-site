@@ -6,7 +6,11 @@ import { AnimatedIn } from "@/components/ui/animated-in";
 
 // Icons are presentational, not admin-editable text — matched by position
 // once CMS trust-item text replaces this hardcoded array.
-const TRUST_ICONS = [<Sparkles size={14} />, <Clock3 size={14} />, <ShieldCheck size={14} />];
+const TRUST_ICONS = [
+  <Sparkles key="sparkles" size={14} />,
+  <Clock3 key="clock" size={14} />,
+  <ShieldCheck key="shield" size={14} />,
+];
 
 const DEFAULT_TRUST_ITEMS = [
   { label: "100% gratuit, sans engagement" },
