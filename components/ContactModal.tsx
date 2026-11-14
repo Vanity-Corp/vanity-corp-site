@@ -62,6 +62,7 @@ export function ContactModal({
   const [successMessage, setSuccessMessage] = useState(""); // State for success notification
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
+    defaultValues: { name: "", email: "", phone: "", message: "" },
   });
 
   const onSubmit = async (data: z.infer<typeof formSchema>) => {
@@ -101,67 +102,72 @@ export function ContactModal({
               ON EN PARLE AUTOUR D&apos;UN CAFÉ ?
             </h4>
             <div className="flex flex-wrap md:px-10 items-start justify-start ">
-              <Form {...form}>
-                <form className="w-full flex flex-col gap-4">
-                  <FormField
-                    control={form.control}
-                    name="name"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Nom</FormLabel>
-                        <FormControl>
-                          <Input placeholder="Votre Nom" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name="email"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Email</FormLabel>
-                        <FormControl>
-                          <Input placeholder="Votre Email" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name="phone"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Téléphone</FormLabel>
-                        <FormControl>
-                          <Input
-                            placeholder="Votre Téléphone"
-                            type="tel"
-                            {...field}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name="message"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Message</FormLabel>
-                        <FormControl>
-                          <Textarea placeholder="Votre Message" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </form>{" "}
-                {/* End of form here */}
-              </Form>
+              {/* Hidden after a successful send: reset() clears values, which
+                  would otherwise retrigger "Required" errors on fields the
+                  user can no longer see the point of correcting. */}
+              {!successMessage && (
+                <Form {...form}>
+                  <form className="w-full flex flex-col gap-4">
+                    <FormField
+                      control={form.control}
+                      name="name"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Nom</FormLabel>
+                          <FormControl>
+                            <Input placeholder="Votre Nom" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="email"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Email</FormLabel>
+                          <FormControl>
+                            <Input placeholder="Votre Email" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="phone"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Téléphone</FormLabel>
+                          <FormControl>
+                            <Input
+                              placeholder="Votre Téléphone"
+                              type="tel"
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="message"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Message</FormLabel>
+                          <FormControl>
+                            <Textarea placeholder="Votre Message" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </form>{" "}
+                  {/* End of form here */}
+                </Form>
+              )}
 
               {/* Success Notification */}
               {successMessage && (
@@ -173,19 +179,21 @@ export function ContactModal({
           </ModalContent>
 
           {/* Button in the ModalFooter */}
-          <ModalFooter className="gap-4">
-            <HoverBorderGradient>
-              {/* The submit button triggers the form submission */}
-              <Button
-                type="button"
-                size="inner"
-                variant="nobackground"
-                onClick={form.handleSubmit(onSubmit)} // Call onSubmit function on click
-              >
-                Envoyer
-              </Button>
-            </HoverBorderGradient>
-          </ModalFooter>
+          {!successMessage && (
+            <ModalFooter className="gap-4">
+              <HoverBorderGradient>
+                {/* The submit button triggers the form submission */}
+                <Button
+                  type="button"
+                  size="inner"
+                  variant="nobackground"
+                  onClick={form.handleSubmit(onSubmit)} // Call onSubmit function on click
+                >
+                  Envoyer
+                </Button>
+              </HoverBorderGradient>
+            </ModalFooter>
+          )}
         </ModalBody>
       </Modal>
     </div>
