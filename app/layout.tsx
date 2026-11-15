@@ -3,9 +3,9 @@ import { Montserrat } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Sidebar from "@/components/Sidebar";
-import { Footer } from "@/components/Footer";
 import GoogleAnalytics from "@/components/GoogleAnalytics";
 import { getSiteSettings, getArticles } from "@/lib/payload-cms";
+import { ArticlesProvider } from "@/lib/articles-context";
 
 const montserrat = Montserrat({
   subsets: ["latin"],
@@ -37,10 +37,12 @@ export default async function RootLayout({
         {/* Provide modal context globally */}
 
         <Navbar hasArticles={hasArticles} />
-        <div className="flex flex-row">
-          <Sidebar />
-          {children}
-        </div>
+        <ArticlesProvider hasArticles={hasArticles}>
+          <div className="flex flex-row">
+            <Sidebar />
+            {children}
+          </div>
+        </ArticlesProvider>
       </body>
     </html>
   );

@@ -85,7 +85,7 @@ export default function HomeView({
         src={showreelSrc ?? "/videos/SHOWREEL 2025_2026_V6SQ2.mp4"}
         poster={showreelPoster ?? "/fallback.webp"}
       />
-      <section className="w-full px-6 py-14 md:px-16 md:py-20">
+      <section id="about" className="w-full px-6 py-14 md:px-16 md:py-20">
         <div className="mx-auto grid max-w-[1400px] grid-cols-1 items-center gap-10 rounded-[2rem] border border-white/10 bg-white/[0.04] p-6 shadow-[0_30px_100px_rgba(0,0,0,0.25)] md:grid-cols-[1.1fr_0.9fr] md:p-10">
           <div>
             <p className="mb-3 text-sm font-semibold uppercase tracking-[0.35em] text-violet-300">
@@ -300,7 +300,7 @@ export default function HomeView({
           </HoverBorderGradient>{" "}
         </Link>{" "}
       </section>*/}
-      <section className="w-full flex flex-col gap-10 justify-center items-center mb-20">
+      <section id="vaniteam" className="w-full flex flex-col gap-10 justify-center items-center mb-20">
         {" "}
         <motion.h2
           initial={{ opacity: 0, y: 20 }}

@@ -1,73 +1,19 @@
 "use client";
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-import { motion } from "framer-motion";
-import { ArrowLeft } from "lucide-react";
-import { toast } from "@/components/ui/use-toast";
 import Link from "next/link";
 import Image from "next/image";
-const FormSchema = z.object({
-  email: z
-    .string()
-    .min(1, { message: "L'e-mail est requis." })
-    .email({ message: "Veuillez entrer un e-mail valide." }),
-});
+import { motion } from "framer-motion";
+import { ArrowLeft } from "lucide-react";
+import { useHasArticles } from "@/lib/articles-context";
 
 export function Footer() {
-  const form = useForm<z.infer<typeof FormSchema>>({
-    resolver: zodResolver(FormSchema),
-    defaultValues: {
-      email: "",
-    },
-  });
   const currentYear = new Date().getFullYear();
-  function onSubmit(data: z.infer<typeof FormSchema>) {
-    toast({
-      title: "You submitted the following values:",
-      description: (
-        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-        </pre>
-      ),
-    });
-  }
+  const hasArticles = useHasArticles();
 
   return (
     <footer className="w-full max-w-[1920px] m-auto flex flex-col justify-center items-center bg-black text-white font-bold px-6 sm:px-10 lg:px-24 py-10">
       <div className="w-full  flex flex-col  items-center justify-center">
         <div className="flex w-full md:items-start items-center justify-between md:flex-row flex-col gap-10">
-          {/*
-          <Form {...form}>
-            <form
-              onSubmit={form.handleSubmit(onSubmit)}
-              className=" w-full flex md:flex-row flex-col md:items-end items-center justify-between gap-2"
-            >
-              <FormField
-                control={form.control}
-                name="email"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="text-2xl">
-                      Rejoindre Notre Newsletter
-                    </FormLabel>
-                    <FormControl>
-                      <Input placeholder="Votre Email" {...field} />
-                    </FormControl>
-
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <HoverBorderGradient>
-                <Button size="inner" variant="nobackground" type="submit">
-                  S&apos;abonner
-                </Button>
-              </HoverBorderGradient>
-            </form>
-          </Form>
-          */}
           <div className="flex justify-between gap-4 flex-col items-center md:items-start">
             <Image
               src="/vanity_corp_logo.svg"
@@ -81,13 +27,23 @@ export function Footer() {
             </div>
           </div>
           <ul className="font-extralight w-full	flex flex-col gap-2 items-start flex-wrap">
-            <li>À propos de nous</li>
-            <li>Services</li>
+            <li>
+              <Link href="/#about">À propos de nous</Link>
+            </li>
+            <li>
+              <Link href="/#services">Services</Link>
+            </li>
             <li>
               <Link href={"/realisations"}>Portfolio</Link>
             </li>
-            <li>Vaniteam</li>
-            <li>Actualités</li>
+            <li>
+              <Link href="/#vaniteam">Vaniteam</Link>
+            </li>
+            {hasArticles && (
+              <li>
+                <Link href="/blog">Actualités</Link>
+              </li>
+            )}
           </ul>
           <div className="w-full flex flex-col gap-2">
             Paris 11eme & Massy 91300
@@ -156,10 +112,7 @@ export function Footer() {
                 </motion.svg>
               </a>
 
-              <Link
-                className="flex justify-center"
-                href={"https://www.tiktok.com/@vanitycorp"}
-              >
+              <Link className="flex justify-center" href={"https://www.tiktok.com/@vanitycorp"}>
                 <motion.svg
                   whileHover={{ scale: 1.2 }}
                   whileTap={{ scale: 0.9 }}
@@ -180,7 +133,7 @@ export function Footer() {
         </div>
         <div className="flex flex-col md:flex-row justify-between gap-10 py-4">
           <div>
-            <Link href="/mentions-legales">Mentions légales</Link>
+            <Link href="/mentions-legales">Mentions légales</Link>
           </div>
           <div>
             <p>
