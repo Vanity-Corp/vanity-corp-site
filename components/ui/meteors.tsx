@@ -1,6 +1,16 @@
 import { cn } from "@/lib/utils";
 import React from "react";
 
+// Deterministic pseudo-random (seeded by index) instead of Math.random() —
+// purely decorative positions, but Math.random() during render produces
+// different values on the server vs. the client during hydration, which
+// React flags as a mismatch. A seeded generator renders identically both
+// times while still looking random.
+function seededRandom(seed: number): number {
+  const x = Math.sin(seed * 12.9898) * 43758.5453;
+  return x - Math.floor(x);
+}
+
 export const Meteors = ({
   number,
   className,
@@ -21,9 +31,9 @@ export const Meteors = ({
           )}
           style={{
             top: 0,
-            left: Math.floor(Math.random() * (400 - -400) + -400) + "px",
-            animationDelay: Math.random() * (0.8 - 0.2) + 0.2 + "s",
-            animationDuration: Math.floor(Math.random() * (10 - 2) + 2) + "s",
+            left: Math.floor(seededRandom(idx) * 800 - 400) + "px",
+            animationDelay: seededRandom(idx + 0.3) * 0.6 + 0.2 + "s",
+            animationDuration: Math.floor(seededRandom(idx + 0.7) * 8 + 2) + "s",
           }}
         ></span>
       ))}

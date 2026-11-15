@@ -9,8 +9,18 @@ const STATUSES = [
   { label: "Major Outage", color: "#ef4444", pct: 78.3, incidents: 5 },
 ];
 
-function randomStatus() {
-  const r = Math.random();
+// Deterministic pseudo-random (seeded by index) instead of Math.random() —
+// this is purely decorative data, but Math.random() during render produces
+// different values on the server vs. the client during hydration, which
+// React flags as a mismatch. A seeded generator renders identically both
+// times while still looking random.
+function seededRandom(seed) {
+  const x = Math.sin(seed * 12.9898) * 43758.5453;
+  return x - Math.floor(x);
+}
+
+function randomStatus(seed) {
+  const r = seededRandom(seed);
   if (r > 0.12) return STATUSES[0];
   if (r > 0.06) return STATUSES[1];
   if (r > 0.03) return STATUSES[2];
@@ -24,8 +34,8 @@ function generateBars(count = 45) {
     d.setDate(d.getDate() - (count - 1 - i));
     return {
       date: d,
-      status: randomStatus(),
-      baseHeight: 20 + Math.random() * 36,
+      status: randomStatus(i),
+      baseHeight: 20 + seededRandom(i + 0.5) * 36,
     };
   });
 }
