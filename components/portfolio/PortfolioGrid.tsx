@@ -3,7 +3,8 @@
 import { useMemo, useState } from "react";
 import Image from "next/image";
 import { AnimatePresence, motion } from "framer-motion";
-import { X } from "lucide-react";
+import { X, ChevronLeft, ChevronRight } from "lucide-react";
+import HeroVideoDialog from "@/components/ui/hero-video-dialog";
 import type { CmsPortfolioProject, PortfolioCategory } from "@/lib/payload-cms";
 
 const CATEGORY_LABELS: Record<PortfolioCategory, string> = {
@@ -27,18 +28,90 @@ const BODY_STAGGER_S = 0.08;
 const GALLERY_STAGGER_S = 0.07;
 const GRID_STAGGER_S = 0.05;
 
-/** youtu.be/XXX or youtube.com/watch?v=XXX -> youtube.com/embed/XXX */
-function toYoutubeEmbed(url?: string | null): string | undefined {
+/** youtu.be/XXX or youtube.com/watch?v=XXX -> { embed, thumbnail } */
+function parseYoutubeUrl(url?: string | null): { embed: string; thumbnail: string } | undefined {
   if (!url) return undefined;
   try {
     const u = new URL(url);
     const id = u.hostname.includes("youtu.be")
       ? u.pathname.slice(1)
       : u.searchParams.get("v");
-    return id ? `https://www.youtube.com/embed/${id}` : undefined;
+    if (!id) return undefined;
+    return {
+      embed: `https://www.youtube.com/embed/${id}`,
+      thumbnail: `https://i.ytimg.com/vi/${id}/sddefault.jpg`,
+    };
   } catch {
     return undefined;
   }
+}
+
+/** Fullscreen single-image viewer, opened by clicking a gallery thumbnail —
+ * same backdrop/close-button visual language as HeroVideoDialog's modal. */
+function ImageLightbox({
+  images,
+  index,
+  title,
+  onClose,
+  onNavigate,
+}: {
+  images: string[];
+  index: number;
+  title: string;
+  onClose: () => void;
+  onNavigate: (index: number) => void;
+}) {
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      onClick={onClose}
+      className="fixed inset-0 z-[70] flex items-center justify-center bg-black/80 p-4 backdrop-blur-md"
+    >
+      <motion.div
+        initial={{ scale: 0.92, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        exit={{ scale: 0.92, opacity: 0 }}
+        transition={{ type: "spring", damping: 30, stiffness: 300 }}
+        onClick={(e) => e.stopPropagation()}
+        className="relative w-full max-w-3xl"
+      >
+        <button
+          onClick={onClose}
+          className="absolute -top-12 right-0 rounded-full bg-neutral-900/50 p-2 text-white ring-1 ring-white/20 backdrop-blur-md hover:bg-neutral-900/80"
+        >
+          <X className="h-5 w-5" />
+        </button>
+        <div className="relative aspect-[4/3] w-full overflow-hidden rounded-2xl border-2 border-white/10 bg-black">
+          <Image
+            src={images[index]}
+            alt={`${title} ${index + 1}`}
+            fill
+            className="object-contain"
+            sizes="(max-width: 768px) 100vw, 768px"
+          />
+        </div>
+        {images.length > 1 && (
+          <div className="mt-4 flex items-center justify-center gap-6 text-sm text-white/70">
+            <button
+              onClick={() => onNavigate((index - 1 + images.length) % images.length)}
+              className="rounded-full p-1.5 hover:bg-white/10 hover:text-white"
+            >
+              <ChevronLeft className="h-5 w-5" />
+            </button>
+            <span>{index + 1} / {images.length}</span>
+            <button
+              onClick={() => onNavigate((index + 1) % images.length)}
+              className="rounded-full p-1.5 hover:bg-white/10 hover:text-white"
+            >
+              <ChevronRight className="h-5 w-5" />
+            </button>
+          </div>
+        )}
+      </motion.div>
+    </motion.div>
+  );
 }
 
 /** The 3 narrative blocks are each independently optional — SHOOTING never
@@ -73,23 +146,23 @@ function NarrativeBlocks({ project }: { project: CmsPortfolioProject }) {
 
 function PanelHero({ project }: { project: CmsPortfolioProject }) {
   const gallery = (project.gallery ?? []).filter(Boolean);
+  const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
 
   if (project.category === "video") {
-    const embed = toYoutubeEmbed(project.videoUrl);
+    const parsed = parseYoutubeUrl(project.videoUrl);
     return (
       <motion.div
         initial={{ opacity: 0, scale: 0.96 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ delay: HERO_DELAY_S, duration: 0.35 }}
       >
-        {embed ? (
-          <div className="aspect-video w-full overflow-hidden rounded-lg">
-            <iframe
-              src={embed}
-              title={project.title}
-              className="h-full w-full"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
+        {parsed ? (
+          <div className="overflow-hidden rounded-lg">
+            <HeroVideoDialog
+              animationStyle="from-center"
+              videoSrc={parsed.embed}
+              thumbnailSrc={parsed.thumbnail}
+              thumbnailAlt={project.title}
             />
           </div>
         ) : (
@@ -102,40 +175,80 @@ function PanelHero({ project }: { project: CmsPortfolioProject }) {
   if (project.category === "graphisme") {
     const images = gallery.length ? gallery : project.coverUrl ? [project.coverUrl] : [];
     return (
-      <div className="flex flex-col gap-3">
-        {images.map((src, i) => (
-          <motion.div
-            key={src}
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: HERO_DELAY_S + i * GALLERY_STAGGER_S, duration: 0.35 }}
-            // First visual wider (16:9, "cover" effect), rest 4:3 — not a
-            // uniform grid like before.
-            className={`relative w-full overflow-hidden rounded-lg ${i === 0 ? "aspect-video" : "aspect-[4/3]"}`}
-          >
-            <Image src={src} alt={`${project.title} ${i + 1}`} fill className="object-cover" />
-          </motion.div>
-        ))}
-      </div>
+      <>
+        <div className="flex flex-col gap-3">
+          {images.map((src, i) => (
+            <motion.button
+              key={src}
+              type="button"
+              onClick={() => setLightboxIndex(i)}
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: HERO_DELAY_S + i * GALLERY_STAGGER_S, duration: 0.35 }}
+              // First visual wider (16:9, "cover" effect), rest 4:3 — not a
+              // uniform grid like before.
+              className={`group relative w-full cursor-zoom-in overflow-hidden rounded-lg ${i === 0 ? "aspect-video" : "aspect-[4/3]"}`}
+            >
+              <Image
+                src={src}
+                alt={`${project.title} ${i + 1}`}
+                fill
+                className="object-cover transition-transform duration-300 group-hover:scale-105"
+              />
+            </motion.button>
+          ))}
+        </div>
+        <AnimatePresence>
+          {lightboxIndex !== null && (
+            <ImageLightbox
+              images={images}
+              index={lightboxIndex}
+              title={project.title}
+              onClose={() => setLightboxIndex(null)}
+              onNavigate={setLightboxIndex}
+            />
+          )}
+        </AnimatePresence>
+      </>
     );
   }
 
   if (project.category === "shooting") {
     const images = gallery.length ? gallery : project.coverUrl ? [project.coverUrl] : [];
     return (
-      <div className="grid grid-cols-2 gap-3">
-        {images.map((src, i) => (
-          <motion.div
-            key={src}
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: HERO_DELAY_S + i * GRID_STAGGER_S, duration: 0.3 }}
-            className="relative aspect-square w-full overflow-hidden rounded-lg"
-          >
-            <Image src={src} alt={`${project.title} ${i + 1}`} fill className="object-cover" />
-          </motion.div>
-        ))}
-      </div>
+      <>
+        <div className="grid grid-cols-2 gap-3">
+          {images.map((src, i) => (
+            <motion.button
+              key={src}
+              type="button"
+              onClick={() => setLightboxIndex(i)}
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: HERO_DELAY_S + i * GRID_STAGGER_S, duration: 0.3 }}
+              className="group relative aspect-square w-full cursor-zoom-in overflow-hidden rounded-lg"
+            >
+              <Image
+                src={src}
+                alt={`${project.title} ${i + 1}`}
+                fill
+                className="object-cover transition-transform duration-300 group-hover:scale-105"
+              />
+            </motion.button>
+          ))}
+        </div>
+        <AnimatePresence>
+          {lightboxIndex !== null && (
+            <ImageLightbox
+              images={images}
+              index={lightboxIndex}
+              title={project.title}
+              onClose={() => setLightboxIndex(null)}
+              onNavigate={setLightboxIndex}
+            />
+          )}
+        </AnimatePresence>
+      </>
     );
   }
 
