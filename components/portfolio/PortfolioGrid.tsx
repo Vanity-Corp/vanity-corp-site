@@ -193,6 +193,7 @@ function PanelHero({ project }: { project: CmsPortfolioProject }) {
                 src={src}
                 alt={`${project.title} ${i + 1}`}
                 fill
+                sizes="(max-width: 640px) 100vw, 512px"
                 className="object-cover transition-transform duration-300 group-hover:scale-105"
               />
             </motion.button>
@@ -232,6 +233,7 @@ function PanelHero({ project }: { project: CmsPortfolioProject }) {
                 src={src}
                 alt={`${project.title} ${i + 1}`}
                 fill
+                sizes="(max-width: 640px) 50vw, 256px"
                 className="object-cover transition-transform duration-300 group-hover:scale-105"
               />
             </motion.button>
@@ -261,7 +263,13 @@ function PanelHero({ project }: { project: CmsPortfolioProject }) {
       transition={{ delay: HERO_DELAY_S, duration: 0.35 }}
       className="relative aspect-video w-full overflow-hidden rounded-lg"
     >
-      <Image src={project.coverUrl} alt={project.title} fill className="object-cover" />
+      <Image
+        src={project.coverUrl}
+        alt={project.title}
+        fill
+        sizes="(max-width: 640px) 100vw, 512px"
+        className="object-cover"
+      />
     </motion.div>
   );
 }
@@ -408,6 +416,7 @@ export function PortfolioGrid({ projects }: { projects: CmsPortfolioProject[] })
                 src={project.coverUrl}
                 alt={project.title}
                 fill
+                sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, 33vw"
                 className="object-cover transition-transform duration-300 group-hover:scale-105"
               />
             )}

@@ -64,7 +64,13 @@ export default async function BlogArticle({
 
         {coverUrl && (
           <div className="relative mb-10 aspect-video w-full overflow-hidden rounded-2xl">
-            <Image src={coverUrl} alt={article.title} fill className="object-cover" />
+            <Image
+              src={coverUrl}
+              alt={article.title}
+              fill
+              sizes="(max-width: 768px) 100vw, 768px"
+              className="object-cover"
+            />
           </div>
         )}
 

@@ -407,6 +407,7 @@ const Card: React.FC<CardProps> = ({ service, index }) => {
           src={`/newicones/${modelImage}`}
           alt={service.title}
           fill
+          sizes="(max-width: 768px) 100vw, 33vw"
           className={imageClassName}
         />
 
@@ -492,7 +493,7 @@ const Card: React.FC<CardProps> = ({ service, index }) => {
 // Composant principal ----------------------------------------------------
 export default function ServiceSection({ services }: ServicesMosaicProps) {
   return (
-    <section className="py-24 sm:py-32 max-w-[1920px] m-auto px-6 sm:px-10 lg:px-32">
+    <section id="services" className="py-24 sm:py-32 max-w-[1920px] m-auto px-6 sm:px-10 lg:px-32">
       <div className="text-center mb-12">
         <h2 className="text-4xl font-bold text-white">Nos Services</h2>
         <p className="mt-4 text-gray-400 max-w-2xl mx-auto">
