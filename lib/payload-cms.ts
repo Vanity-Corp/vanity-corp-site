@@ -116,6 +116,24 @@ export async function getTeamMembers(): Promise<CmsTeamMember[]> {
   return data ?? []
 }
 
+export type PricingCategory = 'audio' | 'filming' | 'turnkey'
+
+export interface CmsPricingPackage {
+  id: string
+  category: PricingCategory
+  title: string
+  description?: string | null
+  price?: number | null
+  pricePrefix?: string | null
+  features: string[]
+  highlighted: boolean
+}
+
+export async function getPricingPackages(): Promise<CmsPricingPackage[]> {
+  const data = await cmsFetch<CmsPricingPackage[]>('/api/public/pricing', 'pricing')
+  return data ?? []
+}
+
 // Raw shape returned by GET /api/public/pages?slug= — section-specific fields
 // (eyebrow, heading, body, items, ctaLabel, ctaHref, maxItems...) live under
 // `data` (free-form JSON, set from the dashboard's page editor). getPage()

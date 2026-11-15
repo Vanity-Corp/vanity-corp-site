@@ -43,7 +43,7 @@ import { PricingWithSwitch } from "@/components/ui/pricing-with-switch";
 import Link from "next/link";
 import { InstagramGallery } from "@/components/InstagramGallery";
 import { motion } from "framer-motion";
-import type { CmsPage } from "@/lib/payload-cms";
+import type { CmsPage, CmsPricingPackage } from "@/lib/payload-cms";
 import { findSection } from "@/lib/payload-cms";
 import { fadeUpInView } from "@/lib/motion";
 
@@ -417,7 +417,7 @@ function FloorPlanSVG() {
   );
 }
 
-function PricingSection() {
+function PricingSection({ pricingPackages }: { pricingPackages: CmsPricingPackage[] }) {
   return (
     <section
       id="pricing"
@@ -430,7 +430,7 @@ function PricingSection() {
         Choisissez la formule adaptée à votre production : location audio,
         tournage équipé ou accompagnement clé en main.
       </p>
-      <PricingWithSwitch />
+      <PricingWithSwitch packages={pricingPackages} />
     </section>
   );
 }
@@ -993,7 +993,13 @@ function InstagramFeed() {
 
 // ── Main Page ──────────────────────────────────────────────────────────────────
 
-export default function StudioPage({ page }: { page: CmsPage | null }) {
+export default function StudioPage({
+  page,
+  pricingPackages,
+}: {
+  page: CmsPage | null;
+  pricingPackages: CmsPricingPackage[];
+}) {
   const hero = findSection(page, "hero");
   const eyebrow = (hero?.eyebrow as string) ?? "Studio de tournage à Massy";
   const heroBody =
@@ -1065,7 +1071,7 @@ export default function StudioPage({ page }: { page: CmsPage | null }) {
             </div>
           </section>
 
-          <PricingSection />
+          <PricingSection pricingPackages={pricingPackages} />
 
           {/* ── Stats ── */}
           <div className="m-auto grid max-w-[1920px] grid-cols-2 border-b border-white/10 sm:grid-cols-4">
